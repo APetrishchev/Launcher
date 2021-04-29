@@ -1,6 +1,6 @@
 window.addEventListener("load", () => {
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("scripts/sw.js")
+    navigator.serviceWorker.register("sw.js")
     .then(() => navigator.serviceWorker.ready.then((worker) => {
       console.log("ServiceWorker registration successful with scope:", worker.scope)
       worker.sync.register("syncdata")}))
@@ -8,7 +8,7 @@ window.addEventListener("load", () => {
       (err) => console.log("ServiceWorker registration failed:", err))
   }
 
-  
+
   // importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js")
   // workbox.setConfig({
   //   debug: true
