@@ -1,16 +1,14 @@
-(function main() {
+window.addEventListener("load", () => {
   // if ("serviceWorker" in navigator) {
-  //   window.addEventListener('load', () => {
-  //     navigator.serviceWorker.register("scripts/sw.js")
-  //     .then(() => navigator.serviceWorker.ready.then((worker) => {
-  //       console.log("ServiceWorker registration successful with scope:", worker.scope)
-  //       worker.sync.register("syncdata")}))
-  //     .catch(
-  //       (err) => console.log("ServiceWorker registration failed:", err))
-  //   })
+  //   navigator.serviceWorker.register("scripts/sw.js")
+  //   .then(() => navigator.serviceWorker.ready.then((worker) => {
+  //     console.log("ServiceWorker registration successful with scope:", worker.scope)
+  //     worker.sync.register("syncdata")}))
+  //   .catch(
+  //     (err) => console.log("ServiceWorker registration failed:", err))
   // }
 
-  importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js")
+  // importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js")
 
   workbox.setConfig({
     debug: true
@@ -30,4 +28,4 @@
     //   "type": "image/png"
     // }
 
-})()
+})
