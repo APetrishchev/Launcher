@@ -2,6 +2,7 @@ const CACHE = "NetworkOrCache.V1"
 const CACHED_FILES = [
   "/",
   "/index.html",
+  "/favicon.ico",
   "/styles/main.css",
   "/scripts/main.js",
 ]

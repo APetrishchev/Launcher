@@ -13,5 +13,10 @@
   "related_applications": [],
   "prefer_related_applications": false,
   "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "48x48",
+      "type": "image/png"
+    }
   ]
 }

@@ -3,11 +3,6 @@
     //   "type": "image/png",
     //   "sizes": "57x57"
     // },
-    // {
-    //   "src": "/images/icons/android-icon-48x48.png",
-    //   "sizes": "48x48",
-    //   "type": "image/png"
-    // }
 
 window.addEventListener("load", () => {
   if ("serviceWorker" in navigator) {
