@@ -1,0 +1,21 @@
+body {
+  margin: 0px;
+  background-color: #cccccc;
+}
+
+.ToolBar {
+  height: 5%
+}
+
+.DateTimePanel {
+  border-style: solid;
+  border-top-color: #aaaaaa;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  border-left-color: #aaaaaa;
+  height: 40%
+}
+
+.CalendarPanel {
+  height: 55%;
+}

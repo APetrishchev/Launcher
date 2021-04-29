@@ -1,9 +1,3 @@
-    // {
-    //   "src": "/images/icons/apple-touch-icon.png",
-    //   "type": "image/png",
-    //   "sizes": "57x57"
-    // },
-
 window.addEventListener("load", () => {
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js")
@@ -18,9 +12,21 @@ window.addEventListener("load", () => {
 
 function main() {
   let div = document.createElement("div")
-  div.innerHTML = "New Window"
-  div.addEventListener("click", (evn) => {Win()})
+  div.innerHTML = "= = = = = = = = = ="
+  div.className = "Toolbar"
   document.body.appendChild(div)
+
+  div = document.createElement("div")
+  div.innerHTML = "01:23"
+  div.className = "DateTimePanel"
+  document.body.appendChild(div)
+
+  div = document.createElement("div")
+  div.innerHTML = "Пн Вт Ср Чт Пт Сб Вс"
+  div.className = "CalendarPanel"
+  document.body.appendChild(div)
+
+  // div.addEventListener("click", (evn) => {Win()})
 }
 
 Win = function() {
