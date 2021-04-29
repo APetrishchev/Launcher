@@ -1,22 +1,3 @@
-window.addEventListener("load", () => {
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js")
-    .then(() => navigator.serviceWorker.ready.then((worker) => {
-      console.log("ServiceWorker registration successful with scope:", worker.scope)
-      worker.sync.register("syncdata")}))
-    .catch(
-      (err) => console.log("ServiceWorker registration failed:", err))
-  }
-
-
-  // importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js")
-  // workbox.setConfig({
-  //   debug: true
-  // })
-  // workbox.core.skipWaiting()
-  // workbox.core.clientClaim()
-  // workbox.precaching.precacheAndRoute([])
-
     // {
     //   "src": "/images/icons/apple-touch-icon.png",
     //   "type": "image/png",
@@ -28,4 +9,18 @@ window.addEventListener("load", () => {
     //   "type": "image/png"
     // }
 
+window.addEventListener("load", () => {
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js")
+    .then(() => navigator.serviceWorker.ready.then((worker) => {
+      console.log("ServiceWorker registration successful with scope:", worker.scope)
+      worker.sync.register("syncdata")}))
+    .catch(
+      (err) => console.log("ServiceWorker registration failed:", err))
+  }
+  main()
 })
+
+function main() {
+
+}
