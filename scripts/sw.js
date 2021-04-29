@@ -1,5 +1,5 @@
 const CACHE = "NetworkOrCache.V1"
-const timeout = 400
+const TIMEOUT = 400
 
 self.addEventListener("install", evn => {
   evn.waitUntil(
@@ -18,18 +18,19 @@ self.addEventListener("activate", evn => {})
 self.addEventListener("fetch", evn => {
   console.log(evn.request.url)
   // if(evn.request.url.indexOf("/api") != -1) {}
-  evn.respondWith(fromNetwork(evn.request, timeout)
+  evn.respondWith(fromNetwork(evn.request)
   .catch((err) => {
     console.log(`Error: ${err.message()}`)
     return fromCache(evn.request)
   }))
 })
 
-function fromNetwork(request, timeout) {
+function fromNetwork(request) {
   return new Promise((resolve, reject) => {
-    var tmr = setTimeout(reject, timeout)
+    var tmr = setTimeout(reject, TIMEOUT)
     fetch(request).then((response) => {
       clearTimeout(tmr)
+      console.log("fromNetwork", request.url)
       resolve(response)
     }, reject)
   })
