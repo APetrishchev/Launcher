@@ -8,6 +8,7 @@ window.addEventListener("load", () => {
       (err) => console.log("ServiceWorker registration failed:", err))
   }
 
+  
   // importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js")
   // workbox.setConfig({
   //   debug: true
