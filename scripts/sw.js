@@ -8,6 +8,7 @@ self.addEventListener("install", evn => {
         "/",
         "/index.html",
         "/styles/main.css",
+        "/scripts/sw.js",
         "/scripts/main.js",
       ])
     )
