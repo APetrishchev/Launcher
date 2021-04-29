@@ -24,7 +24,7 @@ self.addEventListener("fetch", evn => {
   // if(evn.request.url.indexOf("/api") != -1) {}
   evn.respondWith(fromNetwork(evn.request)
   .catch((err) => {
-    console.log(`Error: ${err.message()}`)
+    console.log(`Error: ${err.message}`)
     return fromCache(evn.request)
   }))
 })
