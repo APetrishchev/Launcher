@@ -3,7 +3,7 @@
   "lang": "Russian",
   "name": "Андрей Петрищев - SmartHome",
   "scope": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "start_url": "/index.html",
   "short_name": "SmartHome",
   "description": "¯\\_(ツ)_/¯",
