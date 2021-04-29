@@ -22,6 +22,10 @@ window.addEventListener("load", () => {
 })
 
 function main() {
+  let div = document.createElement("div")
+  div.innerHTML("New Window")
+  div.addEventListener("click", (evn) => {Win()})
+  document.body.appendChild(div)
 }
 
 Win = function() {
