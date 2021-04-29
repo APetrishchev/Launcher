@@ -1,3 +1,10 @@
+const CACHE = "NetworkOrCache.V1"
+const CACHED_FILES = [
+  "/",
+  "/index.html",
+  "/styles/main.css",
+  "/scripts/main.js",
+]
 const TIMEOUT = 400
 
 self.addEventListener("install", evn => {
