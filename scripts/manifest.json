@@ -14,8 +14,8 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "48x48",
+      "src": "/pic/home.png",
+      "sizes": "144x144",
       "type": "image/png"
     }
   ]
