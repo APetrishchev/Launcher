@@ -43,9 +43,9 @@ function fromNetwork(request) {
 }
 
 function fromCache(request) {
-  return caches.open(CACHE).then((cache) => {
-    console.log("fromCache", request.url)
+  console.log("fromCache", request.url)
+  return caches.open(CACHE).then((cache) =>
     cache.match(request).then((matching) =>
       matching || Promise.reject('no-match')
-    )})
+    ))
 }
