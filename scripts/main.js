@@ -22,5 +22,8 @@ window.addEventListener("load", () => {
 })
 
 function main() {
+}
 
+Win = function() {
+  console.log("New Window")
 }
