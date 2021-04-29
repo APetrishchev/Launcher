@@ -7,7 +7,6 @@ self.addEventListener("install", evn => {
     .then(cache => cache.addAll([
         "/",
         "/index.html",
-        "/sw.js",
         "/styles/main.css",
         "/scripts/main.js",
       ])
@@ -31,17 +30,17 @@ self.addEventListener("fetch", evn => {
 })
 
 function fromNetwork(request) {
-  return fetch(request)
-    .then((response) => response.ok ? response : fromCache(request))
-    .catch(() => fromCache(request))
-  // return new Promise((resolve, reject) => {
-  //   var tmr = setTimeout(reject, TIMEOUT)
-  //   fetch(request).then((response) => {
-  //     clearTimeout(tmr)
-  //     console.log("fromNetwork", request.url)
-  //     resolve(response)
-  //   }, reject)
-  // })
+  // return fetch(request)
+  //   .then((response) => response.ok ? response : fromCache(request))
+  //   .catch(() => fromCache(request))
+  return new Promise((resolve, reject) => {
+    var tmr = setTimeout(reject, TIMEOUT)
+    fetch(request).then((response) => {
+      clearTimeout(tmr)
+      console.log("fromNetwork", request.url)
+      resolve(response)
+    }, reject)
+  })
 }
 
 function fromCache(request) {
