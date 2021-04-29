@@ -20,7 +20,6 @@ self.addEventListener("activate", evn => {
 })
 
 self.addEventListener("fetch", evn => {
-  console.log(evn.request.url)
   // if(evn.request.url.indexOf("/api") != -1) {}
   evn.respondWith(fromNetwork(evn.request)
   .catch((err) => {
@@ -44,9 +43,9 @@ function fromNetwork(request) {
 }
 
 function fromCache(request) {
-  // Обратите внимание, что в случае отсутствия соответствия значения Promise выполнится успешно, но со значением `undefined`
-  return caches.open(CACHE).then((cache) =>
+  return caches.open(CACHE).then((cache) => {
+    console.log("fromCache", request.url)
     cache.match(request).then((matching) =>
       matching || Promise.reject('no-match')
-    ))
+    )})
 }
