@@ -3,17 +3,21 @@ const TIMEOUT = 400
 
 self.addEventListener("install", evn => {
   evn.waitUntil(
-    caches.open(CACHE).then(cache => cache.addAll([
+    caches.open(CACHE)
+    .then(cache => cache.addAll([
         "/",
         "/index.html",
         "/styles/main.css",
         "/scripts/main.js",
       ])
     )
+    .then(() => self.skipWaiting())
   )
 })
 
-self.addEventListener("activate", evn => {})
+self.addEventListener("activate", evn => {
+  evn.waitUntil(self.clients.claim())
+})
 
 self.addEventListener("fetch", evn => {
   console.log(evn.request.url)
@@ -26,14 +30,17 @@ self.addEventListener("fetch", evn => {
 })
 
 function fromNetwork(request) {
-  return new Promise((resolve, reject) => {
-    var tmr = setTimeout(reject, TIMEOUT)
-    fetch(request).then((response) => {
-      clearTimeout(tmr)
-      console.log("fromNetwork", request.url)
-      resolve(response)
-    }, reject)
-  })
+  return fetch(request)
+    .then((response) => response.ok ? response : fromCache(request))
+    .catch(() => fromCache(request))
+  // return new Promise((resolve, reject) => {
+  //   var tmr = setTimeout(reject, TIMEOUT)
+  //   fetch(request).then((response) => {
+  //     clearTimeout(tmr)
+  //     console.log("fromNetwork", request.url)
+  //     resolve(response)
+  //   }, reject)
+  // })
 }
 
 function fromCache(request) {
