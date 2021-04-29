@@ -1,16 +1,9 @@
-const CACHE = "NetworkOrCache.V1"
 const TIMEOUT = 400
 
 self.addEventListener("install", evn => {
   evn.waitUntil(
     caches.open(CACHE)
-    .then(cache => cache.addAll([
-        "/",
-        "/index.html",
-        "/styles/main.css",
-        "/scripts/main.js",
-      ])
-    )
+    .then(cache => cache.addAll(CACHED_FILES))
     .then(() => self.skipWaiting())
   )
 })

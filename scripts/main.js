@@ -1,3 +1,11 @@
+const CACHE = "NetworkOrCache.V1"
+const CACHED_FILES = [
+  "/",
+  "/index.html",
+  "/styles/main.css",
+  "/scripts/main.js",
+]
+
 window.addEventListener("load", () => {
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js")
