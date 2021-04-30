@@ -1,6 +1,57 @@
+/*******************************************************************************
+ * Variables
+ ******************************************************************************/
+:root {
+  --PlaceholderColor: #5A5A5A;
+  --WrapperBoxShadow: -5px -5px 10px 0 rgba(255,255,255,0.7), 5px 5px 10px 0 rgba(0,0,0,0.5);
+  --WrapperOutline: solid 1px #A0A0A0;
+  --BackgroundColorFlat: #D0D0D0;
+
+  --BorderTopColorElevated: #FFF;
+  --BorderRightColorElevated: #888;
+  --BorderBottomColorElevated: #888;
+  --BorderLeftColorElevated: #FFF;
+  --BackgroundColorElevatedLow: #999;
+  --BackgroundColorElevatedHi: #EEE;
+
+  --BorderTopColorDowned: #444;
+  --BorderRightColorDowned: #FFF;
+  --BorderBottomColorDowned: #FFF;
+  --BorderLeftColorDowned: #444;
+  --BackgroundColorDownedLow: #777;
+  --BackgroundColorDownedHi: #EEE;
+
+  --BorderTopColorRedused: #888;
+  --BorderRightColorRedused: #FFF;
+  --BorderBottomColorRedused: #FFF;
+  --BorderLeftColorRedused: #888;
+  --BackgroundColorRedusedLow: #999;
+  --BackgroundColorRedusedHi: #EEE;
+
+  /*--------------------------------------------------------------------------*/
+  --Border: 1px solid;
+  --BorderColorElevated: var(--BorderTopColorElevated) var(--BorderRightColorElevated) var(--BorderBottomColorElevated) var(--BorderLeftColorElevated);
+  --BackgroundElevated: -webkit-linear-gradient(to bottom, var(--BackgroundColorElevatedHi), var(--BackgroundColorElevatedLow));
+  --BackgroundElevated: -moz-linear-gradient(top, var(--BackgroundColorElevatedHi), var(--BackgroundColorElevatedLow));
+  --BackgroundElevated: -o-linear-gradient(top, var(--BackgroundColorElevatedHi), var(--BackgroundColorElevatedLow));
+  --BackgroundElevated: linear-gradient(to bottom, var(--BackgroundColorElevatedHi), var(--BackgroundColorElevatedLow));
+  --BackgroundElevatedVertical: linear-gradient(to right, var(--BackgroundColorElevatedHi), var(--BackgroundColorElevatedLow));
+  --BorderColorDowned: var(--BorderTopColorDowned) var(--BorderRightColorDowned) var(--BorderBottomColorDowned) var(--BorderLeftColorRedused);
+  --BackgroundDowned: -webkit-linear-gradient(to bottom, var(--BackgroundColorDownedLow), var(--BackgroundColorDownedHi));
+  --BackgroundDowned: -moz-linear-gradient(top, var(--BackgroundColorDownedLow), var(--BackgroundColorDownedHi));
+  --BackgroundDowned: -o-linear-gradient(top, var(--BackgroundColorDownedLow), var(--BackgroundColorDownedHi));
+  --BackgroundDowned: linear-gradient(to bottom, var(--BackgroundColorDownedLow), var(--BackgroundColorDownedHi));
+  --BorderColorRedused: var(--BorderTopColorRedused) var(--BorderRightColorRedused) var(--BorderBottomColorRedused) var(--BorderLeftColorRedused);
+  --BackgroundRedused: -webkit-linear-gradient(to bottom, var(--BackgroundColorRedusedLow), var(--BackgroundColorRedusedHi));
+  --BackgroundRedused: -moz-linear-gradient(top, var(--BackgroundColorRedusedLow), var(--BackgroundColorReduseddHi));
+  --BackgroundRedused: -o-linear-gradient(top, var(--BackgroundColorRedusedLow), var(--BackgroundColorRedusedHi));
+  --BackgroundRedused: linear-gradient(to bottom, var(--BackgroundColorRedusedLow), var(--BackgroundColorRedusedHi));
+  --BackgroundRedusedVertical: linear-gradient(to right, var(--BackgroundColorRedusedLow), var(--BackgroundColorRedusedHi));
+}
+
 body {
   margin: 0px;
-  background-color: #cccccc;
+  background-color: var(--BackgroundColorFlat);
 }
 
 .ToolBar {
@@ -8,14 +59,30 @@ body {
 }
 
 .DateTimePanel {
-  border-style: solid;
-  border-top-color: #aaaaaa;
-  border-right-color: #ffffff;
-  border-bottom-color: #ffffff;
-  border-left-color: #aaaaaa;
+  border-style: var(--Border);
+  border-color: var(--BorderColorRedused);
   height: 40%
 }
 
 .CalendarPanel {
+  flex: 0 0 auto;
   height: 55%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: stretch;
+  align-items: flex-start;
+}
+
+.CalendarWeekday {
+  height: 15%;
+  width: 14.28%;
+}
+
+.CalendarWeekend {
+  color: #FF0000;
+}
+
+.CalendarDay {
+  height: 15%;
+  width: 14.28%;
 }

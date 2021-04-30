@@ -10,25 +10,65 @@ window.addEventListener("load", () => {
   main()
 })
 
-function main() {
-  let div = document.createElement("div")
-  div.innerHTML = "= = = = = = = = = ="
-  div.className = "Toolbar"
-  document.body.appendChild(div)
+//******************************************************************************
+class Calendar {
+  static getWeekdayNames() {
+    let formatter = new Intl.DateTimeFormat("ru", {weekday: "short"})
+    let fragment = document.createDocumentFragment()
+    for(let idx = 1; idx < 8; idx++) {
+      let innerHTML = formatter.format(new Date(2017, 4, idx))
+      innerHTML = innerHTML[0].toUpperCase() + innerHTML.slice(1)
+      let div = document.createElement("div")
+      div.className = idx < 6 ? "CalendarWeekday" : "CalendarWeekday CalendarWeekend"
+      div.innerHTML = innerHTML
+      fragment.appendChild(div)
+    }
+    return fragment
+  }
 
-  div = document.createElement("div")
-  div.innerHTML = "01:23"
-  div.className = "DateTimePanel"
-  document.body.appendChild(div)
+  static getDaysInMonth(year, month) {
+    return new Date(year, month, 0).getDate()
+  }
 
-  div = document.createElement("div")
-  div.innerHTML = "Пн Вт Ср Чт Пт Сб Вс"
-  div.className = "CalendarPanel"
-  document.body.appendChild(div)
+  constructor() {
+  }
 
-  // div.addEventListener("click", (evn) => {Win()})
+  show(parent) {
+    let now = new Date()
+    let todayWeekday = now.getDay() || 7
+    let daysInMonth = Calendar.getDaysInMonth(now.getFullYear(), now.getMonth() + 1)
+    console.log(now.getMonth(), daysInMonth)
+    this.element = document.createElement("div")
+    this.element.className = "CalendarPanel"
+    this.element.appendChild(Calendar.getWeekdayNames())
+    parent.appendChild(this.element)
+    let pos = 0
+    for(let row = 1; row < 7; row++) {
+      for (let col = 1; col < 8; col++) {
+        let div = document.createElement("div")
+        this.element.appendChild(div)
+        if (!pos && col < todayWeekday || pos >= daysInMonth) {
+          div.className = "CalendarDay"
+          continue
+        }
+        div.className = col < 6 ? "CalendarDay" : "CalendarDay CalendarWeekend"
+        div.innerHTML = ++pos
+      }
+    }
+  }
 }
 
-Win = function() {
-  console.log("New Window")
+//******************************************************************************
+function main() {
+  let div = document.createElement("div")
+  div.className = "Toolbar"
+  div.innerHTML = "= = = = = = = = = ="
+  document.body.appendChild(div)
+
+  div = document.createElement("div")
+  div.className = "DateTimePanel"
+  div.innerHTML = "01:23"
+  document.body.appendChild(div)
+
+  new Calendar().show(document.body)
 }
