@@ -49,9 +49,22 @@
   --BackgroundRedusedVertical: linear-gradient(to right, var(--BackgroundColorRedusedLow), var(--BackgroundColorRedusedHi));
 }
 
-body {
+html, body {
   margin: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+body {
   background-color: var(--BackgroundColorFlat);
+}
+
+#measuring {
+  position: absolute;
+  visibility: hidden;
+  height: auto;
+  width: auto;
+  white-space: nowrap;
 }
 
 .ToolBar {
@@ -59,23 +72,25 @@ body {
 }
 
 .DateTimePanel {
-  border-style: var(--Border);
+  border: var(--Border);
   border-color: var(--BorderColorRedused);
   height: 40%
 }
 
 .CalendarPanel {
-  flex: 0 0 auto;
-  height: 55%;
+  /* flex: 0 0 auto; */
+  height: 54%;
   display: flex;
   flex-flow: row wrap;
-  justify-content: stretch;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
 }
 
 .CalendarWeekday {
   height: 15%;
-  width: 14.28%;
+  width: 14.2%;
+  text-align: center;
+  font-weight: bold;
 }
 
 .CalendarWeekend {
@@ -84,5 +99,14 @@ body {
 
 .CalendarDay {
   height: 15%;
-  width: 14.28%;
+  width: 14.2%;
+  text-align: center;
+  line-height: 1.25;
+  font-size: 32px;
+}
+
+.CalendarToday {
+  border: solid 2px #FF0000;
+  border-radius: 10px;
+  font-weight: bold;
 }
