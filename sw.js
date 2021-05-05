@@ -1,10 +1,18 @@
 const CACHE = "NetworkOrCache.V1"
 const CACHED_FILES = [
   "/",
+  "/manifest.json",
   "/index.html",
   "/favicon.ico",
+
   "/styles/main.css",
+
   "/scripts/main.js",
+  "/scripts/etc.js",
+  "/scripts/clock.js",
+  "/scripts/calendar.js",
+
+  "/pic/home.png"
 ]
 const TIMEOUT = 400
 

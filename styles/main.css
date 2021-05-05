@@ -87,22 +87,32 @@ body {
 }
 
 .CalendarWeekday {
+  cursor: default;
   height: 15%;
   width: 14.2%;
   text-align: center;
   font-weight: bold;
 }
 
-.CalendarWeekend {
-  color: #FF0000;
-}
-
 .CalendarDay {
+  cursor: pointer;
   height: 15%;
   width: 14.2%;
   text-align: center;
   line-height: 1.25;
   font-size: 32px;
+}
+
+.CalendarWeekend {
+  color: #ff0000;
+}
+
+.CalendarPastDay {
+  color: #aaaaaa;
+}
+
+.CalendarPastWeekend {
+  color: #ffaaaa;
 }
 
 .CalendarToday {
