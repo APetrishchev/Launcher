@@ -77,7 +77,11 @@ body {
   height: 40%
 }
 
-.CalendarPanel {
+.Clock {
+  margin: 3px;
+}
+
+.Calendar {
   /* flex: 0 0 auto; */
   height: 54%;
   display: flex;
