@@ -1,18 +1,17 @@
-const CACHE = "NetworkOrCache.V1"
+const CACHE = "Widet.V1"
 const CACHED_FILES = [
   "/",
   "/manifest.json",
   "/index.html",
   "/favicon.ico",
+  "import/front/pic/home.png",
+  "import/front/styles/main.css",
+  "import/front/scripts/calendar.js",
+  "import/front/scripts/clock.js",
+  "import/front/scripts/etc.js",
+  "import/front/scripts/system.js",
 
-  "/styles/main.css",
-
-  "/scripts/main.js",
-  "/scripts/etc.js",
-  "/scripts/clock.js",
-  "/scripts/calendar.js",
-
-  "/pic/home.png"
+  "AppCalendarWidgets/front/scripts/main.js"
 ]
 const TIMEOUT = 400
 

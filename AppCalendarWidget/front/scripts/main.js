@@ -1,9 +1,9 @@
-import { Init, Widget } from "./system.js"
-import { Calendar } from "./calendar.js"
-import { Clock } from "./clock.js"
+import { Init, Widget } from "../../../import/front/scripts/system.js"
+import { Calendar } from "../../../import/front/scripts/calendar.js"
+import { Clock } from "../../../import/front/scripts/clock.js"
 
 //******************************************************************************
-export class MyWidget extends Widget {
+export class AppCalendarWidget extends Widget {
   constructor(kvargs = {}) {
     super(kvargs)
     new Init()
@@ -32,5 +32,21 @@ export class MyWidget extends Widget {
     this.clock.show()
 
     this.calendar.show()
+    this.timer = setInterval((evn) => this.update(evn), 500)
+  }
+
+  hide() {
+    clearInterval(this.timer)
+    super.hide()
+  }
+
+  update() {
+    this.clock.update()
+    this.calendar.update()
   }
 }
+
+//******************************************************************************
+window.addEventListener("load", () => {
+  new AppCalendarWidget({ parent: document.body })
+})

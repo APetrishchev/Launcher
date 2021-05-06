@@ -14,7 +14,7 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "/pic/home.png",
+      "src": "import/front/pic/home.png",
       "sizes": "144x144",
       "type": "image/png"
     }

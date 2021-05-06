@@ -58,11 +58,11 @@ export class Clock extends Widget {
         this.clockFaceContext.fill()
       }
     }
-    //Hour ring
+    //Hour disk
     this.clockFaceContext.beginPath()
     this.clockFaceContext.arc(xCenter, yCenter, 0.85*radius, 0, 360)
     gradient = this.clockFaceContext.createLinearGradient(0, 0, 1.7*radius, 1.7*radius)
-    gradient.addColorStop(0, "#888")
+    gradient.addColorStop(0, "#555")
     gradient.addColorStop(1, "#fff")
     this.clockFaceContext.fillStyle = gradient
     this.clockFaceContext.fill()
@@ -81,11 +81,17 @@ export class Clock extends Widget {
     cnv.style = `z-index: 2; margin-left: -${this.size}px;`
     cnv.width = this.size
     cnv.height = this.size
+    this.digitalClockContext = cnv.getContext("2d")
+
+    cnv = Widget.createElement({ tagName: "canvas", parent: this.element })
+    cnv.style = `z-index: 3; margin-left: -${this.size}px;`
+    cnv.width = this.size
+    cnv.height = this.size
     this.clockHandsContext = cnv.getContext("2d")
 
     //Central disk
     cnv = Widget.createElement({ tagName: "canvas", parent: this.element })
-    cnv.style = `z-index: 3; margin-left: -${this.size}px;`
+    cnv.style = `z-index: 4; margin-left: -${this.size}px;`
     cnv.width = this.size
     cnv.height = this.size
     let ctx = cnv.getContext("2d")
@@ -99,11 +105,10 @@ export class Clock extends Widget {
     ctx.strokeStyle = "#444"
     ctx.stroke()
 
-    this.timer = setInterval((evn) => this.update(evn), 500)
+    this.update()
   }
 
   hide() {
-    clearInterval(this.timer)
     super.hide()
     delete (this.clockFaceContext)
     delete (this.clockDigitsContext)
@@ -159,6 +164,22 @@ export class Clock extends Widget {
         }
       }
     }
+    // Digital Clock
+    if (this.minutes === undefined || this.minutes !== minutes) {
+      this.minutes = minutes
+      this.digitalClockContext.clearRect(0, 0,
+        this.digitalClockContext.canvas.width, this.digitalClockContext.canvas.height)
+      this.digitalClockContext.save()
+      this.digitalClockContext.fillStyle = "#ffff00"
+      this.digitalClockContext.font = `${0.25 * radius}px monospace`
+      this.digitalClockContext.fillText(`${firstZero(this.hours)}:${firstZero(this.minutes)}`,
+        xCenter - 0.38 * radius, yCenter - 0.2 * radius)
+      this.digitalClockContext.fillText(`${firstZero(now.getDate())}`,
+        xCenter - 0.43 * radius, yCenter + 0.07 * radius)
+      this.digitalClockContext.fillText(`${now.getUTCDay()}`,
+        xCenter + 0.15 * radius, yCenter + 0.06 * radius)
+      this.digitalClockContext.restore()
+    }
     // ClockHands
     hours = hours >= 12 ? hours - 12 : hours
     this.clockHandsContext.beginPath()
@@ -168,6 +189,8 @@ export class Clock extends Widget {
     this.clockHandsContext.save()
     this.clockHandsContext.beginPath()
     this.clockHandsContext.translate(xCenter, yCenter)
+    let clockHandsFillColor = "rgba(30, 255, 0, 0.5)"
+    let clockHandsStrokeColor = "rgba(30, 255, 0, 0.9)"
     this.clockHandsContext.rotate(hours * Math.PI / 6 + minutes * Math.PI / 360);
     this.clockHandsContext.moveTo(0, 0)
     this.clockHandsContext.lineTo(-0.03 * radius, 0)
@@ -176,9 +199,9 @@ export class Clock extends Widget {
     this.clockHandsContext.lineTo(0.03 * radius, -0.6 * radius)
     this.clockHandsContext.lineTo(0.03 * radius, 0)
     this.clockHandsContext.closePath()
-    this.clockHandsContext.fillStyle = "rgba(0, 0, 0, 0.4)"
+    this.clockHandsContext.fillStyle = clockHandsFillColor
     this.clockHandsContext.fill()
-    this.clockHandsContext.strokeStyle = "rgba(0, 0, 0, 0.7)"
+    this.clockHandsContext.strokeStyle = clockHandsStrokeColor
     this.clockHandsContext.stroke()
     this.clockHandsContext.restore()
     // Minute ClockHands
@@ -193,9 +216,9 @@ export class Clock extends Widget {
     this.clockHandsContext.lineTo(0.02 * radius, -0.795 * radius)
     this.clockHandsContext.lineTo(0.02 * radius, 0)
     this.clockHandsContext.closePath()
-    this.clockHandsContext.fillStyle = "rgba(0, 0, 0, 0.4)"
+    this.clockHandsContext.fillStyle = clockHandsFillColor
     this.clockHandsContext.fill()
-    this.clockHandsContext.strokeStyle = "rgba(0, 0, 0, 0.7)"
+    this.clockHandsContext.strokeStyle = clockHandsStrokeColor
     this.clockHandsContext.stroke()
     this.clockHandsContext.restore()
     // Second ClockHands

@@ -74,37 +74,56 @@ body {
 .DateTimePanel {
   border: var(--Border);
   border-color: var(--BorderColorRedused);
-  height: 40%
+  height: 40%;
+  padding: 3px;
 }
 
 .Clock {
-  margin: 3px;
+  color: lime;
 }
 
 .Calendar {
   /* flex: 0 0 auto; */
   height: 54%;
   display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
+  flex-flow: column nowrap;
+  justify-content: stretch;
+}
+
+.CalendarWeekdays,
+.CalendarWeek {
+  flex: 1 0 auto;
+  display: flex;
+  flex-flow: row nowrap;
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 4px;
+}
+
+.CalendarWeekday,
+.CalendarDay {
+  flex: 1 0 auto;
+  margin: 2px;
+  border: solid 1px #aaaaaa;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  line-height: 1.25;
+  font-size: 16px;
 }
 
 .CalendarWeekday {
   cursor: default;
-  height: 15%;
-  width: 14.2%;
-  text-align: center;
+  background-color: #aaaaaa;
   font-weight: bold;
 }
 
 .CalendarDay {
   cursor: pointer;
-  height: 15%;
-  width: 14.2%;
-  text-align: center;
-  line-height: 1.25;
-  font-size: 32px;
 }
 
 .CalendarWeekend {
@@ -121,6 +140,5 @@ body {
 
 .CalendarToday {
   border: solid 2px #FF0000;
-  border-radius: 10px;
   font-weight: bold;
 }
