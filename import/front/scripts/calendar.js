@@ -39,15 +39,14 @@ export class Calendar extends Widget {
           elm.addEventListener("click", this.onClick)}
       }
     }
-    this.update()
+    this.update(new Date())
   }
 
   hide() {
     super.hide()
   }
 
-  update() {
-    let now = new Date()
+  update(now) {
     let date = now.getDate()
     if (this.date === undefined || this.date !== date) {
       this.date = date
@@ -57,7 +56,6 @@ export class Calendar extends Widget {
       for (let row = 0; row < 6; row++) {
         let weekLayout = this.element.children[row + 1]
         for (let col = 0; col < 7; col++) {
-          console.log(weekLayout.children[col])
           if (7*row+col+1 < firstDay || day > daysInMonth) {
             weekLayout.children[col].className = `${this.className}Day`
             continue}

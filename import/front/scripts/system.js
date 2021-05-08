@@ -96,4 +96,6 @@ export class Widget {
 
   update() {
   }
+
+  toString() { return `object "${this.constructor.name}"` }
 }
