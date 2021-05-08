@@ -1,4 +1,4 @@
-const CACHE = "Widet.V1"
+const CACHE = "Widet_V1.0"
 const CACHED_FILES = [
   "/",
   "/manifest.json",
