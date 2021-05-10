@@ -29,11 +29,9 @@ export class AppCalendarWidget extends Widget {
     let btn = Widget.createElement({ tagName: "Button", parent: toolbar.element })
     btn.innerHTML = "win"
     btn.onclick = (evn) => {
-      console.log("Win", location.href)
-      let strWinFeatures = "location=no,height=570,width=520,scrollbars=no,status=no"
-      // let URL = "https://www.linkedin.com/cws/share?mini=true&amp;url=" + location.href;
-      let URL = location.href
-      let win = window.open(URL, "_blank", strWinFeatures);
+      console.log("Win", location.origin)
+      let win = window.open(`${location.origin}/AppCalendarWidget/cron.json`,
+        "_blank", "left=100,top=100,width=520,height=480")
     }
 
     let div = document.createElement("div")
