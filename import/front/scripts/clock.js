@@ -263,11 +263,11 @@ export class TalkClock extends Widget {
       else {
         tensOfMinutes = Math.floor(minutes / 10) * 10
         playList.push(`${this.path}${tensOfMinutes}.wav`)}
+      let unitsOfMinutes = minutes % tensOfMinutes
+      if (unitsOfMinutes > 0) {
+        playList.push(`${this.path}${unitsOfMinutes}.wav`)}
+      playList.push(`${this.path}minutes.wav`)
     }
-    let unitsOfMinutes = minutes % tensOfMinutes
-    if (unitsOfMinutes > 0) {
-      playList.push(`${this.path}${unitsOfMinutes}.wav`)}
-    playList.push(`${this.path}minutes.wav`)
     let idx = 0
     let audioElement = new Audio(playList[idx])
     audioElement.volume = this.volume
