@@ -1,11 +1,11 @@
 {
   "dir": "ltr",
   "lang": "Russian",
-  "name": "Андрей Петрищев - SmartHome",
+  "name": "Laucher",
   "scope": "/",
   "display": "fullscreen",
   "start_url": "/index.html",
-  "short_name": "SmartHome",
+  "short_name": "Laucher",
   "description": "¯\\_(ツ)_/¯",
   "orientation": "any",
   "background_color": "#fafafa",
@@ -14,7 +14,7 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "import/pictures/home.png",
+      "src": "/data/public/pictures/SmartHome/home.png",
       "sizes": "144x144",
       "type": "image/png"
     }
