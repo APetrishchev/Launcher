@@ -1,5 +1,7 @@
 export function firstZero(num) { return (num < 10) ? `0${num}` : num }
 
+export function capitalize(word) { return `${word[0].toUpperCase()}${word.slice(1)}` }
+
 export function roundRect(ctx, x, y, w, h, r, fill, stroke = true) {
   if (typeof r === "undefined") {
     r = 5}

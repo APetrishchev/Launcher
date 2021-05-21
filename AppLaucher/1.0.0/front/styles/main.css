@@ -1,47 +1,123 @@
+@keyframes bellshake {
+  0% { transform: rotate(0); }
+  15% { transform: rotate(8deg); }
+  30% { transform: rotate(-8deg); }
+  45% { transform: rotate(4deg); }
+  60% { transform: rotate(-4deg); }
+  75% { transform: rotate(2deg); }
+  85% { transform: rotate(-2deg); }
+}
+
 body {
   display: flex;
   flex-flow: row nowrap;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  background-color: #cccccc;
 }
 
 .Laucher {
+  margin-top: 10px;
   border: solid 1px #777777;
   border-radius: 10px;
-  height: 60px;
-  padding: 5px;
+  padding: 3px;
+  height: 75px;
   display: flex;
   flex-flow: row nowrap;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  color: rgb(0, 0, 100);
 }
 
-.Laucher div {
+.ChronosRunButtonLayout,
+.CalendarRunButtonLayout,
+.AppRunButtonLayout {
+  cursor: pointer;
+  padding-left: 3px;
+  padding-right: 3px;
+  /* margin: 5px; */
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
+  font-size: x-small;
+  transition: .2s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.Laucher div div {
+.CalendarRunButtonLayout:hover,
+.ChronosRunButtonLayout:hover,
+.AppRunButtonLayout:hover {
+  font-size: medium;
+}
+
+.ChronosRunButton,
+.CalendarRunButton,
+.AppRunButton {
+  cursor: pointer;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  height: 50px;
+  font-weight: bold;
+  transition: .2s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.ChronosRunButton,
+.CalendarRunButton {
   border: solid 1px #777777;
   border-radius: 10px;
-  background-color: #ffffff;
-  color: rgb(0, 0, 255);
-  padding-left: 3px;
-  padding-right: 3px;
-  font-size: x-small;
+  background: radial-gradient(farthest-side ellipse at top left, white, #b1c4ff);
+  box-shadow: 5px 10px 20px rgba(0,0,0,0.3), -5px -10px 20px rgba(255,255,255,0.5);
+  height: 48px;
+  font-size: large;
 }
 
-.Laucher-RunAppButton {
-  cursor: pointer;
-  margin-left: 5px;
-  margin-right: 5px;
+.ChronosRunButton,
+.AppRunButton {
   width: 50px;
-  height: 50px;
 }
 
-.Laucher-RunAppButton:hover {
+.CalendarRunButton {
+  width: 85px;
+}
+
+.ChronosRunButtonActive,
+.CalendarRunButtonActive,
+.AppRunButtonActive {
+  animation: bellshake .5s cubic-bezier(.36,.07,.19,.97) both;
+  backface-visibility: hidden;
+  transform-origin: center center;
+}
+
+.ChronosRunButtonLayout:hover .ChronosRunButton,
+.AppRunButtonLayout:hover .AppRunButton {
   width: 75px;
   height: 75px;
+  font-size: 30px;
+}
+
+.CalendarRunButtonLayout:hover .CalendarRunButton {
+  width: 230px;
+  height: 200px;
+  font-size: 14px;
+}
+
+.ChronosRunButtonTitle,
+.CalendarRunButtonTitle,
+.AppRunButtonTitle {
+  border: solid 1px #777777;
+  border-radius: 10px;
+  background: radial-gradient(farthest-side ellipse at top left, white, #aaaaaa);
+  box-shadow: 5px 10px 20px rgba(0,0,0,0.3), -5px -10px 20px rgba(255,255,255,0.5);
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.ChronosRunButtonTitleActive,
+.CalendarRunButtonTitleActive,
+.AppRunButtonTitleActive {
+  background: radial-gradient(farthest-side ellipse at top left, #aaaaaa, white);
 }

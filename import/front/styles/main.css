@@ -51,12 +51,9 @@
 
 html, body {
   margin: 0px;
+  background-color: transparent;
   width: 100%;
   height: 100%;
-}
-
-body {
-  background-color: var(--BackgroundColorFlat);
 }
 
 #measuring {
@@ -67,17 +64,26 @@ body {
   white-space: nowrap;
 }
 
-.ToolBar {
-  height: 5%
+#Tips {
+  position: absolute;
+  border: solid 1px;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #888888;
+  border-right-color: #888888;
+  background-color: #ffffbb;
+  padding: 2px;
+  font-size: 12;
 }
 
-.DateTimePanel {
-  border: var(--Border);
-  border-color: var(--BorderColorRedused);
-  height: 40%;
-  padding: 3px;
-}
 
+
+
+
+
+
+
+/******************************************************************************/
 .AnalogClock,
 .AnalogClock canvas {
   width: 300px;
@@ -89,38 +95,48 @@ body {
   margin-top: -300px;
 }
 
+/******************************************************************************/
 .Calendar {
-  /* flex: 0 0 auto; */
-  height: 54%;
+  flex: 1 1 12.5%;
   display: flex;
   flex-flow: column nowrap;
+  align-items: stretch;
   justify-content: stretch;
+  width: 100%;
+  padding: 2px;
 }
 
+.CalendarHeader,
 .CalendarWeekdays,
 .CalendarWeek {
-  flex: 1 0 auto;
+  margin: 1px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  padding: 4px;
+}
+
+.CalendarHeader {
+  margin: 5px;
+  border: solid 1px #444444;
+  border-radius: 10px;
+  background-color: #aaaaaa;
 }
 
 .CalendarWeekday,
 .CalendarDay {
-  flex: 1 0 auto;
-  margin: 2px;
-  border: solid 1px #aaaaaa;
+  flex: 0 1 13.5%;
+  margin: 1px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  border: solid 1px #444444;
   border-radius: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  line-height: 1.25;
-  font-size: 16px;
+  padding: 2px;
+  /* line-height: 1.25; */
 }
 
 .CalendarWeekday {
@@ -137,15 +153,23 @@ body {
   color: #ff0000;
 }
 
-.CalendarPastDay {
-  color: #aaaaaa;
+.CalendarOtherDay,
+.CalendarOtherWeekend {
+  border: solid 1px #888888;
 }
 
+.CalendarOtherDay,
+.CalendarPastDay {
+  color: #888888;
+}
+
+.CalendarOtherWeekend,
 .CalendarPastWeekend {
-  color: #ffaaaa;
+  color: #ff8888;
 }
 
 .CalendarToday {
   border: solid 2px #FF0000;
+  padding: 1px;
   font-weight: bold;
 }

@@ -9,6 +9,18 @@ body {
   top: 5px;
 }
 
+#Tips {
+  position: absolute;
+  border: solid 1px;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #888888;
+  border-right-color: #888888;
+  background-color: #ffffbb;
+  padding: 2px;
+  font-size: 12;
+}
+
 .Home {
   border: solid 1px;
   border-top-color: #ffffff;
@@ -71,51 +83,51 @@ body {
 }
 
 .LightModeButtonOn {
-  background-image: url("/data/applications/pictures/SmartHome/Light-Bulb-On.png")
+  background-image: url('Light-Bulb-On.png')
 }
 
 .LightModeButtonOff {
-  background-image: url("/data/applications/pictures/SmartHome/Light-Bulb-Off.png")
+  background-image: url('Light-Bulb-Off.png')
 }
 
 .LightSensorOn {
-  background-image: url("/data/applications/pictures/SmartHome/Sun.png")
+  background-image: url('Sun.png')
 }
 
 .LightSensorOff {
-  background-image: url("/data/applications/pictures/SmartHome/Moon.png")
+  background-image: url('Moon.png')
 }
 
 .LightRelayOn {
-  background-image: url("/data/applications/pictures/SmartHome/Light-Bulb-On.png")
+  background-image: url('Light-Bulb-On.png')
 }
 
 .LightRelayOff {
-  background-image: url("/data/applications/pictures/SmartHome/Light-Bulb-Off.png")
+  background-image: url('Light-Bulb-Off.png')
 }
 
 .DoorBellModeButtonOn {
-  background-image: url("/data/applications/pictures/SmartHome/Bell-On.png")
+  background-image: url('Bell-On.png')
 }
 
 .DoorBellModeButtonOff {
-  background-image: url("/data/applications/pictures/SmartHome/Bell-Off.png")
+  background-image: url('Bell-Off.png')
 }
 
 .DoorBellRelayOn {
-  background-image: url("/data/applications/pictures/SmartHome/Bell-On.png")
+  background-image: url('Bell-On.png')
 }
 
 .DoorBellRelayOff {
-  background-image: url("/data/applications/pictures/SmartHome/Bell-Off.png")
+  background-image: url('Bell-Off.png')
 }
 
 .MotionDetectorOn {
-  background-image: url("/data/applications/pictures/SmartHome/Running-Man1.png")
+  background-image: url('Running-Man1.png')
 }
 
 .MotionDetectorOff {
-  background-image: url("/data/applications/pictures/SmartHome/Standing-Man.png")
+  background-image: url('Standing-Man.png')
 }
 
 #OutDoor {

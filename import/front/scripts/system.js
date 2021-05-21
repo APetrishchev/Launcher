@@ -64,38 +64,83 @@ export class Init {
 }
 
 //******************************************************************************
-export class Widget {
-  static createElement(kvargs) {
-    let elm = kvargs.tagName ? document.createElement(kvargs.tagName) : document.createElement("div")
-    if (kvargs.parent) {
-      kvargs.parent.appendChild(elm)}
-    if (kvargs.className) {
-      elm.className = kvargs.className}
-    if (kvargs.innerHTML) {
-      elm.innerHTML = kvargs.innerHTML}
-    return elm
+export class Tips {
+  constructor(elm, txt) {
+    this.text = txt
+    this.left = parseInt(elm.style.left) + 30
+    this.top = parseInt(elm.style.top) + 10
+    elm.addEventListener('mouseenter', evn => this.show(), false)
+    elm.addEventListener('mouseleave', evn => this.hide(), false)
   }
 
-  static clearElement(elm) {
-    while (elm.firstChild) {
-      elm.removeChild(elm.firstChild)}
+  show() {
+    this.element = Obj.createElement({
+      tagName: "span", id: "Tips", parent: document.body,
+      left: this.left, top: this.top, children: this.text
+    })
+  }
+
+  hide() {
+    document.body.removeChild(this.element)
+  }
+}
+
+//******************************************************************************
+export class Obj {
+  static createElement(kvargs) {
+    let element = kvargs.tagName ? document.createElement(kvargs.tagName) : document.createElement("div")
+    if (kvargs.id) {
+      element.id = kvargs.id }
+    if (kvargs.parent) {
+      kvargs.parent.appendChild(element) }
+    if (kvargs.className) {
+      element.className = kvargs.className }
+    if (kvargs.children) {
+      if (typeof kvargs.children === 'string') {
+        element.innerHTML = kvargs.children }
+      else if (kvargs.children instanceof HTMLElement) {
+        element.appendChild(kvargs.children) }
+      else if (kvargs.children instanceof Array) {
+        for (const elm of kvargs.children) {
+          element.appendChild(elm) }
+      }
+      else {
+        console.error(`Child Type Error: ${typeof kvargs.children} (${kvargs.children})`) }
+    if (kvargs.className) {
+      element.className = kvargs.className }
+    }
+    if (kvargs.left) {
+      element.style.left = `${kvargs.left}px` }
+    if (kvargs.top) {
+      element.style.top = `${kvargs.top}px` }
+    if (kvargs.tips) {
+      element.tips = new Tips(element, kvargs.tips) }
+    return element
+  }
+
+  static clearElement(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild)}
   }
 
   constructor(kvargs) {
     this.parent = kvargs.parent
-    this.className = kvargs.className || "Widget"
+    this.className = kvargs.className || "Application"
   }
 
   show() {
-    this.element = Widget.createElement({ parent: this.parent, className: this.className })
+    this.element = App.createElement({ parent: this.parent, className: this.className })
+    return this
   }
 
   hide() {
-    Widget.clearElement(this.element)
-  }
-
-  update() {
+    App.clearElement(this.element)
+    return this
   }
 
   toString() { return `object "${this.constructor.name}"` }
+}
+
+//******************************************************************************
+export class App extends Obj {
 }

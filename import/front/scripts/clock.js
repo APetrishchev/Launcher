@@ -1,8 +1,8 @@
-import { Widget } from "./system.js"
+import { Obj } from "./system.js"
 import { firstZero, roundRect } from "./etc.js"
 
 //******************************************************************************
-export class DigitalClock extends Widget {
+export class DigitalClock extends Obj {
   constructor(kvargs = {}) {
     super(kvargs)
     this.parent = parent
@@ -22,7 +22,7 @@ export class DigitalClock extends Widget {
 }
 
 //******************************************************************************
-export class AnalogClock extends Widget {
+export class AnalogClock extends Obj {
   constructor(kvargs = {}) {
     super(kvargs)
     this.parent = parent
@@ -31,7 +31,7 @@ export class AnalogClock extends Widget {
   }
 
   addCanvas(className) {
-    let cnv = Widget.createElement({ tagName: "canvas", parent: this.element })
+    let cnv = Obj.createElement({ tagName: "canvas", parent: this.element })
     cnv.width = cnv.clientWidth
     cnv.height = cnv.clientHeight
     return cnv.getContext("2d")
@@ -229,52 +229,5 @@ export class AnalogClock extends Widget {
     this.clockHandsContext.arc(xc, yc, 0.1 * r, 0, 360)
     this.clockHandsContext.fill()
     this.clockHandsContext.stroke()
-  }
-}
-
-//******************************************************************************
-export class TalkClock extends Widget {
-  constructor(kvargs = {}) {
-    super(kvargs)
-    let lang = kvargs.lang || "en-US"
-    let gender = kvargs.gender || "female"
-    this.path = `/import/audio/clock/${lang}/${gender}/`
-    this.preSound = kvargs.preSound  || null
-    this.volume = kvargs.volume || 0.5
-  }
-
-  play(now) {
-    let hours = now.getHours()
-    let minutes = now.getMinutes()
-    let playList = []
-    if (this.preSound) {
-      playList.push(this.preSound)}
-    if (hours < 20) {
-      playList.push(`${this.path}${hours}.wav`)}
-    else {
-      playList.push(`${this.path}20.wav`)}
-    if (hours > 20) {
-      playList.push(`${this.path}${hours % 20}.wav`)}
-    playList.push(`${this.path}oclock.wav`)
-    let tensOfMinutes
-    if (minutes > 0) {
-      if (minutes < 20) {
-        playList.push(`${this.path}${minutes}.wav`)}
-      else {
-        tensOfMinutes = Math.floor(minutes / 10) * 10
-        playList.push(`${this.path}${tensOfMinutes}.wav`)}
-      let unitsOfMinutes = minutes % tensOfMinutes
-      if (unitsOfMinutes > 0) {
-        playList.push(`${this.path}${unitsOfMinutes}.wav`)}
-      playList.push(`${this.path}minutes.wav`)
-    }
-    let idx = 0
-    let audioElement = new Audio(playList[idx])
-    audioElement.volume = this.volume
-    audioElement.addEventListener("canplaythrough", evn => audioElement.play())
-    audioElement.addEventListener("ended", evn => {
-      if (++idx < playList.length) {
-        audioElement.src = playList[idx]}
-    })
   }
 }

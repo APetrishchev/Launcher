@@ -1,15 +1,15 @@
-import { firstZero } from "./etc.js"
-import { Widget } from "./system.js"
+import { capitalize, firstZero } from "./etc.js"
+import { Obj } from "./system.js"
 
 //******************************************************************************
-export class Calendar extends Widget {
+export class Calendar extends Obj {
+  static lang = "en"
+
   static getWeekdayNames(className) {
-    let formatter = new Intl.DateTimeFormat("ru", { weekday: "short" })
+    let formatter = new Intl.DateTimeFormat(Calendar.lang, { weekday: "short" })
     let fragment = document.createDocumentFragment()
     for (let idx = 1; idx < 8; idx++) {
-      let innerHTML = formatter.format(new Date(2017, 4, idx))
-      innerHTML = innerHTML[0].toUpperCase() + innerHTML.slice(1)
-      Widget.createElement({parent: fragment, innerHTML: innerHTML,
+        Obj.createElement({ parent: fragment, children: capitalize(formatter.format(new Date(2017, 4, idx))),
         className: idx < 6 ? `TextScale ${className}Weekday` : `TextScale ${className}Weekday ${className}Weekend`})
     }
     return fragment
@@ -21,17 +21,19 @@ export class Calendar extends Widget {
 
   constructor(kvargs={}) {
     super(kvargs)
+    Calendar.lang = kvargs.lang
     this.className = kvargs.className || "Calendar"
   }
 
   show() {
     super.show()
-    let weekdaysLayout = Widget.createElement({ parent: this.element, className: `${this.className}Weekdays` })
+    Obj.createElement({ parent: this.element, className: `${this.className}Header` })
+    const weekdaysLayout = Obj.createElement({ parent: this.element, className: `${this.className}Weekdays` })
     weekdaysLayout.appendChild(Calendar.getWeekdayNames(this.className))
     for (let row = 1; row < 7; row++) {
-      let weekLayout = Widget.createElement({ parent: this.element, className: `${this.className}Week` })
+      const weekLayout = Obj.createElement({ parent: this.element, className: `${this.className}Week` })
       for (let col = 1; col < 8; col++) {
-        let elm = Widget.createElement({ parent: weekLayout })
+        const elm = Obj.createElement({ parent: weekLayout })
         if (this.onMouseOver && this.onMouseOut) {
           elm.addEventListener("mouseenter", this.onMouseOver)
           elm.addEventListener("mouseleave", this.onMouseOut)}
@@ -50,15 +52,27 @@ export class Calendar extends Widget {
     let date = now.getDate()
     if (this.date === undefined || this.date !== date) {
       this.date = date
-      let firstDay = new Date(now.getFullYear(), now.getMonth(), 1).getDay() || 7
-      let daysInMonth = Calendar.getDaysInMonth(now.getFullYear(), now.getMonth() + 1)
+      this.element.children[0].innerHTML = `${capitalize(new Intl.DateTimeFormat(Calendar.lang, { month: "long" }).format(now))} ${now.getFullYear()}`
+      const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).getDay() || 7
+      const daysInPrevMonth = Calendar.getDaysInMonth(now.getFullYear(), now.getMonth())
+      const daysInMonth = Calendar.getDaysInMonth(now.getFullYear(), now.getMonth() + 1)
       let day = 1
+      let otherDay = daysInPrevMonth - firstDay + 2
       for (let row = 0; row < 6; row++) {
-        let weekLayout = this.element.children[row + 1]
+        const weekLayout = this.element.children[row + 2]
         for (let col = 0; col < 7; col++) {
-          if (7*row+col+1 < firstDay || day > daysInMonth) {
-            weekLayout.children[col].className = `${this.className}Day`
-            continue}
+          if (7 * row + col + 1 < firstDay || day > daysInMonth) {
+            weekLayout.children[col].innerHTML = firstZero(otherDay++)
+            if (otherDay > daysInPrevMonth) {
+              otherDay = 1 }
+            let className = `${this.className}Day`
+            if (col < 5) {
+              className += ` ${this.className}OtherDay` }
+            else {
+              className += ` ${this.className}OtherWeekend` }
+            weekLayout.children[col].className = className
+            continue }
+          weekLayout.children[col].id = day
           let className = `${this.className}Day`
           if (col < 5 && day < now.getDate()) {
             className += ` ${this.className}PastDay`}
@@ -67,7 +81,7 @@ export class Calendar extends Widget {
           else if (col >= 5 && day > now.getDate()) {
             className += ` ${this.className}Weekend`}
           else if (day == now.getDate()) {
-            className += " CalendarToday"}
+            className += ` ${this.className}Today`}
           weekLayout.children[col].className = className
           weekLayout.children[col].innerHTML = firstZero(day)
           day++

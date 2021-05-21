@@ -1,7 +1,7 @@
-import { Widget } from "../../../../import/front/scripts/system.js"
+import { App, Obj } from "../../../../import/front/scripts/system.js"
 
 //******************************************************************************
-export class Application extends Widget {
+export class Application extends App {
   constructor(kvargs = {}) {
     super(kvargs)
   }
@@ -17,5 +17,5 @@ export class Application extends Widget {
 
 //******************************************************************************
 window.addEventListener("load", async () => {
-  new Application({ parent: document.body, className: "Monitor" })
+  new Application({ parent: document.body, className: "SMonitor" })
 })

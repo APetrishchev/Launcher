@@ -14,7 +14,7 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "/data/public/pictures/SmartHome/home.png",
+      "src": "data/applications/pictures/Laucher/home.png",
       "sizes": "144x144",
       "type": "image/png"
     }

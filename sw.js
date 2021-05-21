@@ -1,17 +1,18 @@
-const CACHE = "Widet_V1.0"
+const CACHE = "Laucher_V1.0.0"
 const CACHED_FILES = [
   "/",
   "/manifest.json",
   "/index.html",
   "/favicon.ico",
-  "/data/applications/pictures/SmartHome/home.png",
   "/import/front/styles/main.css",
+  "/import/front/scripts/system.js",
+  "/import/front/scripts/db.js",
+  "/import/front/scripts/cron.js",
+  "/import/front/scripts/etc.js",
   "/import/front/scripts/calendar.js",
   "/import/front/scripts/clock.js",
-  "/import/front/scripts/etc.js",
-  "/import/front/scripts/system.js",
 
-  "/data/applications/audio/sounds/warning.mp3",
+  "/data/applications/audio/sounds/atention.mp3",
   "/data/applications/audio/voice/clock/ru-RU/female/0.wav",
   "/data/applications/audio/voice/clock/ru-RU/female/1.wav",
   "/data/applications/audio/voice/clock/ru-RU/female/2.wav",
@@ -39,18 +40,31 @@ const CACHED_FILES = [
   "/data/applications/audio/voice/clock/ru-RU/female/oclock.wav",
   "/data/applications/audio/voice/clock/ru-RU/female/minutes.wav",
 
-  "/AppLaucher/1.0.0/front/scripts/main.js",
-  "/AppLaucher/1.0.0/front/styles/main.css",
-  "/AppCalculator/1.0.0/front/scripts/main.js",
-  "/AppCalculator/1.0.0/front/styles/main.css",
   "/AppCalendar/1.0.0/front/scripts/main.js",
   "/AppCalendar/1.0.0/front/styles/main.css",
+
   "/AppChronos/1.0.0/front/scripts/main.js",
   "/AppChronos/1.0.0/front/styles/main.css",
+
+  "/AppLaucher/1.0.0/front/scripts/main.js",
+  "/AppLaucher/1.0.0/front/styles/main.css",
+  "/data/applications/pictures/Laucher/home.png",
+
+  "/AppCalculator/1.0.0/front/scripts/main.js",
+  "/AppCalculator/1.0.0/front/styles/main.css",
+  "/data/applications/pictures/Calculator/calculator.png",
+
+  "/AppPlayer/1.0.0/front/scripts/main.js",
+  "/AppPlayer/1.0.0/front/styles/main.css",
+  "/data/applications/pictures/Player/player.webp",
+
   "/AppSmartHome/1.0.0/front/scripts/main.js",
   "/AppSmartHome/1.0.0/front/styles/main.css",
+  "/data/applications/pictures/SmartHome/home.png",
+
   "/AppWeather/1.0.0/front/scripts/main.js",
-  "/AppWeather/1.0.0/front/styles/main.css"
+  "/AppWeather/1.0.0/front/styles/main.css",
+  "/data/applications/pictures/Weather/weather.webp"
 ]
 const TIMEOUT = 400
 

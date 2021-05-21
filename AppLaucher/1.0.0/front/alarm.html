@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Alarm</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="/AppLaucher/1.0.0/front/styles/alarm.css">
+  <script>
+  window.addEventListener("load", async () => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const audio = new Audio(urlParams.get("media"))
+    const volume = parseFloat(urlParams.get("vol"))
+    if (!volume) {
+      const gen = (function*() {
+        for (let val = 0.1; val < 1; val += 0.005) {
+          yield val
+        }
+      })()
+      audio.volume = 0.1
+      const timer = setInterval(() => {
+        let volume = gen.next().value
+        if (volume) {
+          audio.volume = volume }
+        else {
+          clearInterval(timer) }
+      }, 300)
+    }
+    else {
+      audio.volume = volume }
+    audio.addEventListener("canplaythrough", audio.play)
+    audio.addEventListener("ended", evn => {
+      audio.currentTime = 0
+      audio.play()
+    })
+    document.querySelector(".Message").innerHTML = urlParams.get("msg")
+    const stpBtn = document.querySelector("#StopButton")
+    stpBtn.innerHTML = "Stop"
+    stpBtn.addEventListener("click", evn => {
+      window.opener.__stopRequest__ = true })
+    const dlyBtn = document.querySelector("#DelayButton")
+    dlyBtn.innerHTML = `Delay ${urlParams.get("dly")} min`
+    dlyBtn.addEventListener("click", evn => {
+      window.opener.__delayRequest__ = true
+    })
+  })
+  </script>
+</head>
+
+<body>
+  <div class="HLayout LayoutMessage">
+    <div class="Picture"></div>
+    <div class="Message"></div>
+  </div>
+  <div class="HLayout LayoutButtons">
+    <div id="StopButton" class="Button"></div>
+    <div id="DelayButton" class="Button"></div>
+  </div>
+</body>
+
+</html>
