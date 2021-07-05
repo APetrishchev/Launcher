@@ -1,6 +1,3 @@
-import { DB } from "./db.js"
-import { tokens } from "../../../ini.js"
-
 //******************************************************************************
 class BinPosCode {
   static doc = `
@@ -258,19 +255,23 @@ export class Cron {
     // date =        new Date("2021-08-24T17:24:00")
     // kvargs.date = new Date("2021-08-24T17:34:00")
     let binPosCode = new BinPosCode(date, kvargs.date)
-    console.groupCollapsed(`>>> BinPosCode:\n  date1: ${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`)
-    if (kvargs.date) {
-      console.log(`  date2: ${kvargs.date.getFullYear()}-${kvargs.date.getMonth() + 1}-${kvargs.date.getDate()} ${kvargs.date.getHours()}:${kvargs.date.getMinutes()}`) }
-    console.log(`  months: x${binPosCode.months.toString(16)}`, BinPosCode.posBinCode(binPosCode.months, 13, 1))
-    console.log(`  monthDays: x${binPosCode.monthDays.toString(16)}`, BinPosCode.posBinCode(binPosCode.monthDays, 32, 1))
-    console.log(`  weekDays: x${binPosCode.weekDays.toString(16)}`)
-    console.log(`  hours: x${binPosCode.hours.toString(16)}`, BinPosCode.posBinCode(binPosCode.hours, 24))
-    console.log(`  minutes: x${binPosCode.minutes.toString(16)}`, BinPosCode.posBinCode(binPosCode.minutes, 60))
+console.groupCollapsed(`>>> BinPosCode:\n  date1: ${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`)
+if (kvargs.date) {
+console.log(`  date2: ${kvargs.date.getFullYear()}-${kvargs.date.getMonth() + 1}-${kvargs.date.getDate()} ${kvargs.date.getHours()}:${kvargs.date.getMinutes()}`) }
+console.log(`  months: x${binPosCode.months.toString(16)}`, BinPosCode.posBinCode(binPosCode.months, 13, 1))
+console.log(`  monthDays: x${binPosCode.monthDays.toString(16)}`, BinPosCode.posBinCode(binPosCode.monthDays, 32, 1))
+console.log(`  weekDays: x${binPosCode.weekDays.toString(16)}`, BinPosCode.posBinCode(binPosCode.weekDays, 36, 1))
+console.log(`  hours: x${binPosCode.hours.toString(16)}`, BinPosCode.posBinCode(binPosCode.hours, 24))
+console.log(`  minutes: x${binPosCode.minutes.toString(16)}`, BinPosCode.posBinCode(binPosCode.minutes, 60))
 
     let results = await this.db.get("cron", kvargs.key, kvargs.val)
     let idx = 0
     for (const event of results) {
       if (binPosCode.match(event)) {
+console.log(`\nEvent: ${event.id} ${event.type} ${event.name} ${event.descr} ${event.action} ${event.params}`)
+console.log(`  weekDays: x${event.weekDays.toString(16)}`, BinPosCode.posBinCode(event.weekDays, 36, 1))
+console.log(`  hours: x${event.hours.toString(16)}`, BinPosCode.posBinCode(event.hours, 24))
+console.log(`  minutes: x${event.minutes.toString(16)}`, BinPosCode.posBinCode(event.minutes, 60))
         if (kvargs.expanded) {
           for (const time of binPosCode.expand(event)) {
             events[time] = {id: event.id, type: event.type,
@@ -285,7 +286,8 @@ export class Cron {
         }
       }
     }
-    console.groupEnd()
+console.log("\nEvent:", events)
+console.groupEnd()
     return events
   }
 }

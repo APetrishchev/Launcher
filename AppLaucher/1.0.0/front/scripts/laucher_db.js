@@ -1,4 +1,4 @@
-import { DB } from "../../../../import/front/scripts/db.js"
+import { DB } from "../../../../Application/1.0.0/front/scripts/db.js"
 
 //******************************************************************************
 export class LaucherDB extends DB {

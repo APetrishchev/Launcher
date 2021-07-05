@@ -5,14 +5,22 @@ import { Obj } from "./system.js"
 export class Calendar extends Obj {
   static lang = "en"
 
-  static getWeekdayNames(className) {
+  static getWeekdayName(day, kvargs) {
     let formatter = new Intl.DateTimeFormat(Calendar.lang, { weekday: "short" })
-    let fragment = document.createDocumentFragment()
+    kvargs.children = capitalize(formatter.format(new Date(2017, 4, day)))
+    let classList = Obj.combine(kvargs.classList, '-Weekday')
+    if (day > 5) {
+      classList = [...classList, ...Obj.combine(kvargs.classList, '-Weekend')] }
+    kvargs.classList = classList
+    return Obj.createElement(kvargs)
+  }
+
+  static getWeekdayNames(parent, className) {
+    let formatter = new Intl.DateTimeFormat(Calendar.lang, { weekday: "short" })
     for (let idx = 1; idx < 8; idx++) {
-        Obj.createElement({ parent: fragment, children: capitalize(formatter.format(new Date(2017, 4, idx))),
-        className: idx < 6 ? `TextScale ${className}Weekday` : `TextScale ${className}Weekday ${className}Weekend`})
+      Obj.createElement({ parent: parent, children: capitalize(formatter.format(new Date(2017, 4, idx))),
+        classList: idx < 6 ? [`TextScale ${className}-Weekday`] : [`TextScale ${className}-Weekday ${className}-Weekend`] })
     }
-    return fragment
   }
 
   static getDaysInMonth(year, month) {
@@ -27,11 +35,11 @@ export class Calendar extends Obj {
 
   show() {
     super.show()
-    Obj.createElement({ parent: this.element, className: `${this.className}Header` })
-    const weekdaysLayout = Obj.createElement({ parent: this.element, className: `${this.className}Weekdays` })
-    weekdaysLayout.appendChild(Calendar.getWeekdayNames(this.className))
+    Obj.createElement({ parent: this.element, classList: [`${this.className}-Header`] })
+    const weekdaysLayout = Obj.createElement({ parent: this.element, classList: [`${this.className}-Weekdays`] })
+    Calendar.getWeekdayNames(weekdaysLayout, this.className)
     for (let row = 1; row < 7; row++) {
-      const weekLayout = Obj.createElement({ parent: this.element, className: `${this.className}Week` })
+      const weekLayout = Obj.createElement({ parent: this.element, classList: [`${this.className}-Week`] })
       for (let col = 1; col < 8; col++) {
         const elm = Obj.createElement({ parent: weekLayout })
         if (this.onMouseOver && this.onMouseOut) {
@@ -65,23 +73,23 @@ export class Calendar extends Obj {
             weekLayout.children[col].innerHTML = firstZero(otherDay++)
             if (otherDay > daysInPrevMonth) {
               otherDay = 1 }
-            let className = `${this.className}Day`
+            let className = `${this.className}-Day`
             if (col < 5) {
-              className += ` ${this.className}OtherDay` }
+              className += ` ${this.className}-OtherDay` }
             else {
-              className += ` ${this.className}OtherWeekend` }
+              className += ` ${this.className}-OtherWeekend` }
             weekLayout.children[col].className = className
             continue }
           weekLayout.children[col].id = day
-          let className = `${this.className}Day`
+          let className = `${this.className}-Day`
           if (col < 5 && day < now.getDate()) {
-            className += ` ${this.className}PastDay`}
+            className += ` ${this.className}-PastDay`}
           else if (col >= 5 && day < now.getDate()) {
-            className += ` ${this.className}PastWeekend`}
+            className += ` ${this.className}-PastWeekend`}
           else if (col >= 5 && day > now.getDate()) {
-            className += ` ${this.className}Weekend`}
+            className += ` ${this.className}-Weekend`}
           else if (day == now.getDate()) {
-            className += ` ${this.className}Today`}
+            className += ` ${this.className}-Today`}
           weekLayout.children[col].className = className
           weekLayout.children[col].innerHTML = firstZero(day)
           day++

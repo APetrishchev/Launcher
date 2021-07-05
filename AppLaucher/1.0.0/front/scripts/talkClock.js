@@ -1,4 +1,4 @@
-import { Obj } from "../../../../import/front/scripts/system.js"
+import { Obj } from "../../../../Application/1.0.0/front/scripts/system.js"
 
 //******************************************************************************
 export class TalkClock {

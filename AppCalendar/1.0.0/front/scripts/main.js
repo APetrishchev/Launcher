@@ -1,5 +1,5 @@
-import { App } from "../../../../import/front/scripts/system.js"
-import { Calendar } from "../../../../import/front/scripts/calendar.js"
+import { App } from "../../../../Application/1.0.0/front/scripts/system.js"
+import { Calendar } from "../../../../Application/1.0.0/front/scripts/calendar.js"
 
 //******************************************************************************
 class Application extends App {

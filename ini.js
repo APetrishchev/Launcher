@@ -290,25 +290,25 @@ const Cron = {
       "action": "", "params": "", "timeout": 0
     },
     {
-      "id": 3, "disabled": 0, "type": "Alarm", "name": "Пн..Пт 8:27", "descr": "Good Morning!",
+      "id": 3, "disabled": 0, "type": "Alarm", "name": "Пн..Пт 7:57", "descr": "Good Morning!",
       "start": "", "months": 0, "monthDays": 0, "weekDays": 0x8000000001f,
-      "hours": 0x80000100, "minutes": 0x8000000008000000n, "stop": "",
+      "hours": 0x80000080, "minutes": 0x8200000000000000n, "stop": "",
       "next": "", "last": "", "state": 0,
-      "action": "play", "params": {"media": "/data/applications/audio/music/greensleeves.mp3", "volume": 0}, "timeout": 60
+      "action": "play", "params": {"media": "/data/applications/audio/music/greensleeves.mp3", "volume": 0.75}, "timeout": 180
     },
     {
-      "id": 4, "disabled": 0, "type": "Alarm", "name": "Сб..Вс 8:57", "descr": "Good Morning!",
+      "id": 4, "disabled": 0, "type": "Alarm", "name": "Пн..Пт 13:00", "descr": "Bon appetit!",
+      "start": "", "months": 0, "monthDays": 0, "weekDays": 0x8000000001f,
+      "hours": 0x80002000, "minutes": 0x8000000000000001n, "stop": "",
+      "next": "", "last": "", "state": 0,
+      "action": "play", "params": { "media": "/data/applications/audio/music/greensleeves.mp3", "volume": 0.75}, "timeout": 180
+    },
+    {
+      "id": 5, "disabled": 0, "type": "Alarm", "name": "Сб..Вс 8:57", "descr": "Good Morning!",
       "start": "", "months": 0, "monthDays": 0, "weekDays": 0x80000000060,
       "hours": 0x80000100, "minutes": 0x8200000000000000n, "stop": "",
       "next": "", "last": "", "state": 0,
-      "action": "play", "params": {"media": "/data/applications/audio/music/greensleeves.mp3", "volume": 0}, "timeout": 60
-    },
-    {
-      "id": 5, "disabled": 0, "type": "Alarm", "name": "Пн..Пт 14:20", "descr": "Bon appetit!",
-      "start": "", "months": 0, "monthDays": 0, "weekDays": 0x8000000007f,
-      "hours": 0x807FFE00, "minutes": 0x8004010040100401n, "stop": "",
-      "next": "", "last": "", "state": 0,
-      "action": "play", "params": "/data/applications/audio/music/greensleeves.mp3", "timeout": 60
+      "action": "play", "params": { "media": "/data/applications/audio/music/greensleeves.mp3", "volume": 0.75}, "timeout": 180
     },
   ],
 
@@ -340,7 +340,7 @@ const Cron = {
       "action": "", "params": "", "timeout": 0
     },
     {
-      "id": 9, "disabled": 0, "type": "Birthday", "name": "11 Октября", "descr": "Петрищева Наталья",
+      "id": 9, "disabled": 0, "type": "Birthday", "name": "11 Октября (1951)", "descr": "Петрищева Наталья",
       "start": "", "months": 0x8200, "monthDays": 0x80000400, "weekDays": 0,
       "hours": 0, "minutes": 0n, "stop": "",
       "next": "", "last": "", "state": 0,
@@ -361,14 +361,14 @@ const Cron = {
       "action": "", "params": "", "timeout": 0
     },
     {
-      "id": 12, "disabled": 0, "type": "Other", "name": "MeetUp1", "descr": "",
+      "id": 12, "disabled": 1, "type": "Other", "name": "MeetUp1", "descr": "",
       "start": "", "months": 0, "monthDays": 0, "weekDays": 0x80000000180,
       "hours": 0x80000400, "minutes": 0x8000000000008000n, "stop": "",
       "next": "", "last": "", "state": 0,
       "action": "", "params": "", "timeout": 0
     },
     {
-      "id": 13, "disabled": 0, "type": "Other", "name": "MeetUp2", "descr":  "",
+      "id": 13, "disabled": 1, "type": "Other", "name": "MeetUp2", "descr":  "",
       "start": "2020-11-01 00:00", "months": 0x8400, "monthDays": 0x80000200, "weekDays": 0,
       "hours": 0x80000400, "minutes": 0x8000000000000001n, "stop": "2020-12-01 23:59",
       "next": "", "last": "", "state": 0,
