@@ -1,0 +1,5 @@
+#!/bin/bash
+
+GOBIN=/home/apetrishchev/Portable/Projects/apetrishchev.github.io/AppSMonitor/1.0.0/back
+GOPATH=/home/apetrishchev/Portable/Projects/apetrishchev.github.io/AppSMonitor/1.0.0/_devel_
+go install /home/apetrishchev/Portable/Projects/apetrishchev.github.io/AppSMonitor/1.0.0/_devel_/src/cmd/LinSysMon
