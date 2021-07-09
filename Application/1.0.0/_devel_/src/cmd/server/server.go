@@ -29,7 +29,7 @@ import (
 var (
 	log        = srv.Log
 	conf       = srv.Config
-	staticPath = "/home/apetrishchev/Portable/Projects/apetrishchev.github.io/"
+	staticPath = "/home/apetrishchev/Portable/Projects/Laucher/"
 )
 
 func getClientIp(ctx *fasthttp.RequestCtx) string {
