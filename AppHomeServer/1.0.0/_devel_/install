@@ -1,0 +1,8 @@
+#!/bin/bash
+
+WORKDIR=/home/apetrishchev/Portable/Projects/apetrishchev.github.io/AppHomeServer/1.0.0
+export GOBIN="$WORKDIR/back"
+export GOPATH="$WORKDIR/_devel_"
+go install "$GOPATH/src/cmd/agent"
+
+"$GOBIN/agent"
