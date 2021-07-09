@@ -3,6 +3,10 @@
 WORKDIR=/home/apetrishchev/Portable/Projects/apetrishchev.github.io/AppHomeServer/1.0.0
 export GOBIN="$WORKDIR/back"
 export GOPATH="$WORKDIR/_devel_"
+
+go get "gopkg.in/ini.v1"
+go get "github.com/valyala/fasthttp"
+
 go install "$GOPATH/src/cmd/agent"
 
 "$GOBIN/agent"
