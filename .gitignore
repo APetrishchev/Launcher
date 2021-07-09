@@ -1,4 +1,7 @@
 /.tls/
-_devel_/pkg
-/public/audio/music
-/log
+_devel_/pkg/
+_devel_/src/github.com
+_devel_/src/golang.org
+_devel_/src/gopkg.in
+/public/audio/music/
+/log/

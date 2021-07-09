@@ -2,28 +2,28 @@ package main
 
 import (
 	"context"
+	"crypto/tls"
 	"flag"
 	"fmt"
+	"net"
 	"os"
 	"os/signal"
 	"path/filepath"
-	srv "server"
 	"strings"
 	"syscall"
 	"time"
 
-	"github.com/valyala/fasthttp"
-
-	"crypto/tls"
-	"net"
-
 	"net/http"
 
+	"github.com/valyala/fasthttp"
 	"github.com/valyala/fasthttp/fasthttpadaptor"
 	"golang.org/x/crypto/acme/autocert"
 	"golang.org/x/net/webdav"
+
 	// "github.com/gorilla/securecookie"
 	// "github.com/go-gem/sessions"
+
+	srv "server"
 )
 
 var (

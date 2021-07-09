@@ -1,23 +1,60 @@
 package main
 
 import (
+	"agent"
 	"context"
 	"encoding/json"
 	"fmt"
 	"net"
 	"os"
 	"os/signal"
-
 	"path/filepath"
 	"strconv"
 	"syscall"
 	"time"
 
-	"agent"
-
 	"github.com/valyala/fasthttp"
 	"gopkg.in/ini.v1"
 )
+
+//==============================================================================
+var Config = struct {
+	Application struct {
+		Host string
+		Port string
+	}
+	Filesystems struct {
+		Partitions []string
+	}
+	Networks struct {
+		Interfaces []string
+	}
+}{}
+
+func getConfig(args []string) {
+	var (
+		appDirPath  string
+		iniFilePath string
+		err         error
+	)
+	if appDirPath, err = filepath.Abs(filepath.Dir(args[0])); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	if len(args) > 1 {
+		iniFilePath = args[1]
+	} else {
+		iniFilePath = filepath.Join(appDirPath, "agent.ini")
+	}
+	if conf, err := ini.Load(iniFilePath); err == nil {
+		Config.Application.Host = "127.0.0.1"
+		Config.Application.Port = strconv.Itoa(conf.Section("application").Key("port").MustInt(5000))
+		Config.Filesystems.Partitions = conf.Section("filesystems").Key("partitions").Strings(", ")
+		Config.Networks.Interfaces = conf.Section("networks").Key("interfaces").Strings(", ")
+	} else {
+		panic(fmt.Sprintf("Fail to read file: %v\n", err))
+	}
+}
 
 //==============================================================================
 type Series struct {
@@ -45,25 +82,23 @@ func (self *Series) addMetrics() (metrics *agent.Metrics) {
 
 //==============================================================================
 type HttpServer struct {
-	host   string
 	server *fasthttp.Server
 }
 
 var httpServer HttpServer
 
 func (self *HttpServer) StartHTTP() {
-	server := &fasthttp.Server{
+	self.server = &fasthttp.Server{
 		Handler:      self.handler,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 5 * time.Second,
 	}
-	listener, err := net.Listen("tcp4", self.host)
+	listener, err := net.Listen("tcp4", Config.Application.Host+":"+Config.Application.Port)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	err = server.Serve(listener)
-	if err != nil {
+	if err = self.server.Serve(listener); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
@@ -99,43 +134,6 @@ func logMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 //   }
 // }
 
-// //------------------------------------------------------------------------------
-// func sessionMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
-//   return panicMiddleware(func(ctx *fasthttp.RequestCtx) {
-//     var err error
-//     cookieStore := httpServer.getCookieStore()
-//     cookies, err := cookieStore.Get(ctx, "dt_session")
-//     if err != nil {
-//       panic(err)
-//     }
-//     dt.Init()
-//     query := &dt.SessionQuery{
-//       ById: cookies.Values["sid"],
-//       ByClientIp: ctx.UserValue("ClientIp").(string),
-//       ByUserAgent: ctx.UserValue("UserAgent").(string),
-//     }
-//     var ses *dt.Session
-//     if ses, err = query.OpenSession(); err != nil {
-//       ses = query.NewSession()
-//       cookies.Values["sid"] = ses.Id
-//       cookies.Options = &sessions.Options{
-//         Domain: httpServer.host,
-//         Path: "/",
-//         MaxAge: 86400 * 7,
-//         //SameSite: "Strict",
-//         //Secure: true,
-//         HttpOnly: false,
-//       }
-//       if err := cookies.Save(ctx); err != nil {
-//         panic(err)
-//       }
-//       ctx.Redirect("/", fasthttp.StatusTemporaryRedirect)
-//     }
-//     ctx.SetUserValue("ProfileId", ses.ProfileId)
-//     next(ctx)
-//   })
-// }
-
 func (self *HttpServer) handler(ctx *fasthttp.RequestCtx) {
 	logMiddleware(func(ctx *fasthttp.RequestCtx) {
 		var (
@@ -156,53 +154,15 @@ func (self *HttpServer) handler(ctx *fasthttp.RequestCtx) {
 	})(ctx)
 }
 
-var Config = struct {
-	Application struct {
-		Port string
-	}
-	Filesystems struct {
-		Partitions []string
-	}
-	Networks struct {
-		Interfaces []string
-	}
-}{}
-
-func getConfig(args []string) {
-	var (
-		appDirPath  string
-		iniFilePath string
-		err         error
-	)
-	if appDirPath, err = filepath.Abs(filepath.Dir(args[0])); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	if len(args) > 1 {
-		iniFilePath = args[1]
-	} else {
-		iniFilePath = filepath.Join(appDirPath, "agent.ini")
-	}
-	if conf, err := ini.Load(iniFilePath); err == nil {
-		Config.Application.Port = strconv.Itoa(conf.Section("application").Key("port").MustInt(5000))
-		Config.Filesystems.Partitions = conf.Section("filesystems").Key("partitions").Strings(", ")
-		Config.Networks.Interfaces = conf.Section("networks").Key("interfaces").Strings(", ")
-	} else {
-		panic(fmt.Sprintf("Fail to read file: %v\n", err))
-	}
-}
-
 //==============================================================================
 func main() {
 	getConfig(os.Args)
 
-	httpServer = HttpServer{
-		host: "127.0.0.1:" + Config.Application.Port,
-	}
+	httpServer = HttpServer{}
 
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt, syscall.SIGTERM, syscall.SIGTERM)
-	fmt.Printf("Server start at %s ... OK\n", httpServer.host)
+	fmt.Printf("Server start at %s ... OK\n", Config.Application.Host+":"+Config.Application.Port)
 	go httpServer.StartHTTP()
 
 	<-stop
