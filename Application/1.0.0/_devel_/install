@@ -1,14 +1,14 @@
 #!/bin/bash
 
-WORKDIR=/home/apetrishchev/Portable/Projects/Laucher/Application/1.0.0
+WORKDIR=/home/apetrishchev/Portable/Projects/github.com/APetrishchev/Laucher/Application/1.0.0
 export GOBIN="$WORKDIR/back"
 export GOPATH="$WORKDIR/_devel_"
 
-# go get "gopkg.in/ini.v1"
-# go get "github.com/valyala/fasthttp"
-# go get "golang.org/x/crypto/acme/autocert"
-# go get "github.com/valyala/fasthttp/fasthttpadaptor"
-# go get "golang.org/x/net/webdav"
+go get "gopkg.in/ini.v1"
+go get "github.com/valyala/fasthttp"
+go get "golang.org/x/crypto/acme/autocert"
+go get "github.com/valyala/fasthttp/fasthttpadaptor"
+go get "golang.org/x/net/webdav"
 go install "$GOPATH/src/cmd/server"
 
-# cat /home/apetrishchev/Portable/Projects/Laucher/.passwd | sudo --stdin "$GOBIN/server"
+# cat /home/apetrishchev/Portable/Projects/github.com/APetrishchev/Laucher/.passwd | sudo --stdin "$GOBIN/server"

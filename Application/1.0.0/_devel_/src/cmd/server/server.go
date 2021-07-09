@@ -15,10 +15,10 @@ import (
 
 	"net/http"
 
-	"./github.com/valyala/fasthttp"
-	"./github.com/valyala/fasthttp/fasthttpadaptor"
-	"./golang.org/x/crypto/acme/autocert"
-	"./golang.org/x/net/webdav"
+	"github.com/valyala/fasthttp"
+	"github.com/valyala/fasthttp/fasthttpadaptor"
+	"golang.org/x/crypto/acme/autocert"
+	"golang.org/x/net/webdav"
 
 	// "github.com/gorilla/securecookie"
 	// "github.com/go-gem/sessions"
@@ -29,7 +29,7 @@ import (
 var (
 	log        = srv.Log
 	conf       = srv.Config
-	staticPath = "/home/apetrishchev/Portable/Projects/Laucher/"
+	staticPath = "/home/apetrishchev/Portable/Projects/github.com/APetrishchev/Laucher/"
 )
 
 func getClientIp(ctx *fasthttp.RequestCtx) string {

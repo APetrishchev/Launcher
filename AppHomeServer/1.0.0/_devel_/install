@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WORKDIR=/home/apetrishchev/Portable/Projects/Laucher/AppHomeServer/1.0.0
+WORKDIR=/home/apetrishchev/Portable/Projects/github.com/APetrishchev/Laucher/AppHomeServer/1.0.0
 export GOBIN="$WORKDIR/back"
 export GOPATH="$WORKDIR/_devel_"
 

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"agent"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -15,6 +14,8 @@ import (
 
 	"github.com/valyala/fasthttp"
 	"gopkg.in/ini.v1"
+
+	"agent"
 )
 
 //==============================================================================
