@@ -308,10 +308,6 @@ func main() {
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt, syscall.SIGTERM, syscall.SIGTERM)
 
-	// var (
-	// 	handler fasthttp.RequestHandler
-	// )
-
 	host := conf.Host + ":" + conf.Port
 	log.Info.Printf("Server start at %s ... OK\n", host)
 	if conf.Proto == "https" {

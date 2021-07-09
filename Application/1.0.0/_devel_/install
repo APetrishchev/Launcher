@@ -12,4 +12,4 @@ go get "golang.org/x/net/webdav"
 
 go install "$GOPATH/src/cmd/server"
 
-# echo "Pr&m1um!" | sudo --stdin "$GOBIN/server"
+# cat /home/apetrishchev/Portable/Projects/apetrishchev.github.io/.passwd | sudo --stdin "$GOBIN/server"

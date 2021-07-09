@@ -85,7 +85,7 @@ type HttpServer struct {
 	server *fasthttp.Server
 }
 
-var httpServer HttpServer
+var httpServer = &HttpServer{}
 
 func (self *HttpServer) StartHTTP() {
 	self.server = &fasthttp.Server{
@@ -157,8 +157,6 @@ func (self *HttpServer) handler(ctx *fasthttp.RequestCtx) {
 //==============================================================================
 func main() {
 	getConfig(os.Args)
-
-	httpServer = HttpServer{}
 
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt, syscall.SIGTERM, syscall.SIGTERM)

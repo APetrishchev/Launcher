@@ -1,7 +1,8 @@
 /.tls/
+/log/
+/.passwd
+/public/audio/music/
 _devel_/pkg/
 _devel_/src/github.com
 _devel_/src/golang.org
 _devel_/src/gopkg.in
-/public/audio/music/
-/log/
