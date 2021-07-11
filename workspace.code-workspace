@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"go.autocompleteUnimportedPackages": false,
+		"go.useLanguageServer": true,
+		// "go.inferGopath": true
+	}
+}
