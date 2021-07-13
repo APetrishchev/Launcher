@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -13,14 +14,29 @@ import (
 var log *log_.LogType
 
 //==============================================================================
-type DB struct {
+type DBType struct {
   Host, User, Passwd, Name string
   Port int
   Log *log_.LogType
   connection *sql.DB
+  tx *sql.Tx
 }
 
-func (self *DB) Open() {
+var DbInstance *DBType
+
+func Db(log *log_.LogType, host string, port int, user string, passwd string, name string) (*DBType) {
+	DbInstance = &DBType{
+		Log: log,
+		Host: host,
+		Port: port,
+		User: user,
+		Passwd: passwd,
+		Name: name,
+	}
+  return DbInstance
+}
+
+func (self *DBType) Open() {
   log = self.Log
   log.Info.Printf("Database \"%s\" connect as %s@%s:%d ... ", self.Name, self.User, self.Host, self.Port)
   var err error
@@ -40,26 +56,25 @@ func (self *DB) Open() {
   log.Write.Println("OK")
 }
 
-func (self *DB) Close() {
+func (self *DBType) Close() {
   log.Info.Printf("Database close ... ")
   self.connection.Close()
   log.Write.Println("OK")
 }
 
-func (self *DB) Begin() *sql.Tx {
-  tx, err := self.connection.Begin()
-  if err != nil {
+func (self *DBType) Begin() {
+  var err error
+  if self.tx, err = self.connection.Begin(); err != nil {
     panic(err)
   }
-  return tx
 }
 
-func (self *DB) End(tx *sql.Tx) interface{} {
+func (self *DBType) End() interface{} {
   msg := recover()
   if msg != nil {
-    tx.Rollback()
+    self.tx.Rollback()
   } else {
-    tx.Commit()
+    self.tx.Commit()
   }
   return msg
 }
@@ -70,4 +85,30 @@ func Int64ArrToString(arr []int64) string {
     ArrStr[idx] = strconv.FormatInt(val, 10)
   }
   return strings.Join(ArrStr, ",")
+}
+
+func (self *DBType) CheckError(err error) {
+  if err != nil {
+    self.Log.Write.Printf("FAIL\nError: %s\n", err)
+    panic(err)
+  } else {
+    self.Log.Write.Println("OK")
+  }
+}
+
+func (self *DBType) CreateTable(tbl string, fields []string, tail string) {
+  self.Log.Write.Println()
+  self.Log.Write.Printf("Create table \"%s\" ... ", tbl)
+  if _, err := self.connection.Exec(fmt.Sprintf("DROP TABLE IF EXISTS `%s`", tbl)); err != nil {
+    self.Log.Error.Println(err)
+  } else {
+    query := fmt.Sprintf("CREATE TABLE `%s` (\n", tbl)
+    query = query + strings.Join(fields[:], ",\n")
+    if tail != "" {
+      query = query + ",\n" + tail
+    }
+    query = query + "\n)\n"
+    _, err := self.connection.Exec(query)
+    self.CheckError(err)
+  }
 }

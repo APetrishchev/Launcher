@@ -1,15 +1,12 @@
 package httpServer_
 
 import (
-	"context"
 	"crypto/tls"
 	"net"
 	"net/http"
 	"os"
-	"os/signal"
 	"path/filepath"
 	"strings"
-	"syscall"
 	"time"
 
 	"github.com/valyala/fasthttp"
@@ -20,13 +17,8 @@ import (
 	// "github.com/gorilla/securecookie"
 	// "github.com/go-gem/sessions"
 
+	"Application/1.0.0/config"
 	"Application/1.0.0/log_"
-	"Application/1.0.0/model"
-)
-
-var (
-	log *log_.LogType
-	conf = &ConfigType{}
 )
 
 func getClientIp(ctx *fasthttp.RequestCtx) string {
@@ -44,10 +36,10 @@ func getClientIp(ctx *fasthttp.RequestCtx) string {
 //==============================================================================
 type HttpServer struct {
 	// sessionAuthKey1, sessionEncryptKey1, sessionAuthKey2, sessionEncryptKey2 []byte
-	server *fasthttp.Server
+	Server *fasthttp.Server
+	Log *log_.LogType
+	Conf *config.ConfigType
 }
-
-var httpServer = &HttpServer{}
 
 // func (self *HttpServer) getCookieStore() *sessions.CookieStore {
 //	 return sessions.NewCookieStore(
@@ -60,16 +52,16 @@ var httpServer = &HttpServer{}
 
 func (self *HttpServer) StartHTTP(host string, handler fasthttp.RequestHandler) {
 	if err := fasthttp.ListenAndServe(host, handler); err != nil {
-		log.Error.Println(err)
+		self.Log.Error.Println(err)
 		os.Exit(1)
 	}
 }
 
 func (self *HttpServer) StartHTTPS() {
 	var err error
-	listener, err := net.Listen("tcp4", conf.Host+":"+conf.Port)
+	listener, err := net.Listen("tcp4", self.Conf.Host+":"+self.Conf.Port)
 	if err != nil {
-		log.Error.Println(err)
+		self.Log.Error.Println(err)
 		os.Exit(1)
 	}
 	tlsConfig := tls.Config{
@@ -79,41 +71,41 @@ func (self *HttpServer) StartHTTPS() {
 			tls.X25519,
 		},
 	}
-	if len(conf.CertFileName) > 0 {
-		cert, err := tls.LoadX509KeyPair(filepath.Join(conf.CertDirPath, conf.CertFileName),
-			filepath.Join(conf.CertDirPath, conf.CertKeyFileName))
+	if len(self.Conf.CertFileName) > 0 {
+		cert, err := tls.LoadX509KeyPair(filepath.Join(self.Conf.CertDirPath, self.Conf.CertFileName),
+			filepath.Join(self.Conf.CertDirPath, self.Conf.CertKeyFileName))
 		if err != nil {
-			log.Error.Println("cannot load certificate")
+			self.Log.Error.Println("cannot load certificate")
 			os.Exit(1)
 		}
 		tlsConfig.Certificates = []tls.Certificate{cert}
 	} else {
 		certMngr := &autocert.Manager{
-			Cache:      autocert.DirCache(conf.CertDirPath),
+			Cache:      autocert.DirCache(self.Conf.CertDirPath),
 			Prompt:     autocert.AcceptTOS,
-			HostPolicy: autocert.HostWhitelist(conf.Host, "www."+conf.Host),
+			HostPolicy: autocert.HostWhitelist(self.Conf.Host, "www."+self.Conf.Host),
 		}
 		tlsConfig.GetCertificate = certMngr.GetCertificate
 		go func() {
-			if err := http.ListenAndServe(conf.Host+":80", certMngr.HTTPHandler(nil)); err != nil {
-				log.Error.Println(err)
+			if err := http.ListenAndServe(self.Conf.Host+":80", certMngr.HTTPHandler(nil)); err != nil {
+				self.Log.Error.Println(err)
 				os.Exit(1)
 			}
 		}()
 	}
 	tlsListener := tls.NewListener(listener, &tlsConfig)
-	self.server = &fasthttp.Server{
-		Handler:      self.handler,
+	self.Server = &fasthttp.Server{
+		Handler:      self.Handler,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 5 * time.Second,
 	}
-	if err = self.server.Serve(tlsListener); err != nil {
-		log.Error.Println(err)
+	if err = self.Server.Serve(tlsListener); err != nil {
+		self.Log.Error.Println(err)
 		os.Exit(1)
 	}
 }
 
-func logMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
+func (self *HttpServer) logMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 	return func(ctx *fasthttp.RequestCtx) {
 		startTime := time.Now()
 		clientIp := getClientIp(ctx)
@@ -121,7 +113,7 @@ func logMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 		userAgent := string(ctx.Request.Header.Peek("User-Agent"))
 		ctx.SetUserValue("UserAgent", userAgent)
 		next(ctx)
-		log.Info.Printf(
+		self.Log.Info.Printf(
 			"%s %s %s %s %d %d %s\n",
 			clientIp,
 			userAgent,
@@ -134,12 +126,12 @@ func logMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 	}
 }
 
-func panicMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
+func (self *HttpServer) panicMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 	return func(ctx *fasthttp.RequestCtx) {
 		defer func() {
 			if err := recover(); err != nil {
-				log.Error.Printf("%s\n", err)
-				log.Trace()
+				self.Log.Error.Printf("%s\n", err)
+				self.Log.Trace()
 				ctx.Error(fasthttp.StatusMessage(fasthttp.StatusInternalServerError), fasthttp.StatusInternalServerError)
 			}
 		}()
@@ -147,8 +139,8 @@ func panicMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 	}
 }
 
-func sessionMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
-	return panicMiddleware(func(ctx *fasthttp.RequestCtx) {
+func (self *HttpServer) sessionMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
+	return self.panicMiddleware(func(ctx *fasthttp.RequestCtx) {
 		//		 var err error
 		//		 cookieStore := httpServer.getCookieStore()
 		//		 cookies, err := cookieStore.Get(ctx, "dt_session")
@@ -183,19 +175,21 @@ func sessionMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 	})
 }
 
-var webdavHandler *webdav.Handler = &webdav.Handler{
-	Prefix:     "/webdav",
-	FileSystem: webdav.Dir(filepath.Join(conf.DataDirPath, "public")),
-	LockSystem: webdav.NewMemLS(),
-	Logger: func(r *http.Request, err error) {
-		if err != nil {
-			log.Info.Printf("WEBDAV [%s]: %s, ERROR: %s\n", r.Method, r.URL, err)
-		}
-	},
+func (self *HttpServer) webdavHandler() *webdav.Handler {
+	return &webdav.Handler{
+		Prefix:     "/webdav",
+		FileSystem: webdav.Dir(filepath.Join(self.Conf.DataDirPath, "public")),
+		LockSystem: webdav.NewMemLS(),
+		Logger: func(r *http.Request, err error) {
+			if err != nil {
+				self.Log.Info.Printf("WEBDAV [%s]: %s, ERROR: %s\n", r.Method, r.URL, err)
+			}
+		},
+	}
 }
 
-func (self *HttpServer) handler(ctx *fasthttp.RequestCtx) {
-	logMiddleware(func(ctx *fasthttp.RequestCtx) {
+func (self *HttpServer) Handler(ctx *fasthttp.RequestCtx) {
+	self.logMiddleware(func(ctx *fasthttp.RequestCtx) {
 		path := string(ctx.Path())
 		// pathArray := strings.Split(string(ctx.Path()), "/")[1:]
 		//		 //--------------------------------------------------------------------------
@@ -231,87 +225,13 @@ func (self *HttpServer) handler(ctx *fasthttp.RequestCtx) {
 		//				 }
 		//			 })(ctx)
 		if strings.HasPrefix(path, "/webdav") {
-			sessionMiddleware(fasthttpadaptor.NewFastHTTPHandler(webdavHandler))(ctx)
+			self.sessionMiddleware(fasthttpadaptor.NewFastHTTPHandler(self.webdavHandler()))(ctx)
 		} else if path == "/" {
-			sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
-				fasthttp.ServeFileUncompressed(ctx, filepath.Join(conf.RootDirPath, "index.html"))
+			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
+				fasthttp.ServeFileUncompressed(ctx, filepath.Join(self.Conf.RootDirPath, "index.html"))
 			})(ctx)
 		} else {
-			fasthttp.ServeFileUncompressed(ctx, filepath.Join(conf.RootDirPath, path))
+			fasthttp.ServeFileUncompressed(ctx, filepath.Join(self.Conf.RootDirPath, path))
 		}
 	})(ctx)
-}
-
-//==============================================================================
-func Start(args []string) {
-	conf.Load(args)
-	log = &log_.LogType{LogFilePath: conf.LogFilePath}
-	log.Open()
-	log.Write.Println()
-	log.Header.Println("Press Ctrl+C for stop server")
-	db := model.DB{
-		Log: log,
-		Host: conf.DbHost,
-		Port: conf.DbPort,
-		User: conf.DbUser,
-		Passwd: conf.DbPasswd,
-		Name: conf.DbName,
-	}
-	db.Open()
-
-	// getSessionKey := func(key string) []byte {
-	// 	var buf []byte
-	// 	str := dtIni.Section("session").Key(key).String()
-	// 	if str != "" {
-	// 		for _, item := range strings.Fields(str) {
-	// 			val, _ := strconv.ParseUint(item, 10, 8)
-	// 			buf = append(buf, byte(val))
-	// 		}
-	// 	} else {
-	// 		buf = securecookie.GenerateRandomKey(32)
-	// 		str := fmt.Sprintf("%v", buf)
-	// 		dtIni.Section("session").Key(key).SetValue(str[1 : len(str)-1])
-	// 		conf.IsChanged = true
-	// 	}
-	// 	return buf
-	// }
-
-	// httpServer = HttpServer{
-	// 	favicon:						dtIni.Section("http").Key("favicon").MustString("favicon.ico"),
-	// 	sessionAuthKey1:		getSessionKey("auth_key_1"),
-	// 	sessionEncryptKey1: getSessionKey("encrypt_key_1"),
-	// 	sessionAuthKey2:		getSessionKey("auth_key_2"),
-	// 	sessionEncryptKey2: getSessionKey("encrypt_key_2"),
-	// }
-
-	if conf.IsChanged {
-		conf.Save()
-	}
-
-	stop := make(chan os.Signal, 1)
-	signal.Notify(stop, os.Interrupt, syscall.SIGTERM, syscall.SIGTERM)
-
-	host := conf.Host + ":" + conf.Port
-	log.Info.Printf("Server start at %s ... OK\n", host)
-	if conf.Proto == "https" {
-		go httpServer.StartHTTPS()
-	} else {
-		go httpServer.StartHTTP(host, httpServer.handler)
-	}
-
-	//TestHttpClient()
-
-	<-stop
-	log.Write.Println()
-	log.Info.Printf("Server stop ... ")
-	_, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer func() {
-		log.Info.Println("OK")
-		db.Close()
-		log.Close()
-		cancel()
-	}()
-	if err := httpServer.server.Shutdown(); err != nil {
-		log.Error.Println("Error: %v\n", err)
-	}
 }

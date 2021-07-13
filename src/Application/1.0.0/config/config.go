@@ -1,8 +1,7 @@
-package httpServer_
+package config
 
 import (
 	"fmt"
-	"os"
 	"path/filepath"
 	"strings"
 
@@ -22,6 +21,7 @@ type ConfigType struct {
 	CertKeyFileName string
 	CertFileName    string
 	DataDirPath     string
+	BackupDirPath   string
 	RootDirPath     string
 	DbHost          string
 	DbPort          int
@@ -30,20 +30,11 @@ type ConfigType struct {
 	DbName          string
 }
 
-func (self *ConfigType) Load(args []string) {
+func (self *ConfigType) Load(appDirPath, iniFilePath string) {
 	self.IsChanged = false
+	self.AppDirPath = appDirPath
+	self.iniFilePath = iniFilePath
 	var err error
-	if self.AppDirPath, err = filepath.Abs(filepath.Dir(args[0])); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	if len(args) > 1 {
-		self.iniFilePath = args[1]
-	} else {
-		self.iniFilePath = filepath.Join(self.AppDirPath, "config", "server.ini")
-	}
-
 	if self.conf, err = ini.Load(self.iniFilePath); err == nil {
 		// log
 		self.LogFilePath = self.conf.Section("http").Key("log_file_path").String()
@@ -67,6 +58,7 @@ func (self *ConfigType) Load(args []string) {
 			self.Port = url[1]
 		}
 		self.DataDirPath = self.conf.Section("http").Key("data_dir_path").String()
+		self.BackupDirPath = self.conf.Section("http").Key("backup_dir_path").String()
 		self.RootDirPath = self.conf.Section("http").Key("root_dir_path").String()
 		// tls
 		self.CertDirPath = self.conf.Section("http").Key("cert_dir_path").String()
