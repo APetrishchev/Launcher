@@ -2,6 +2,7 @@ package main
 
 import (
 	"Application/1.0.0/config"
+	"Application/1.0.0/controller"
 	"Application/1.0.0/httpServer_"
 	"Application/1.0.0/log_"
 	"Application/1.0.0/model"
@@ -22,8 +23,8 @@ var (
 
 func initial() {
 	log.Open()
-	db := model.Db(log, conf.DbHost, conf.DbPort, conf.DbUser, conf.DbPasswd, conf.DbName)
-	db.Init(filepath.Join(conf.BackupDirPath, "init", "laucher.ini"))
+	model.Db(log, conf.DbHost, conf.DbPort, conf.DbUser, conf.DbPasswd, conf.DbName)
+	controller.Init(filepath.Join(conf.BackupDirPath, "init", "laucher.json"))
 	log.Close()
 }
 

@@ -1,12 +1,14 @@
-package model
+package controller
 
-func (self *DBType) Init(initFilePath string) {
-	self.Log.Write.Println()
-	self.Log.Header.Println("Server must by stopped")
-	self.Open()
+import "Application/1.0.0/model"
 
-	self.Begin()
-  self.CreateTable("cron", []string{
+func Init(initFilePath string) {
+	model.DbInstance.Log.Write.Println()
+	model.DbInstance.Log.Header.Println("Server must by stopped")
+	model.DbInstance.Open()
+
+	model.DbInstance.Begin()
+  model.DbInstance.CreateTable("cron", []string{
 		"  `id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE",
 		"  `disabled` INTEGER DEFAULT 0",
 		"  `type_` CHAR(12)",
@@ -26,7 +28,7 @@ func (self *DBType) Init(initFilePath string) {
 		"  `action` VARCHAR(64)",
 		"  `cmdParams` VARCHAR(256)",
 	}, "")
-  self.CreateTable("appGroups", []string{
+  model.DbInstance.CreateTable("appGroups", []string{
 		"`Id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE",
 		"`ParentId` INTEGER DEFAULT 0",
 		"`ProfileId` INTEGER NOT NULL",
@@ -35,7 +37,7 @@ func (self *DBType) Init(initFilePath string) {
 		"`Prompt` VARCHAR(256)",
 		"`Descr` VARCHAR(1024)",
   }, "UNIQUE(ProfileId, Name)")
-  self.CreateTable("applications", []string{
+  model.DbInstance.CreateTable("applications", []string{
 		"`Id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE",
 		"`Name` VARCHAR(32) NOT NULL",
 		"`Version` CHAR(26) NOT NULL",
@@ -56,7 +58,7 @@ func (self *DBType) Init(initFilePath string) {
 		//"`License`" // Одна из лицензий поддерживаемых сервис-провайдером.
 		//"`Price`" // Цена аренды приложения. Электронный счет находится в разделе 'Об авторе'.
 	}, "")
-  self.CreateTable("sessions", []string{
+  model.DbInstance.CreateTable("sessions", []string{
     "`Id` CHAR(36) PRIMARY KEY UNIQUE",
     "`ProfileId` INTEGER",
     "`CreateTime` CHAR(26) NOT NULL",
@@ -65,7 +67,7 @@ func (self *DBType) Init(initFilePath string) {
     "`Agent` VARCHAR(512) NOT NULL",
     "`LastActTime` CHAR(26) DEFAULT ''",
   }, "")
-  self.CreateTable("accounts", []string{
+  model.DbInstance.CreateTable("accounts", []string{
     "`Id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE",
     "`Login` VARCHAR(48) UNIQUE NOT NULL",
     "`Passwd` VARCHAR(48) NOT NULL",
@@ -73,7 +75,7 @@ func (self *DBType) Init(initFilePath string) {
     "`PublicKey` VARCHAR(1536)",
     "`SecretKey` VARCHAR(1536)",
   }, "")
-  self.CreateTable("profiles", []string{
+  model.DbInstance.CreateTable("profiles", []string{
     "`Id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE",
     "`AccountId` INTEGER NOT NULL",
     "`OwnerId` INTEGER NOT NULL",
@@ -91,7 +93,7 @@ func (self *DBType) Init(initFilePath string) {
     "`AudioFolderId` INTEGER(14)",
     "`VideoFolderId` INTEGER(14)",
   }, "")
-  self.CreateTable("profile_application", []string{
+  model.DbInstance.CreateTable("profile_application", []string{
     "`ProfileId` INTEGER NOT NULL",
     "`AppId` INTEGER NOT NULL",
     "`AppGroups` VARCHAR(512)",
@@ -100,9 +102,9 @@ func (self *DBType) Init(initFilePath string) {
     "`Style` VARCHAR(128) DEFAULT NULL",
     "`Backends` VARCHAR(1280) DEFAULT NULL", // URL of Backend Hosts (через запятую)
   }, "")
-	self.End()
+	model.DbInstance.End()
 
-	self.Restore(initFilePath)
+	Restore(initFilePath)
 
-	self.Close()
+	model.DbInstance.Close()
 }

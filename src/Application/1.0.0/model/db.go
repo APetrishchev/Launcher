@@ -3,6 +3,7 @@ package model
 import (
 	"database/sql"
 	"fmt"
+	"reflect"
 	"strconv"
 	"strings"
 
@@ -111,4 +112,45 @@ func (self *DBType) CreateTable(tbl string, fields []string, tail string) {
     _, err := self.connection.Exec(query)
     self.CheckError(err)
   }
+}
+
+func (self *DBType) Get_() (*[]interface{}, error) {
+  var (
+    rows *[]interface{}
+    err error
+  )
+  return rows, err
+}
+
+func (self *DBType) Add_(tab string, fields interface{}) (id int64, err error) {
+// func (self *DBType) Add_(tab string, fields map[string]interface{}) (id int64, err error) {
+  // keys := make([]string, len(fields))
+  // vals := make([]interface{}, 0, len(fields))
+
+  v := reflect.ValueOf(fields)
+  for i := 0; i < v.NumField(); i++ {
+    fmt.Println(v.Type().Field(i).Name)
+    fmt.Println("\t", v.Field(i))
+  }
+
+  // for key, val := range fields {
+  //   keys = append(keys, key)
+  //   vals = append(vals, val)
+  // }
+  // query := "INSERT INTO " + tab + " (" + strings.Join(keys, ",") +
+  //   ") VALUES (" + strings.Repeat("?,", len(fields)-1) + "?);"
+  // res, err := self.connection.Exec(query, vals...)
+  // if err != nil {
+  //   return 0, err
+  // }
+  // return res.LastInsertId()
+  return 0, nil
+}
+
+func (self *DBType) Upd_() error {
+  var err error
+  return err
+}
+
+func (self *DBType) Del_(tab string, ids []int64) {
 }

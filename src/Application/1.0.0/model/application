@@ -1,0 +1,60 @@
+package model_
+
+// func (self *Query) GetApplications() (*[]ApplicationType, error) {
+//   var(
+//     rows *sql.Rows
+//     err error
+//   )
+//   queryString := "SELECT Id, Name, Version, Langs, Groups FROM applications "
+//   if len(self.ById) > 0 {
+//     rows, err = Db.Query(queryString + fmt.Sprintf("WHERE Id IN (%s)", Int64ArrToString(self.ById)))
+//   } else if self.ByName != "" {
+//     rows, err = Db.Query(queryString + "WHERE Name LIKE ?", self.ByName)
+//   } else if len(self.ByGroup) > 0 {
+//     rows, err = Db.Query(queryString + "WHERE Groups LIKE ?", "%" + self.ByGroup[0] + "%")
+//   }
+//   apps := []*Application{}
+//   if err == nil {
+//     for rows.Next() {
+//       app := &Application{}
+//       var langs, groups string
+//       err = rows.Scan(&app.Id, &app.Name, &app.Version, &langs, &groups)
+//       app.Langs = strings.Split(langs, ",")
+//       app.Groups = strings.Split(groups, ",")
+//       apps = append(apps, app)
+//     }
+//   }
+//   return &apps, err
+// }
+
+// func (self *ApplicationType) Add() error {
+//   result, err := Db.Exec(
+//     "INSERT INTO applications " +
+//     "(Name, Version, CallName, Pic, MenuPic, Groups, Langs, Styles, LastUseTime, SubsCounter, " +
+//     "CommonRating, DesignRating, UsabilityRating, FunctionalityRating, VoteCounter, CommentsBranchId) " +
+//     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+//     self.Name, self.Version, self.CallName, self.Pic, self.MenuPic, strings.Join(self.Groups, ","), strings.Join(self.Langs, ","),
+//     self.Styles, self.LastUseTime, self.SubsCounter, self.CommonRating, self.DesignRating, self.UsabilityRating,
+//     self.FunctionalityRating, self.VoteCounter, self.CommentsBranchId,
+//   )
+//   if err == nil {
+//     self.Id, err = result.LastInsertId()
+//   }
+//   return err
+// }
+
+// func (self *ApplicationType) Upd(upd *Application) {
+//   var err error
+//   tx := DbBegin()
+//   defer DbEnd(tx)
+//   if len(upd.LastUseTime) > 0 {
+//     query, _ := tx.Prepare("UPDATE applications SET LastUseTime=? WHERE Id=?")
+//     _, err = query.Exec(upd.LastUseTime, self.Id)
+//   }
+//   if err != nil {
+//     panic(err)
+//   }
+// }
+
+// func (self *DBType) Del(app interface{}) {
+// }
