@@ -1,10 +1,7 @@
 package main
 
 import (
-	"Application/1.0.0/config"
 	"Application/1.0.0/controller"
-	"Application/1.0.0/httpServer_"
-	"Application/1.0.0/log_"
 	"Application/1.0.0/model"
 	"context"
 	"flag"
@@ -17,13 +14,13 @@ import (
 )
 
 var (
-	log *log_.LogType
-	conf *config.ConfigType
+	log *controller.LogType
+	conf *controller.ConfigType
 )
 
 func initial() {
 	log.Open()
-	model.Db(log, conf.DbHost, conf.DbPort, conf.DbUser, conf.DbPasswd, conf.DbName)
+	model.Db(conf.DbHost, conf.DbPort, conf.DbUser, conf.DbPasswd, conf.DbName)
 	controller.Init(filepath.Join(conf.BackupDirPath, "init", "laucher.json"))
 	log.Close()
 }
@@ -39,7 +36,7 @@ func start() {
 	log.Write.Println()
 	log.Header.Println("Press Ctrl+C for stop server")
 
-	// db := model.Db(log, conf.DbHost, conf.DbPort, conf.DbUser, conf.DbPasswd, conf.DbName)
+	// db := model.Db(conf.DbHost, conf.DbPort, conf.DbUser, conf.DbPasswd, conf.DbName)
 	// db.Open()
 
 	// getSessionKey := func(key string) []byte {
@@ -76,7 +73,7 @@ func start() {
 
 	host := conf.Host + ":" + conf.Port
 	log.Info.Printf("Server start at %s ... OK\n", host)
-  var httpServer = &httpServer_.HttpServer{Log: log, Conf: conf}
+  var httpServer = &controller.HttpServer{Log: log, Conf: conf}
 	if conf.Proto == "https" {
 		go httpServer.StartHTTPS()
 	} else {
@@ -116,19 +113,24 @@ func main() {
 	var isBackup = flag.Bool("backup", false, "backup database")
 	var isRestore = flag.Bool("restore", false, "restore database")
 	flag.Parse()
+
 	if *isVer {
-		fmt.Println("v1.0")
+		fmt.Println("v1.0.0")
 		os.Exit(0)
 	}
+
 	if *isStop {
 		stop()
 	}
+
 	if *isRestart {
 		restart()
 	}
+
 	if *isBackup {
 		backup()
 	}
+
 	if *isRestore {
 		restore()
 	}
@@ -148,13 +150,15 @@ func main() {
 		iniFilePath = filepath.Join(appDirPath, "config", "server.ini")
 	}
 	fmt.Println(iniFilePath)
-	conf = &config.ConfigType{}
+	conf = &controller.ConfigType{}
 	conf.Load(appDirPath, iniFilePath)
-	log = &log_.LogType{LogFilePath: conf.LogFilePath}
+	log = &controller.LogType{LogFilePath: conf.LogFilePath}
+
 	if *isInit {
 		initial()
 		os.Exit(0)
 	}
+
 	if *isStart {
 		start()
 	}

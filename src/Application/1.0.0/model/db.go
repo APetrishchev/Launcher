@@ -3,31 +3,37 @@ package model
 import (
 	"database/sql"
 	"fmt"
-	"reflect"
 	"strconv"
 	"strings"
 
 	_ "github.com/mattn/go-sqlite3"
 	//_ "github.com/lib/pq"
-	"Application/1.0.0/log_"
 )
 
-var log *log_.LogType
+func map2arrays(fields *map[string]interface{}) (*[]string, *[]interface{}) {
+  keys := make([]string, len(*fields))
+  values := make([]interface{}, len(*fields))
+  idx := 0
+  for key, value := range *fields {
+    keys[idx] = key
+    values[idx] = value
+    idx += 1
+  }
+  return &keys, &values
+}
 
 //==============================================================================
 type DBType struct {
   Host, User, Passwd, Name string
   Port int
-  Log *log_.LogType
   connection *sql.DB
   tx *sql.Tx
 }
 
 var DbInstance *DBType
 
-func Db(log *log_.LogType, host string, port int, user string, passwd string, name string) (*DBType) {
+func Db(host string, port int, user string, passwd string, name string) (*DBType) {
 	DbInstance = &DBType{
-		Log: log,
 		Host: host,
 		Port: port,
 		User: user,
@@ -37,30 +43,22 @@ func Db(log *log_.LogType, host string, port int, user string, passwd string, na
   return DbInstance
 }
 
-func (self *DBType) Open() {
-  log = self.Log
-  log.Info.Printf("Database \"%s\" connect as %s@%s:%d ... ", self.Name, self.User, self.Host, self.Port)
-  var err error
-  if self.connection, err = sql.Open("sqlite3", self.Name); err != nil {
-    panic(err)
-  }
+func (self *DBType) Open() (err error) {
+  self.connection, err = sql.Open("sqlite3", self.Name)
+  return err
 
 //   conStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-//     self.Host, self.Port, self.User, self.Passwd, self.Name)
-//   if self.connection, err = sql.Open("postgres", conStr); err != nil {
-//     panic(err)
-//   }
+//   self.connection, err = sql.Open("postgres", conStr)
+//   return err
+
 //   if err = self.connection.Ping(); err != nil {
 //     panic(err)
 //   }
 
-  log.Write.Println("OK")
 }
 
 func (self *DBType) Close() {
-  log.Info.Printf("Database close ... ")
   self.connection.Close()
-  log.Write.Println("OK")
 }
 
 func (self *DBType) Begin() {
@@ -88,69 +86,48 @@ func Int64ArrToString(arr []int64) string {
   return strings.Join(ArrStr, ",")
 }
 
-func (self *DBType) CheckError(err error) {
-  if err != nil {
-    self.Log.Write.Printf("FAIL\nError: %s\n", err)
-    panic(err)
-  } else {
-    self.Log.Write.Println("OK")
-  }
-}
-
-func (self *DBType) CreateTable(tbl string, fields []string, tail string) {
-  self.Log.Write.Println()
-  self.Log.Write.Printf("Create table \"%s\" ... ", tbl)
-  if _, err := self.connection.Exec(fmt.Sprintf("DROP TABLE IF EXISTS `%s`", tbl)); err != nil {
-    self.Log.Error.Println(err)
-  } else {
+func (self *DBType) CreateTable(tbl string, fields []string, tail string) (err error) {
+  if _, err = self.connection.Exec(fmt.Sprintf("DROP TABLE IF EXISTS `%s`", tbl)); err == nil {
     query := fmt.Sprintf("CREATE TABLE `%s` (\n", tbl)
     query = query + strings.Join(fields[:], ",\n")
     if tail != "" {
       query = query + ",\n" + tail
     }
     query = query + "\n)\n"
-    _, err := self.connection.Exec(query)
-    self.CheckError(err)
+    _, err = self.connection.Exec(query)
   }
-}
-
-func (self *DBType) Get_() (*[]interface{}, error) {
-  var (
-    rows *[]interface{}
-    err error
-  )
-  return rows, err
-}
-
-func (self *DBType) Add_(tab string, fields interface{}) (id int64, err error) {
-// func (self *DBType) Add_(tab string, fields map[string]interface{}) (id int64, err error) {
-  // keys := make([]string, len(fields))
-  // vals := make([]interface{}, 0, len(fields))
-
-  v := reflect.ValueOf(fields)
-  for i := 0; i < v.NumField(); i++ {
-    fmt.Println(v.Type().Field(i).Name)
-    fmt.Println("\t", v.Field(i))
-  }
-
-  // for key, val := range fields {
-  //   keys = append(keys, key)
-  //   vals = append(vals, val)
-  // }
-  // query := "INSERT INTO " + tab + " (" + strings.Join(keys, ",") +
-  //   ") VALUES (" + strings.Repeat("?,", len(fields)-1) + "?);"
-  // res, err := self.connection.Exec(query, vals...)
-  // if err != nil {
-  //   return 0, err
-  // }
-  // return res.LastInsertId()
-  return 0, nil
-}
-
-func (self *DBType) Upd_() error {
-  var err error
   return err
 }
 
-func (self *DBType) Del_(tab string, ids []int64) {
+func (self *DBType) Get_(tab string, select_ string, where string, values *[]interface{}) (*sql.Rows, error) {
+  return self.connection.Query(fmt.Sprintf("SELECT %s FROM %s WHERE %s", select_, tab, where), *values...)
+  // defer rows.Close()
+}
+
+func (self *DBType) Add_(tab string, fields *map[string]interface{}) (int64, error) {
+  keys, values := map2arrays(fields)
+  res, err := self.connection.Exec(
+    "INSERT INTO " + tab + " (" + strings.Join(*keys, ",") +
+    ") VALUES (" + strings.Repeat("?,", len(*fields)-1) + "?);",
+    *values...)
+  if err != nil {
+    return 0, err
+  }
+  return res.LastInsertId()
+}
+
+func (self *DBType) Upd_(tab string, id interface{}, fields *map[string]interface{}) (err error) {
+  keys, values := map2arrays(fields)
+  *values = append(*values, id)
+  _, err = self.connection.Exec(
+    "UPDATE INTO " + tab + " (" + strings.Join(*keys, ",") +
+    ") VALUES (" + strings.Repeat("?,", len(*fields)-1) + "?) WHERE Id=?;",
+    *values...)
+  return err
+}
+
+func (self *DBType) Del_(tab string, ids []interface{}) (err error) {
+  var query = strings.Repeat("DELETE FROM " + tab + " WHERE Id=?;", len(ids))
+  _, err = self.connection.Exec(query, ids...)
+  return err
 }

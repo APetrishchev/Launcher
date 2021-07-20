@@ -14,7 +14,7 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "data/applications/pictures/Laucher/home.png",
+      "src": "public/pictures/.applications/Laucher/home.png",
       "sizes": "144x144",
       "type": "image/png"
     }

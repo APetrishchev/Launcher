@@ -1,4 +1,4 @@
-package httpServer_
+package controller
 
 import (
 	"crypto/tls"
@@ -6,19 +6,12 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/valyala/fasthttp"
-	"github.com/valyala/fasthttp/fasthttpadaptor"
 	"golang.org/x/crypto/acme/autocert"
-	"golang.org/x/net/webdav"
-
 	// "github.com/gorilla/securecookie"
 	// "github.com/go-gem/sessions"
-
-	"Application/1.0.0/config"
-	"Application/1.0.0/log_"
 )
 
 func getClientIp(ctx *fasthttp.RequestCtx) string {
@@ -37,8 +30,8 @@ func getClientIp(ctx *fasthttp.RequestCtx) string {
 type HttpServer struct {
 	// sessionAuthKey1, sessionEncryptKey1, sessionAuthKey2, sessionEncryptKey2 []byte
 	Server *fasthttp.Server
-	Log *log_.LogType
-	Conf *config.ConfigType
+	Log *LogType
+	Conf *ConfigType
 }
 
 // func (self *HttpServer) getCookieStore() *sessions.CookieStore {
@@ -173,65 +166,4 @@ func (self *HttpServer) sessionMiddleware(next fasthttp.RequestHandler) fasthttp
 		//		 ctx.SetUserValue("ProfileId", ses.ProfileId)
 		next(ctx)
 	})
-}
-
-func (self *HttpServer) webdavHandler() *webdav.Handler {
-	return &webdav.Handler{
-		Prefix:     "/webdav",
-		FileSystem: webdav.Dir(filepath.Join(self.Conf.DataDirPath, "public")),
-		LockSystem: webdav.NewMemLS(),
-		Logger: func(r *http.Request, err error) {
-			if err != nil {
-				self.Log.Info.Printf("WEBDAV [%s]: %s, ERROR: %s\n", r.Method, r.URL, err)
-			}
-		},
-	}
-}
-
-func (self *HttpServer) Handler(ctx *fasthttp.RequestCtx) {
-	self.logMiddleware(func(ctx *fasthttp.RequestCtx) {
-		path := string(ctx.Path())
-		// pathArray := strings.Split(string(ctx.Path()), "/")[1:]
-		//		 //--------------------------------------------------------------------------
-		//		 if pathArray[0] == "Desktop" {
-		//			 sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
-		//				 //----------------------------------------------------------------------
-		//				 if strings.HasPrefix(path, "/Desktop/Close") {
-		//					 dt.DesktopClose(ctx)
-		//					 cookieStore := httpServer.getCookieStore()
-		//					 cookies, err := cookieStore.Get(ctx, "dt_session")
-		//					 if err != nil {
-		//						 panic(err)
-		//					 }
-		//					 cookies.Options = &sessions.Options{
-		//						 Domain: httpServer.host,
-		//						 Path: "/",
-		//						 MaxAge: -86400,
-		//						 HttpOnly: true,
-		//					 }
-		//					 if err = cookies.Save(ctx); err != nil {
-		//						 panic(err)
-		//					 }
-		//					 ctx.Redirect("/", fasthttp.StatusTemporaryRedirect)
-		//				 //----------------------------------------------------------------------
-		//				 } else if strings.HasPrefix(path, "/Desktop/ProfileData/Get") {
-		//					 ctx.Write(dt.DesktopProfileDataGet(ctx))
-		//				 //----------------------------------------------------------------------
-		//				 } else if strings.HasPrefix(path, "/Desktop/ProfileData/Save") {
-		//					 ctx.Write(dt.DesktopProfileDataSave(ctx))
-		//				 //----------------------------------------------------------------------
-		//				 } else if strings.HasPrefix(path, "/Desktop/Application/Get") {
-		//					 ctx.Write(dt.DesktopApplicationGet(ctx))
-		//				 }
-		//			 })(ctx)
-		if strings.HasPrefix(path, "/webdav") {
-			self.sessionMiddleware(fasthttpadaptor.NewFastHTTPHandler(self.webdavHandler()))(ctx)
-		} else if path == "/" {
-			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
-				fasthttp.ServeFileUncompressed(ctx, filepath.Join(self.Conf.RootDirPath, "index.html"))
-			})(ctx)
-		} else {
-			fasthttp.ServeFileUncompressed(ctx, filepath.Join(self.Conf.RootDirPath, path))
-		}
-	})(ctx)
 }

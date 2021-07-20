@@ -22,7 +22,7 @@ export const applications = {
         "date": "11.05.2021",
         "previous": "",
         "path": "AppApplications/1.0.0",
-        "picture": "data/applications/pictures/ApplicationManager/setup.png",
+        "picture": "public/pictures/.applications/ApplicationManager/setup.png",
         "groups": ["General"],
         "author": {
           "name": "Andrey Petrishchev",
@@ -45,7 +45,7 @@ export const applications = {
         "date": "11.05.2021",
         "previous": "",
         "path": "AppCalculator/1.0.0",
-        "picture": "data/applications/pictures/Calculator/calculator.png",
+        "picture": "public/pictures/.applications/Calculator/calculator.png",
         "groups": ["General"],
         "author": {
           "name": "Andrey Petrishchev",
@@ -91,7 +91,7 @@ export const applications = {
         "date": "11.05.2021",
         "previous": "",
         "path": "AppChronos/1.0.0",
-        "picture": "/data/applications/pictures/Chronos/clock.png",
+        "picture": "public/pictures/.applications/Chronos/clock.png",
         "groups": ["General"],
         "author": {
           "name": "Andrey Petrishchev",
@@ -114,7 +114,7 @@ export const applications = {
         "date": "11.05.2021",
         "previous": "",
         "path": "AppFiles/1.0.0",
-        "picture": "data/applications/pictures/FileManager/folders/folder.png",
+        "picture": "public/pictures/.applications/FileManager/folders/folder.png",
         "groups": ["General"],
         "author": {
           "name": "Andrey Petrishchev",
@@ -137,7 +137,7 @@ export const applications = {
         "date": "11.05.2021",
         "previous": "",
         "path": "AppPlayer/1.0.0",
-        "picture": "data/applications/pictures/Player/player.webp",
+        "picture": "public/pictures/.applications/Player/player.webp",
         "groups": ["General"],
         "author": {
           "name": "Andrey Petrishchev",
@@ -160,7 +160,7 @@ export const applications = {
         "date": "11.05.2021",
         "previous": "",
         "path": "AppScheduler/1.0.0",
-        "picture": "data/applications/pictures/Scheduler/scheduler.png",
+        "picture": "public/pictures/.applications/Scheduler/scheduler.png",
         "groups": ["General"],
         "author": {
           "name": "Andrey Petrishchev",
@@ -183,7 +183,7 @@ export const applications = {
         "date": "11.05.2021",
         "previous": "",
         "path": "AppSmartHome/1.0.0",
-        "picture": "data/applications/pictures/SmartHome/home.png",
+        "picture": "public/pictures/.applications/SmartHome/home.png",
         "groups": ["General"],
         "author": {
           "name": "Andrey Petrishchev",
@@ -206,7 +206,7 @@ export const applications = {
         "date": "11.05.2021",
         "previous": "",
         "path": "AppSMonitor/1.0.0",
-        "picture": "data/applications/pictures/SMonitor/monitor.png",
+        "picture": "public/pictures/.applications/SMonitor/monitor.png",
         "groups": ["General"],
         "author": {
           "name": "Andrey Petrishchev",
@@ -229,7 +229,7 @@ export const applications = {
         "date": "11.05.2021",
         "previous": "",
         "path": "AppVoiceCommander/1.0.0",
-        "picture": "data/applications/pictures/VoiceCommander/MicOff.png",
+        "picture": "public/pictures/.applications/VoiceCommander/MicOff.png",
         "groups": ["General"],
         "author": {
           "name": "Andrey Petrishchev",
@@ -252,7 +252,7 @@ export const applications = {
         "date": "11.05.2021",
         "previous": "",
         "path": "AppWeather/1.0.0",
-        "picture": "data/applications/pictures/Weather/weather.webp",
+        "picture": "public/pictures/.applications/Weather/weather.webp",
         "groups": ["General"],
         "author": {
           "name": "Andrey Petrishchev",
@@ -294,21 +294,21 @@ const Cron = {
       "start": "", "months": 0, "monthDays": 0, "weekDays": 0x8000000001f,
       "hours": 0x80000080, "minutes": 0x8200000000000000n, "stop": "",
       "next": "", "last": "", "state": 0,
-      "action": "play", "params": {"media": "/data/applications/audio/music/greensleeves.mp3", "volume": 0.75}, "timeout": 180
+      "action": "play", "params": { "media": "public/audio/music/Other/greensleeves.mp3", "volume": 0.75}, "timeout": 180
     },
     {
       "id": 4, "disabled": 0, "type": "Alarm", "name": "Пн..Пт 13:00", "descr": "Bon appetit!",
       "start": "", "months": 0, "monthDays": 0, "weekDays": 0x8000000001f,
       "hours": 0x80002000, "minutes": 0x8000000000000001n, "stop": "",
       "next": "", "last": "", "state": 0,
-      "action": "play", "params": { "media": "/data/applications/audio/music/greensleeves.mp3", "volume": 0.75}, "timeout": 180
+      "action": "play", "params": { "media": "public/audio/music/Other/audio/music/greensleeves.mp3", "volume": 0.75}, "timeout": 180
     },
     {
       "id": 5, "disabled": 0, "type": "Alarm", "name": "Сб..Вс 8:57", "descr": "Good Morning!",
       "start": "", "months": 0, "monthDays": 0, "weekDays": 0x80000000060,
       "hours": 0x80000100, "minutes": 0x8200000000000000n, "stop": "",
       "next": "", "last": "", "state": 0,
-      "action": "play", "params": { "media": "/data/applications/audio/music/greensleeves.mp3", "volume": 0.75}, "timeout": 180
+      "action": "play", "params": { "media": "public/audio/music/Other/greensleeves.mp3", "volume": 0.75}, "timeout": 180
     },
   ],
 
@@ -664,8 +664,8 @@ users["default"]["Laucher"] = {
     "disable": 0,
     "lang": "en-US",
     "gender": "female",
-    "path": "/data/applications/audio/voice/clock",
-    "preSound": "/data/applications/audio/sounds/atention.mp3",
+    "path": "public/audio/voice/clock",
+    "preSound": "public/audio/sounds/atention.mp3",
     "volume": 0.75
   },
 
@@ -804,8 +804,8 @@ users["APetrishchev"]["Laucher"] = {
     "disable": 0,
     "lang": users["APetrishchev"]["lang"],
     "gender": "female",
-    "path": "/data/applications/audio/voice/clock",
-    "preSound": "/data/applications/audio/sounds/atention.mp3",
+    "path": "public/audio/voice/clock",
+    "preSound": "public/audio/sounds/atention.mp3",
     "volume": 0.75
   },
 

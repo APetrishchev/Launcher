@@ -1,0 +1,155 @@
+{
+  "cron": [
+    {
+      "id": 1,
+      "disabled": 0,
+      "type": "TalkClock",
+      "name": "9:00..23:00 каждый час",
+      "descr": "",
+      "start": "",
+      "months": "0",
+      "monthDays": "0",
+      "weekDays": "0",
+      "hours": "0x80fffe00",
+      "minutes": "0x8000000000000001",
+      "stop": "",
+      "next": "",
+      "last": "",
+      "state": 0,
+      "action": "",
+      "params": "",
+      "timeout": 0
+    },
+    {
+      "id": 2,
+      "disabled": 0,
+      "type": "TalkClock",
+      "name": "9:15..22:45 каждые 15м",
+      "descr": "",
+      "start": "",
+      "months": "0",
+      "monthDays": "0",
+      "weekDays": "0",
+      "hours": "0x807ffe00",
+      "minutes": "0x8000200040008000",
+      "stop": "",
+      "next": "",
+      "last": "",
+      "state": 0,
+      "action": "",
+      "params": "",
+      "timeout": 0
+    },
+    {
+      "id": 3,
+      "disabled": 0,
+      "type": "Alarm",
+      "name": "Пн..Пт 7:57",
+      "descr": "Good Morning!",
+      "start": "",
+      "months": "0",
+      "monthDays": "0",
+      "weekDays": "0x8000000001f",
+      "hours": "0x80000080",
+      "minutes": "0x8200000000000000",
+      "stop": "",
+      "next": "",
+      "last": "",
+      "state": 0,
+      "action": "play",
+      "params": {
+        "media": "public/audio/music/Other/greensleeves.mp3",
+        "volume": 0.75
+      },
+      "timeout": 180
+    },
+    {
+      "id": 4,
+      "disabled": 0,
+      "type": "Alarm",
+      "name": "Пн..Пт 13:00",
+      "descr": "Bon appetit!",
+      "start": "",
+      "months": "0",
+      "monthDays": "0",
+      "weekDays": "0x8000000001f",
+      "hours": "0x80002000",
+      "minutes": "0x8000000000000001",
+      "stop": "",
+      "next": "",
+      "last": "",
+      "state": 0,
+      "action": "play",
+      "params": {
+        "media": "public/audio/music/Other/greensleeves.mp3",
+        "volume": 0.75
+      },
+      "timeout": 180
+    },
+    {
+      "id": 5,
+      "descr": "Good Morning!",
+      "start": "",
+      "months": "0",
+      "monthDays": "0",
+      "weekDays": "0x80000000060",
+      "hours": "0x80000100",
+      "minutes": "0x8200000000000000",
+      "stop": "",
+      "next": "",
+      "last": "",
+      "state": 0,
+      "action": "play",
+      "params": {
+        "media": "public/audio/music/Other/greensleeves.mp3",
+        "volume": 0.75
+      },
+      "timeout": 180
+    }
+  ],
+
+  "holidays": {
+    "RU": [
+      {
+        "id": 6,
+        "disabled": 0,
+        "type": "Holiday",
+        "name": "1 Января",
+        "descr": "Новый год",
+        "start": "",
+        "months": "0x8001",
+        "monthDays": "0x80000001",
+        "weekDays": "0",
+        "hours": "0",
+        "minutes": "0",
+        "stop": "",
+        "next": "",
+        "last": "",
+        "state": 0,
+        "action": "",
+        "params": "",
+        "timeout": 0
+      },
+      {
+        "id": 7,
+        "disabled": 0,
+        "type": "Holiday",
+        "name": "8 Марта",
+        "descr": "Международный женский день",
+        "start": "",
+        "months": "0x8004",
+        "monthDays": "0x80000080",
+        "weekDays": "0",
+        "hours": "0",
+        "minutes": "0",
+        "stop": "",
+        "next": "",
+        "last": "",
+        "state": 0,
+        "action": "",
+        "params": "",
+        "timeout": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Laucher",
+  "version": "1.0.0",
+  "releaseDate": "2021-05-11",
+  "parentVersion": "",
+  "picture": "public/pictures/.applications/Laucher/Home.png",
+  "groups": [
+    "General"
+  ],
+  "author": {
+    "name": "Andrey Petrishchev",
+    "email": "PetriAndPetro@gmail.com"
+  },
+  "description": "Laucher",
+  "langs": [
+    "ru-RU"
+  ],
+  "pageURL": "",
+  "license": "",
+  "price": "",
+  "wallet": ""
+}
