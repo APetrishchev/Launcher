@@ -8,13 +8,21 @@ import (
 	"path/filepath"
 	"time"
 
+	// "Application/1.0.0/model"
+	"Application/1.0.0/model"
+
+	"github.com/go-gem/sessions"
 	"github.com/valyala/fasthttp"
 	"golang.org/x/crypto/acme/autocert"
-	// "github.com/gorilla/securecookie"
-	// "github.com/go-gem/sessions"
 )
 
-func getClientIp(ctx *fasthttp.RequestCtx) string {
+//==============================================================================
+type HttpServerType struct {
+	Server *fasthttp.Server
+	CookieStore *sessions.CookieStore
+}
+
+func (self *HttpServerType) getClientIp(ctx *fasthttp.RequestCtx) string {
 	addr := string(ctx.Request.Header.Peek("X-Real-Ip"))
 	if len(addr) == 0 {
 		addr = string(ctx.Request.Header.Peek("X-Forwarded-For"))
@@ -26,35 +34,18 @@ func getClientIp(ctx *fasthttp.RequestCtx) string {
 	return ip
 }
 
-//==============================================================================
-type HttpServer struct {
-	// sessionAuthKey1, sessionEncryptKey1, sessionAuthKey2, sessionEncryptKey2 []byte
-	Server *fasthttp.Server
-	Log *LogType
-	Conf *ConfigType
-}
-
-// func (self *HttpServer) getCookieStore() *sessions.CookieStore {
-//	 return sessions.NewCookieStore(
-//		 self.sessionAuthKey1,
-//		 // self.sessionEncryptKey1,
-//		 self.sessionAuthKey2,
-//		 // self.sessionEncryptKey2,
-//	 )
-// }
-
-func (self *HttpServer) StartHTTP(host string, handler fasthttp.RequestHandler) {
+func (self *HttpServerType) StartHTTP(host string, handler fasthttp.RequestHandler) {
 	if err := fasthttp.ListenAndServe(host, handler); err != nil {
-		self.Log.Error.Println(err)
+		Log.Error.Println(err)
 		os.Exit(1)
 	}
 }
 
-func (self *HttpServer) StartHTTPS() {
+func (self *HttpServerType) StartHTTPS() {
 	var err error
-	listener, err := net.Listen("tcp4", self.Conf.Host+":"+self.Conf.Port)
+	listener, err := net.Listen("tcp4", Config.Host+":"+Config.Port)
 	if err != nil {
-		self.Log.Error.Println(err)
+		Log.Error.Println(err)
 		os.Exit(1)
 	}
 	tlsConfig := tls.Config{
@@ -64,24 +55,24 @@ func (self *HttpServer) StartHTTPS() {
 			tls.X25519,
 		},
 	}
-	if len(self.Conf.CertFileName) > 0 {
-		cert, err := tls.LoadX509KeyPair(filepath.Join(self.Conf.CertDirPath, self.Conf.CertFileName),
-			filepath.Join(self.Conf.CertDirPath, self.Conf.CertKeyFileName))
+	if len(Config.CertFileName) > 0 {
+		cert, err := tls.LoadX509KeyPair(filepath.Join(Config.CertDirPath, Config.CertFileName),
+			filepath.Join(Config.CertDirPath, Config.CertKeyFileName))
 		if err != nil {
-			self.Log.Error.Println("cannot load certificate")
+			Log.Error.Println("cannot load certificate")
 			os.Exit(1)
 		}
 		tlsConfig.Certificates = []tls.Certificate{cert}
 	} else {
 		certMngr := &autocert.Manager{
-			Cache:      autocert.DirCache(self.Conf.CertDirPath),
+			Cache:      autocert.DirCache(Config.CertDirPath),
 			Prompt:     autocert.AcceptTOS,
-			HostPolicy: autocert.HostWhitelist(self.Conf.Host, "www."+self.Conf.Host),
+			HostPolicy: autocert.HostWhitelist(Config.Host, "www."+Config.Host),
 		}
 		tlsConfig.GetCertificate = certMngr.GetCertificate
 		go func() {
-			if err := http.ListenAndServe(self.Conf.Host+":80", certMngr.HTTPHandler(nil)); err != nil {
-				self.Log.Error.Println(err)
+			if err := http.ListenAndServe(Config.Host+":80", certMngr.HTTPHandler(nil)); err != nil {
+				Log.Error.Println(err)
 				os.Exit(1)
 			}
 		}()
@@ -93,20 +84,20 @@ func (self *HttpServer) StartHTTPS() {
 		WriteTimeout: 5 * time.Second,
 	}
 	if err = self.Server.Serve(tlsListener); err != nil {
-		self.Log.Error.Println(err)
+		Log.Error.Println(err)
 		os.Exit(1)
 	}
 }
 
-func (self *HttpServer) logMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
+func (self *HttpServerType) logMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 	return func(ctx *fasthttp.RequestCtx) {
 		startTime := time.Now()
-		clientIp := getClientIp(ctx)
+		clientIp := self.getClientIp(ctx)
 		ctx.SetUserValue("ClientIp", clientIp)
 		userAgent := string(ctx.Request.Header.Peek("User-Agent"))
-		ctx.SetUserValue("UserAgent", userAgent)
+		ctx.SetUserValue("ClientAgent", userAgent)
 		next(ctx)
-		self.Log.Info.Printf(
+		Log.Info.Printf(
 			"%s %s %s %s %d %d %s\n",
 			clientIp,
 			userAgent,
@@ -119,12 +110,12 @@ func (self *HttpServer) logMiddleware(next fasthttp.RequestHandler) fasthttp.Req
 	}
 }
 
-func (self *HttpServer) panicMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
+func (self *HttpServerType) panicMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 	return func(ctx *fasthttp.RequestCtx) {
 		defer func() {
 			if err := recover(); err != nil {
-				self.Log.Error.Printf("%s\n", err)
-				self.Log.Trace()
+				Log.Error.Printf("%s\n", err)
+				Log.Trace()
 				ctx.Error(fasthttp.StatusMessage(fasthttp.StatusInternalServerError), fasthttp.StatusInternalServerError)
 			}
 		}()
@@ -132,38 +123,36 @@ func (self *HttpServer) panicMiddleware(next fasthttp.RequestHandler) fasthttp.R
 	}
 }
 
-func (self *HttpServer) sessionMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
+func (self *HttpServerType) sessionMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 	return self.panicMiddleware(func(ctx *fasthttp.RequestCtx) {
-		//		 var err error
-		//		 cookieStore := httpServer.getCookieStore()
-		//		 cookies, err := cookieStore.Get(ctx, "dt_session")
-		//		 if err != nil {
-		//			 panic(err)
-		//		 }
-		//		 dt.Init()
-		//		 query := &dt.SessionQuery{
-		//			 ById: cookies.Values["sid"],
-		//			 ByClientIp: ctx.UserValue("ClientIp").(string),
-		//			 ByUserAgent: ctx.UserValue("UserAgent").(string),
-		//		 }
-		//		 var ses *dt.Session
-		//		 if ses, err = query.OpenSession(); err != nil {
-		//			 ses = query.NewSession()
-		//			 cookies.Values["sid"] = ses.Id
-		//			 cookies.Options = &sessions.Options{
-		//				 Domain: httpServer.host,
-		//				 Path: "/",
-		//				 MaxAge: 86400 * 7,
-		//				 //SameSite: "Strict",
-		//				 //Secure: true,
-		//				 HttpOnly: false,
-		//			 }
-		//			 if err := cookies.Save(ctx); err != nil {
-		//				 panic(err)
-		//			 }
-		//			 ctx.Redirect("/", fasthttp.StatusTemporaryRedirect)
-		//		 }
-		//		 ctx.SetUserValue("ProfileId", ses.ProfileId)
+		cookies, err := self.CookieStore.Get(ctx, "laucher_session")
+		if err != nil {panic(err)}
+		sid := cookies.Values["sid"]
+		model.Db.Open()
+		defer model.Db.Close()
+		ses := &SessionType{ClientIp: ctx.UserValue("ClientIp").(string),
+			ClientAgent: ctx.UserValue("ClientAgent").(string)}
+		ok := false
+		if sid != nil {
+			ses.Id = sid.(string)
+			ok = ses.Open()
+		}
+		if !ok {
+			ses.Add()
+			cookies.Values["sid"] = ses.Id
+			cookies.Options = &sessions.Options{
+				Domain: Config.Host,
+				Path: "/",
+				MaxAge: 86400 * 3,
+				//SameSite: "Strict",
+				//Secure: true,
+				HttpOnly: false,
+			}
+			if err := cookies.Save(ctx); err != nil {panic(err)}
+			ctx.Redirect("/", fasthttp.StatusTemporaryRedirect)
+			return
+		}
+		// ctx.SetUserValue("ProfileId", ses.ProfileId)
 		next(ctx)
 	})
 }

@@ -301,7 +301,7 @@ const Cron = {
       "start": "", "months": 0, "monthDays": 0, "weekDays": 0x8000000001f,
       "hours": 0x80002000, "minutes": 0x8000000000000001n, "stop": "",
       "next": "", "last": "", "state": 0,
-      "action": "play", "params": { "media": "public/audio/music/Other/audio/music/greensleeves.mp3", "volume": 0.75}, "timeout": 180
+      "action": "play", "params": { "media": "public/audio/music/Other/greensleeves.mp3", "volume": 0.75}, "timeout": 180
     },
     {
       "id": 5, "disabled": 0, "type": "Alarm", "name": "Сб..Вс 8:57", "descr": "Good Morning!",

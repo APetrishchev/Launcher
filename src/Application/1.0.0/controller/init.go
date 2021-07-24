@@ -3,19 +3,18 @@ package controller
 import (
 	"Application/1.0.0/model"
 	"fmt"
-	"strings"
 )
 
-func Init(initFilePath string) {
-	fmt.Printf("\n%s\nDatabase initialization\n", strings.Repeat("*", 80))
-  fmt.Printf("Database \"%s\" connect as %s@%s:%d ... ", model.DbInstance.Name, model.DbInstance.User,
-		model.DbInstance.Host, model.DbInstance.Port)
-	fmt.Println(model.CheckError(model.DbInstance.Open()))
+func Init(initFilePath string) (err error) {
+	fmt.Println("Database initialization")
+  fmt.Printf("Database \"%s\" connect as %s@%s:%d ... ", model.Db.Name, model.Db.User,
+		model.Db.Host, model.Db.Port)
+	fmt.Println(model.CheckError(model.Db.Open()))
 
-	model.DbInstance.Begin()
+	model.Db.Begin()
 
 	fmt.Printf("Create table \"appGroups\" ... ")
-  fmt.Println(model.CheckError(model.DbInstance.CreateTable("appGroups", []string{
+  fmt.Println(model.CheckError(model.Db.CreateTable("appGroups", []string{
 		"`Id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE",
 		"`ParentId` INTEGER DEFAULT 0",
 		"`ProfileId` INTEGER NOT NULL",
@@ -26,7 +25,7 @@ func Init(initFilePath string) {
   }, "UNIQUE(ProfileId, Name)")))
 
   fmt.Printf("Create table \"applications\" ... ")
-  fmt.Println(model.CheckError(model.DbInstance.CreateTable("applications", []string{
+  fmt.Println(model.CheckError(model.Db.CreateTable("applications", []string{
 		"`Id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE",
 		"`Name` VARCHAR(32) NOT NULL",
 		"`Version` CHAR(26) NOT NULL",
@@ -43,7 +42,7 @@ func Init(initFilePath string) {
 	}, "")))
 
   fmt.Printf("Create table \"application_data\" ... ")
-  fmt.Println(model.CheckError(model.DbInstance.CreateTable("application_data", []string{
+  fmt.Println(model.CheckError(model.Db.CreateTable("application_data", []string{
 		"`ApplicationId` INTEGER NOT NULL",
 		"`AuthorName` VARCHAR(128)",
 		"`AuthorEmail` VARCHAR(128)",
@@ -60,18 +59,18 @@ func Init(initFilePath string) {
 	}, "")))
 
   fmt.Printf("Create table \"sessions\" ... ")
-  fmt.Println(model.CheckError(model.DbInstance.CreateTable("sessions", []string{
+  fmt.Println(model.CheckError(model.Db.CreateTable("sessions", []string{
     "`Id` CHAR(36) PRIMARY KEY UNIQUE",
     "`ProfileId` INTEGER",
     "`CreateTime` CHAR(26) NOT NULL",
     "`Closed` TINYINT(1) DEFAULT 0",
     "`ClientIp` VARCHAR(15) NOT NULL",
-    "`Agent` VARCHAR(512) NOT NULL",
+    "`ClientAgent` VARCHAR(512) NOT NULL",
     "`LastActTime` CHAR(26) DEFAULT ''",
   }, "")))
 
   fmt.Printf("Create table \"accounts\" ... ")
-  fmt.Println(model.CheckError(model.DbInstance.CreateTable("accounts", []string{
+  fmt.Println(model.CheckError(model.Db.CreateTable("accounts", []string{
     "`Id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE",
     "`Login` VARCHAR(48) UNIQUE NOT NULL",
     "`Passwd` VARCHAR(48) NOT NULL",
@@ -81,7 +80,7 @@ func Init(initFilePath string) {
   }, "")))
 
   fmt.Printf("Create table \"profiles\" ... ")
-  fmt.Println(model.CheckError(model.DbInstance.CreateTable("profiles", []string{
+  fmt.Println(model.CheckError(model.Db.CreateTable("profiles", []string{
     "`Id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE",
     "`AccountId` INTEGER NOT NULL",
     "`OwnerId` INTEGER NOT NULL",
@@ -101,7 +100,7 @@ func Init(initFilePath string) {
   }, "")))
 
   fmt.Printf("Create table \"profile_application\" ... ")
-  fmt.Println(model.CheckError(model.DbInstance.CreateTable("profile_application", []string{
+  fmt.Println(model.CheckError(model.Db.CreateTable("profile_application", []string{
     "`ProfileId` INTEGER NOT NULL",
     "`ApplicationId` INTEGER NOT NULL",
     "`ApplicationGroups` VARCHAR(512)",
@@ -112,7 +111,7 @@ func Init(initFilePath string) {
   }, "")))
 
 	fmt.Printf("Create table \"cron\" ... ")
-  fmt.Println(model.CheckError(model.DbInstance.CreateTable("cron", []string{
+  fmt.Println(model.CheckError(model.Db.CreateTable("cron", []string{
 		"  `Id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE",
 		"  `Disabled` INTEGER DEFAULT 0",
 		"  `Type_` CHAR(12)",
@@ -132,11 +131,13 @@ func Init(initFilePath string) {
 		"  `Action` VARCHAR(64)",
 		"  `CmdParams` VARCHAR(256)",
 	}, "")))
-	model.DbInstance.End()
+
+	model.Db.End()
 
 	Restore(initFilePath)
 
-	model.DbInstance.Close()
+	model.Db.Close()
 	fmt.Printf("Database close ... Ok")
 
+	return nil
 }

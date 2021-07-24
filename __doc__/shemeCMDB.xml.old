@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- SQL XML created by WWW SQL Designer, https://github.com/ondras/wwwsqldesigner/ -->
+<!-- Active URL: http://ondras.zarovi.cz/sql/demo/ -->
+<sql>
+<datatypes db="mysql">
+	<group label="Numeric" color="rgb(238,238,170)">
+		<type label="Integer" length="0" sql="INTEGER" quote=""/>
+	 	<type label="TINYINT" length="0" sql="TINYINT" quote=""/>
+	 	<type label="SMALLINT" length="0" sql="SMALLINT" quote=""/>
+	 	<type label="MEDIUMINT" length="0" sql="MEDIUMINT" quote=""/>
+	 	<type label="INT" length="0" sql="INT" quote=""/>
+		<type label="BIGINT" length="0" sql="BIGINT" quote=""/>
+		<type label="Decimal" length="1" sql="DECIMAL" re="DEC" quote=""/>
+		<type label="Single precision" length="0" sql="FLOAT" quote=""/>
+		<type label="Double precision" length="0" sql="DOUBLE" re="DOUBLE" quote=""/>
+	</group>
+
+	<group label="Character" color="rgb(255,200,200)">
+		<type label="Char" length="1" sql="CHAR" quote="'"/>
+		<type label="Varchar" length="1" sql="VARCHAR" quote="'"/>
+		<type label="Text" length="0" sql="MEDIUMTEXT" re="TEXT" quote="'"/>
+		<type label="Binary" length="1" sql="BINARY" quote="'"/>
+		<type label="Varbinary" length="1" sql="VARBINARY" quote="'"/>
+		<type label="BLOB" length="0" sql="BLOB" re="BLOB" quote="'"/>
+	</group>
+
+	<group label="Date &amp; Time" color="rgb(200,255,200)">
+		<type label="Date" length="0" sql="DATE" quote="'"/>
+		<type label="Time" length="0" sql="TIME" quote="'"/>
+		<type label="Datetime" length="0" sql="DATETIME" quote="'"/>
+		<type label="Year" length="0" sql="YEAR" quote=""/>
+		<type label="Timestamp" length="0" sql="TIMESTAMP" quote="'"/>
+	</group>
+	
+	<group label="Miscellaneous" color="rgb(200,200,255)">
+		<type label="ENUM" length="1" sql="ENUM" quote=""/>
+		<type label="SET" length="1" sql="SET" quote=""/>
+		<type label="Bit" length="0" sql="bit" quote=""/>
+	</group>
+</datatypes><table x="740" y="215" name="network">
+<row name="subnet" null="0" autoincrement="0">
+<datatype>CHAR(15)</datatype>
+<default>'NULL'</default><relation table="ipAddr" row="subnet" />
+<relation table="interface_network" row="subnet" />
+</row>
+<row name="netmask" null="0" autoincrement="0">
+<datatype>CHAR(15)</datatype>
+<default>'NULL'</default></row>
+<row name="gate" null="0" autoincrement="0">
+<datatype>CHAR(15)</datatype>
+<default>'NULL'</default></row>
+<row name="scan" null="0" autoincrement="0">
+<datatype>bit(1)</datatype>
+<default>1</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="description" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>subnet</part>
+</key>
+</table>
+<table x="523" y="355" name="ipAddr">
+<row name="ipAddr" null="0" autoincrement="0">
+<datatype>CHAR(15)</datatype>
+<default>'NULL'</default><relation table="hardware" row="hardwareIp" />
+<relation table="operSys" row="osIp" />
+<relation table="cluster" row="clusterIp" />
+<relation table="node" row="nodeIp" />
+</row>
+<row name="subnet" null="0" autoincrement="0">
+<datatype>CHAR(15)</datatype>
+<default>'NULL'</default></row>
+<row name="physAddr" null="0" autoincrement="0">
+<datatype>CHAR(17)</datatype>
+<default>'NULL'</default></row>
+<row name="admStatus" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<row name="operStatus" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<row name="expDate" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default></row>
+<row name="description" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>ipAddr</part>
+</key>
+<key type="PRIMARY" name="">
+<part>subnet</part>
+</key>
+<key type="PRIMARY" name="">
+<part>physAddr</part>
+</key>
+</table>
+<table x="504" y="98" name="interface">
+<row name="id" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="interface_network" row="interfaceId" />
+</row>
+<row name="physAddr" null="1" autoincrement="0">
+<datatype>CHAR(17)</datatype>
+<default>NULL</default><relation table="ipAddr" row="physAddr" />
+</row>
+<row name="hardwareId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="crossPointId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="netLink" row="crossPointId1" />
+<relation table="netLink" row="crossPointId2" />
+</row>
+<row name="type" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<row name="speed" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<row name="admStatus" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<row name="operStatus" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<row name="name" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="description" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>physAddr</part>
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>hardwareId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>crossPointId</part>
+</key>
+<key type="PRIMARY" name="">
+</key>
+</table>
+<table x="504" y="12" name="netLink">
+<row name="crossPointId1" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="crossPointId2" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>crossPointId1</part>
+</key>
+<key type="PRIMARY" name="">
+<part>crossPointId2</part>
+</key>
+</table>
+<table x="268" y="20" name="location">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="location" row="containerId" />
+<relation table="hardware" row="locationId" />
+<relation table="interface" row="crossPointId" />
+</row>
+<row name="containerId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="type" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default><comment>{country|city|building|floor|room|row|rack|unit|board}</comment>
+</row>
+<row name="description" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>containerId</part>
+</key>
+</table>
+<table x="38" y="176" name="memory">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="hardwareId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="productId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="size" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>hardwareId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>productId</part>
+</key>
+</table>
+<table x="40" y="295" name="processor">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="hardwareId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="productId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>hardwareId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>productId</part>
+</key>
+</table>
+<table x="257" y="143" name="hardware">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="interface" row="hardwareId" />
+<relation table="memory" row="hardwareId" />
+<relation table="processor" row="hardwareId" />
+<relation table="storeDev" row="hardwareId" />
+<relation table="operSys" row="hardwareId" />
+<relation table="node_hardware" row="hwId" />
+</row>
+<row name="locationId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="inventoryNum" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="ownerId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>userId. Материально-ответственное лицо.</comment>
+</row>
+<row name="productId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="serialNum" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="hardwareIp" null="0" autoincrement="0">
+<datatype>CHAR(15)</datatype>
+<default>'NULL'</default><comment>IP для конфигурирования и администрирования аппаратного обеспечения</comment>
+</row>
+<row name="description" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>locationId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>hardwareIp</part>
+</key>
+<key type="PRIMARY" name="">
+<part>productId</part>
+</key>
+</table>
+<table x="43" y="396" name="storeDev">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="storeDev_storeVol" row="storeDevId" />
+</row>
+<row name="hardwareId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="type" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default><comment>{sata|...}</comment>
+</row>
+<row name="size" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="productId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+<part>hardwareId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>productId</part>
+</key>
+</table>
+<table x="23" y="543" name="storeDev_storeVol">
+<row name="storeDevId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="storeVolumId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>storeDevId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>storeVolumId</part>
+</key>
+</table>
+<table x="44" y="626" name="storeVolum">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="storeDev_storeVol" row="storeVolumId" />
+<relation table="storePart" row="storeVolumId" />
+</row>
+<row name="type" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default><comment>{stripe|mirror|...}</comment>
+</row>
+<row name="size" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="description" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="241" y="503" name="storePart">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="storeVolumId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="size" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="fsType" null="1" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<row name="access" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default><comment>{rw|ro}</comment>
+</row>
+<row name="mountPoint" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="name" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="description" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="osId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="clusterId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>storeVolumId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>osId</part>
+</key>
+</table>
+<table x="253" y="352" name="operSys">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="storePart" row="osId" />
+<relation table="node_operSys" row="operSysId" />
+</row>
+<row name="productId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="hardwareId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="hostname" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="osIp" null="0" autoincrement="0">
+<datatype>CHAR(15)</datatype>
+<default>'NULL'</default><comment>IP для конфигурирования и администрирования операционной системы</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>hardwareId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>osIp</part>
+</key>
+<key type="PRIMARY" name="">
+<part>productId</part>
+</key>
+</table>
+<table x="826" y="425" name="cluster">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="node" row="clusterId" />
+</row>
+<row name="clusterIp" null="0" autoincrement="0">
+<datatype>CHAR(15)</datatype>
+<default>'NULL'</default></row>
+<row name="name" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="description" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="admStatus" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<row name="operStatus" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>clusterIp</part>
+</key>
+</table>
+<table x="642" y="543" name="node">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="node_operSys" row="nodeId" />
+<relation table="node_hardware" row="nodeId" />
+<relation table="node_app" row="nodeId" />
+</row>
+<row name="clusterId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="nodeIp" null="0" autoincrement="0">
+<datatype>CHAR(15)</datatype>
+<default>'NULL'</default></row>
+<row name="name" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="description" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="status" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>clusterId</part>
+</key>
+<key type="PRIMARY" name="">
+</key>
+<key type="PRIMARY" name="">
+<part>nodeIp</part>
+</key>
+</table>
+<table x="31" y="12" name="product">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="hardware" row="productId" />
+<relation table="processor" row="productId" />
+<relation table="memory" row="productId" />
+<relation table="storeDev" row="productId" />
+<relation table="operSys" row="productId" />
+</row>
+<row name="manufacturer" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<row name="model" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<row name="version" null="0" autoincrement="0">
+<datatype>CHAR(10)</datatype>
+<default>'NULL'</default></row>
+<row name="partNum" null="0" autoincrement="0">
+<datatype>CHAR(20)</datatype>
+<default>'NULL'</default><comment>номер для заказа</comment>
+</row>
+<row name="status" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default><comment>производится, производство прекращено, снят с поддежки</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Справочник оборудования, комплектующих, программного обеспечения и др. от различных производителей и поставщиков</comment>
+</table>
+<table x="52" y="827" name="comments">
+<row name="SAN - как связать дисковые полки с массивом?" null="0" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>'NULL'</default></row>
+<row name="Blade-серверы связываются с серверной полкой посредством location" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<comment>SAN - как связать дисковые полки с массивом?</comment>
+</table>
+<table x="710" y="125.66669999999999" name="interface_network">
+<row name="interfaceId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="subnet" null="0" autoincrement="0">
+<datatype>CHAR(15)</datatype>
+<default>'NULL'</default></row>
+<key type="PRIMARY" name="">
+<part>interfaceId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>subnet</part>
+</key>
+</table>
+<table x="453" y="629" name="node_operSys">
+<row name="nodeId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="operSysId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>nodeId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>operSysId</part>
+</key>
+</table>
+<table x="452" y="548" name="node_hardware">
+<row name="nodeId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="hwId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>nodeId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>hwId</part>
+</key>
+</table>
+<table x="471" y="712.6667" name="node_app">
+<row name="nodeId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="appId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>nodeId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>appId</part>
+</key>
+</table>
+<table x="1047" y="12" name="application">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="shortName" null="0" autoincrement="0">
+<datatype>CHAR(20)</datatype>
+<default>'NULL'</default></row>
+<row name="fullName" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="shortDescr" null="0" autoincrement="0">
+<datatype>CHAR(200)</datatype>
+<default>'NULL'</default></row>
+<row name="fullDescr" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="882" y="10" name="role">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="user_role" row="roleId" />
+</row>
+<row name="name" null="0" autoincrement="0">
+<datatype>CHAR(128)</datatype>
+<default>'NULL'</default></row>
+<row name="description" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="726" y="15" name="user_role">
+<row name="userId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="roleId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>userId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>roleId</part>
+</key>
+</table>
+<table x="843" y="621" name="virtual">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+</sql>
+

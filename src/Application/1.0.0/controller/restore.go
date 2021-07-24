@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"Application/1.0.0/model"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -66,8 +65,8 @@ func Restore(backupFilePath string) {
         Langs: manifestApp.Langs,
         Description: manifestApp.Description,
       }
-      fmt.Printf("Add \"%s %s\" to \"application\" ... ", manifestApp.Name, manifestApp.Version)
-      fmt.Println(model.CheckError(app.Add()))
+      fmt.Printf("Add \"%s %s\" to \"application\" ... OK\n", manifestApp.Name, manifestApp.Version)
+      app.Add()
       if _, ok := temp.applications[manifestApp.Name]; !ok {
         temp.applications[manifestApp.Name] = make(map[string]int64)
       }

@@ -23,52 +23,41 @@ func map2arrays(fields *map[string]interface{}) (*[]string, *[]interface{}) {
 }
 
 //==============================================================================
-type DBType struct {
+type DbType struct {
   Host, User, Passwd, Name string
   Port int
-  connection *sql.DB
+  conn *sql.DB
   tx *sql.Tx
 }
 
-var DbInstance *DBType
+var Db *DbType
 
-func Db(host string, port int, user string, passwd string, name string) (*DBType) {
-	DbInstance = &DBType{
-		Host: host,
-		Port: port,
-		User: user,
-		Passwd: passwd,
-		Name: name,
-	}
-  return DbInstance
-}
-
-func (self *DBType) Open() (err error) {
-  self.connection, err = sql.Open("sqlite3", self.Name)
+func (self *DbType) Open() (err error) {
+  self.conn, err = sql.Open("sqlite3", self.Name)
+  Db = self
   return err
 
 //   conStr := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-//   self.connection, err = sql.Open("postgres", conStr)
+//   self.conn, err = sql.Open("postgres", conStr)
 //   return err
 
-//   if err = self.connection.Ping(); err != nil {
+//   if err = self.conn.Ping(); err != nil {
 //     panic(err)
 //   }
-
 }
 
-func (self *DBType) Close() {
-  self.connection.Close()
+func (self *DbType) Close() {
+  self.conn.Close()
 }
 
-func (self *DBType) Begin() {
+func (self *DbType) Begin() {
   var err error
-  if self.tx, err = self.connection.Begin(); err != nil {
+  if self.tx, err = self.conn.Begin(); err != nil {
     panic(err)
   }
 }
 
-func (self *DBType) End() interface{} {
+func (self *DbType) End() interface{} {
   msg := recover()
   if msg != nil {
     self.tx.Rollback()
@@ -86,48 +75,51 @@ func Int64ArrToString(arr []int64) string {
   return strings.Join(ArrStr, ",")
 }
 
-func (self *DBType) CreateTable(tbl string, fields []string, tail string) (err error) {
-  if _, err = self.connection.Exec(fmt.Sprintf("DROP TABLE IF EXISTS `%s`", tbl)); err == nil {
+func (self *DbType) CreateTable(tbl string, fields []string, tail string) (err error) {
+  if _, err = self.conn.Exec(fmt.Sprintf("DROP TABLE IF EXISTS `%s`", tbl)); err == nil {
     query := fmt.Sprintf("CREATE TABLE `%s` (\n", tbl)
     query = query + strings.Join(fields[:], ",\n")
     if tail != "" {
       query = query + ",\n" + tail
     }
     query = query + "\n)\n"
-    _, err = self.connection.Exec(query)
+    _, err = self.conn.Exec(query)
   }
   return err
 }
 
-func (self *DBType) Get_(tab string, select_ string, where string, values *[]interface{}) (*sql.Rows, error) {
-  return self.connection.Query(fmt.Sprintf("SELECT %s FROM %s WHERE %s", select_, tab, where), *values...)
-  // defer rows.Close()
+func (self *DbType) Get_(tab string, select_ string, where string, values *[]interface{}) (*sql.Rows, error) {
+  return self.conn.Query(fmt.Sprintf("SELECT %s FROM %s WHERE %s", select_, tab, where), *values...)
 }
 
-func (self *DBType) Add_(tab string, fields *map[string]interface{}) (int64, error) {
+func (self *DbType) Add_(tab string, fields *map[string]interface{}) int64 {
   keys, values := map2arrays(fields)
-  res, err := self.connection.Exec(
+  res, err := self.conn.Exec(
     "INSERT INTO " + tab + " (" + strings.Join(*keys, ",") +
     ") VALUES (" + strings.Repeat("?,", len(*fields)-1) + "?);",
     *values...)
   if err != nil {
-    return 0, err
+    panic(err)
   }
-  return res.LastInsertId()
+  id, err := res.LastInsertId()
+  if err != nil {
+    panic(err)
+  }
+  return id
 }
 
-func (self *DBType) Upd_(tab string, id interface{}, fields *map[string]interface{}) (err error) {
+func (self *DbType) Upd_(tab string, id interface{}, fields *map[string]interface{}) (err error) {
   keys, values := map2arrays(fields)
   *values = append(*values, id)
-  _, err = self.connection.Exec(
+  _, err = self.conn.Exec(
     "UPDATE INTO " + tab + " (" + strings.Join(*keys, ",") +
     ") VALUES (" + strings.Repeat("?,", len(*fields)-1) + "?) WHERE Id=?;",
     *values...)
   return err
 }
 
-func (self *DBType) Del_(tab string, ids []interface{}) (err error) {
+func (self *DbType) Del_(tab string, ids []interface{}) (err error) {
   var query = strings.Repeat("DELETE FROM " + tab + " WHERE Id=?;", len(ids))
-  _, err = self.connection.Exec(query, ids...)
+  _, err = self.conn.Exec(query, ids...)
   return err
 }

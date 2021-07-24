@@ -1,0 +1,50 @@
+Btn   +BtnDis +BtnFocus
+BtnOn +BtnDis +BtnFocus
+BtnDn +BtnFocus
+
+Btn {
+  border-top: ;
+  border-right: ;
+  border-bottom: ;
+  border-left: ;
+  background: ;
+}
+
+BtnOn,
+btnDn {
+  border-top: ;
+  border-right: ;
+  border-bottom: ;
+  border-left: ;
+}
+
+BtnOn {
+  background: ;
+}
+
+btnDn {
+  background: ;
+}
+
+Btn:hover,
+BtnOn:hover,
+BtnDn {
+  font: bold;
+  color: red;
+}
+
+BtnDis {
+  color: gray;
+}
+
+BtnFocus {
+  font: ;
+}
+
+BtnClickMePh0 {
+  background-color: ;
+}
+
+BtnClickMePh1 {
+  background-color: ;
+}

@@ -7,7 +7,6 @@ import (
 	"strings"
 )
 
-var logFile *os.File
 
 type LogType struct {
 	Write       *log.Logger
@@ -17,13 +16,16 @@ type LogType struct {
 	Error       *log.Logger
 	LogFilePath string
 }
+var (
+	logFile *os.File
+	Log *LogType
+)
 
-func (self *LogType) Open() {
+func (self *LogType) Open() (err error) {
 	if self.LogFilePath != "" {
-		var err error
 		logFile, err = os.OpenFile(self.LogFilePath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
 		if err != nil {
-			log.Fatalln("Failed to open log file ", self.LogFilePath, ":", err)
+			return err
 		}
 	} else {
 		logFile = os.Stdout
@@ -33,6 +35,8 @@ func (self *LogType) Open() {
 	self.Info = log.New(logFile, "INFO: ", log.Ldate|log.Ltime)
 	self.Warning = log.New(logFile, "WARNING: ", log.Ldate|log.Ltime|log.Lshortfile)
 	self.Error = log.New(logFile, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
+	Log = self
+	return nil
 }
 
 func (self *LogType) Close() {

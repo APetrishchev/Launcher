@@ -1,0 +1,10 @@
+<script type="text/javascript">
+
+function copyText(){
+ document.getElementById("txt_copy").select();
+ document.execCommand('copy');
+}
+</script>
+<textarea id="txt_copy"></textarea>
+<textarea id="txt_paste"></textarea><br/>
+<input type="button" value="copy" id="copy" onclick="copyText();" >

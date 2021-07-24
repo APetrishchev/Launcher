@@ -80,7 +80,7 @@ func (self *ApplicationType) Get() (*[]*ApplicationType, error) {
       values = append(values, self.Version)
     }
   }
-  rows, err := model.DbInstance.Get_("applications", select_, where, &values)
+  rows, err := model.Db.Get_("applications", select_, where, &values)
   if err != nil {}
   apps := &[]*ApplicationType{}
   for rows.Next(){
@@ -107,7 +107,7 @@ func (self *ApplicationType) Get() (*[]*ApplicationType, error) {
   return apps, err
 }
 
-func (self *ApplicationType) Add() (err error) {
+func (self *ApplicationType) Add() {
 	fields := &map[string]interface{} {
     "Name": self.Name,
     "Version": self.Version,
@@ -120,8 +120,7 @@ func (self *ApplicationType) Add() (err error) {
     "LastUseTime": self.LastUseTime.Format(),
     "Path": self.Path,
 	}
-	self.Id, err = model.DbInstance.Add_("applications", fields)
-  return err
+	self.Id = model.Db.Add_("applications", fields)
 }
 
 func (self *ApplicationType) Upd() error {
@@ -137,9 +136,9 @@ func (self *ApplicationType) Upd() error {
     "LastUseTime": self.LastUseTime.Format(),
     "Path": self.Path,
 	}
-	return model.DbInstance.Upd_("applications", self.Id, fields)
+	return model.Db.Upd_("applications", self.Id, fields)
 }
 
 func (self *ApplicationType) Del() error {
-	return model.DbInstance.Del_("applications", []interface{}{self.Id})
+	return model.Db.Del_("applications", []interface{}{self.Id})
 }

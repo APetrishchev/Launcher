@@ -10,20 +10,20 @@ import (
 	"golang.org/x/net/webdav"
 )
 
-func (self *HttpServer) webdavHandler() *webdav.Handler {
+func (self *HttpServerType) webdavHandler() *webdav.Handler {
 	return &webdav.Handler{
 		Prefix:     "/webdav",
-		FileSystem: webdav.Dir(filepath.Join(self.Conf.DataDirPath, "public")),
+		FileSystem: webdav.Dir(filepath.Join(Config.DataDirPath, "public")),
 		LockSystem: webdav.NewMemLS(),
 		Logger: func(r *http.Request, err error) {
 			if err != nil {
-				self.Log.Info.Printf("WEBDAV [%s]: %s, ERROR: %s\n", r.Method, r.URL, err)
+				Log.Info.Printf("WEBDAV [%s]: %s, ERROR: %s\n", r.Method, r.URL, err)
 			}
 		},
 	}
 }
 
-func (self *HttpServer) Handler(ctx *fasthttp.RequestCtx) {
+func (self *HttpServerType) Handler(ctx *fasthttp.RequestCtx) {
 	self.logMiddleware(func(ctx *fasthttp.RequestCtx) {
 		path := string(ctx.Path())
 		// pathArray := strings.Split(string(ctx.Path()), "/")[1:]
@@ -63,11 +63,11 @@ func (self *HttpServer) Handler(ctx *fasthttp.RequestCtx) {
 			self.sessionMiddleware(fasthttpadaptor.NewFastHTTPHandler(self.webdavHandler()))(ctx)
 		} else if strings.HasPrefix(path, "/admin") {
 			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
-				fasthttp.ServeFileUncompressed(ctx, filepath.Join(self.Conf.DataDirPath, path))
+				fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.DataDirPath, path))
 			})(ctx)
 		} else if strings.HasPrefix(path, "/public") {
 			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
-				fasthttp.ServeFileUncompressed(ctx, filepath.Join(self.Conf.DataDirPath, path))
+				fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.DataDirPath, path))
 			})(ctx)
 		} else if path == "/AppLaucher/1.0.0/ini.js" {
 			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
@@ -75,10 +75,12 @@ func (self *HttpServer) Handler(ctx *fasthttp.RequestCtx) {
 			})(ctx)
 		} else if path == "/" || path == "/index.html" {
 			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
-				fasthttp.ServeFileUncompressed(ctx, filepath.Join(self.Conf.RootDirPath, "index.html"))
+				fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.RootDirPath, "index.html"))
 			})(ctx)
 		} else {
-			fasthttp.ServeFileUncompressed(ctx, filepath.Join(self.Conf.RootDirPath, path))
+			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
+				fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.RootDirPath, path))
+			})(ctx)
 		}
 	})(ctx)
 }

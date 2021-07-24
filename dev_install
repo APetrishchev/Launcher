@@ -12,6 +12,9 @@ WORKDIR=/home/apetrishchev/Portable/Projects/github.com/APetrishchev/Laucher
 export GO111MODULE=off
 export GOPATH=$WORKDIR
 
+go get github.com/google/uuid
+# go get github.com/gorilla/securecookie
+# go get github.com/go-gem/sessions
 # go get github.com/valyala/fasthttp
 # go get github.com/valyala/fasthttp/fasthttpadaptor
 # go get github.com/mattn/go-sqlite3

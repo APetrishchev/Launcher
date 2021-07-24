@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- SQL XML created by WWW SQL Designer, https://github.com/ondras/wwwsqldesigner/ -->
+<!-- Active URL: http://ondras.zarovi.cz/sql/demo/ -->
+<sql>
+<datatypes db="mysql">
+	<group label="Numeric" color="rgb(238,238,170)">
+		<type label="Integer" length="0" sql="INTEGER" quote=""/>
+	 	<type label="TINYINT" length="0" sql="TINYINT" quote=""/>
+	 	<type label="SMALLINT" length="0" sql="SMALLINT" quote=""/>
+	 	<type label="MEDIUMINT" length="0" sql="MEDIUMINT" quote=""/>
+	 	<type label="INT" length="0" sql="INT" quote=""/>
+		<type label="BIGINT" length="0" sql="BIGINT" quote=""/>
+		<type label="Decimal" length="1" sql="DECIMAL" re="DEC" quote=""/>
+		<type label="Single precision" length="0" sql="FLOAT" quote=""/>
+		<type label="Double precision" length="0" sql="DOUBLE" re="DOUBLE" quote=""/>
+	</group>
+
+	<group label="Character" color="rgb(255,200,200)">
+		<type label="Char" length="1" sql="CHAR" quote="'"/>
+		<type label="Varchar" length="1" sql="VARCHAR" quote="'"/>
+		<type label="Text" length="0" sql="MEDIUMTEXT" re="TEXT" quote="'"/>
+		<type label="Binary" length="1" sql="BINARY" quote="'"/>
+		<type label="Varbinary" length="1" sql="VARBINARY" quote="'"/>
+		<type label="BLOB" length="0" sql="BLOB" re="BLOB" quote="'"/>
+	</group>
+
+	<group label="Date &amp; Time" color="rgb(200,255,200)">
+		<type label="Date" length="0" sql="DATE" quote="'"/>
+		<type label="Time" length="0" sql="TIME" quote="'"/>
+		<type label="Datetime" length="0" sql="DATETIME" quote="'"/>
+		<type label="Year" length="0" sql="YEAR" quote=""/>
+		<type label="Timestamp" length="0" sql="TIMESTAMP" quote="'"/>
+	</group>
+	
+	<group label="Miscellaneous" color="rgb(200,200,255)">
+		<type label="ENUM" length="1" sql="ENUM" quote=""/>
+		<type label="SET" length="1" sql="SET" quote=""/>
+		<type label="Bit" length="0" sql="bit" quote=""/>
+	</group>
+</datatypes><table x="19" y="13" name="account">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="user" row="accountId" />
+<relation table="session" row="accountId" />
+<comment>Учетной записи могут быть назначены один или более профилей пользователя</comment>
+</row>
+<row name="login" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="password" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="userId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Основной профиль пользователя</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>userId</part>
+</key>
+<comment>Учетные записи пользователей</comment>
+</table>
+<table x="211" y="15" name="user">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="user_app" row="userId" />
+<relation table="app_session" row="userId" />
+<relation table="app_user_role" row="useId" />
+<relation table="surveyVoted" row="userId" />
+<relation table="user_container" row="userId" />
+<relation table="object" row="ownerId" />
+<relation table="account" row="userId" />
+</row>
+<row name="accountId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="ownerId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="firstName" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="lastName" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="birthday" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="sex" null="1" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<row name="photoId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="homeDirId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="status" null="1" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>accountId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>homeDirId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>photoId</part>
+</key>
+<comment>Дополнительные свойства объекта-профиля пользователя. Профили пользователей. Один профиль пользователя основной, создается при регистрации. У пользователя может быть более одного профиля. Владельцем профиля может быть как сам пользователь, так и другое лицо (например, работодатель). Изменять данные профиля может только владелец. Пользователь может видеть все свои профили.</comment>
+</table>
+<table x="17" y="131" name="session">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="app_session" row="sessionId" />
+</row>
+<row name="accountId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="clientApp" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="clientIp" null="0" autoincrement="0">
+<datatype>CHAR(15)</datatype>
+<default>'NULL'</default></row>
+<row name="startTime" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>'NULL'</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>accountId</part>
+</key>
+<comment>Активные сессии пользователей. Не состоявшиеся и завершенные сессии переносятся в таблицу sessionLog</comment>
+</table>
+<table x="19" y="271" name="sessionLog">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="sessionId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="accountId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="clientApp" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="clientIp" null="0" autoincrement="0">
+<datatype>CHAR(15)</datatype>
+<default>'NULL'</default></row>
+<row name="startTime" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>'NULL'</default></row>
+<row name="endTime" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>'NULL'</default></row>
+<row name="status" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>0:ok(нормальное завершение), &gt;0:err(завершена с кодом ошибки)</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+</key>
+</table>
+<table x="213" y="267" name="user_app">
+<row name="userId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="appId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="status" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default><comment>{run|stop|dis|...}</comment>
+</row>
+<row name="subscrDate" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>'NULL'</default></row>
+<row name="schedule" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="licenseId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>userId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>appId</part>
+</key>
+<comment>Подписки пользователей на приложения из appStore</comment>
+</table>
+<table x="214" y="425" name="application">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="user_app" row="appId" />
+</row>
+<row name="name" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="fullName" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="description" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="fullDesc" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="homePage" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="version" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="author" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="owner" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="logoId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>logoId</part>
+</key>
+<comment>appStore. Дополнительные свойства объекта-приложения</comment>
+</table>
+<table x="20" y="706" name="app_session">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="userId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="sessionId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="startTime" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>'NULL'</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>userId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>sessionId</part>
+</key>
+<comment>Активные сессии пользователей абстрактного приложения. Не состоявшиеся и завершенные сессии переносятся в таблицу app_sessionLog</comment>
+</table>
+<table x="11" y="827" name="app_sessionLog">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="sessionId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="userId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="startTime" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>'NULL'</default></row>
+<row name="endTime" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>'NULL'</default></row>
+<row name="status" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="221" y="803" name="app_role">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="permition" row="roleId" />
+<relation table="app_user_role" row="roleId" />
+<relation table="app_operLog" row="roleId" />
+</row>
+<row name="name" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="description" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="enable" null="0" autoincrement="0">
+<datatype>bit(1)</datatype>
+<default>1</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<comment>Роли определяют права пользователей выполнять операции над объектами в приложении</comment>
+</table>
+<table x="576" y="850" name="app_object">
+<row name="app_classId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Если NULL объект является классом, иначе экземпляром указанного id класса</comment>
+</row>
+<row name="objectId" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="permition" row="objectId" />
+<relation table="app_operLog" row="objectId" />
+<relation table="app_object" row="app_classId" />
+<relation table="app_property" row="objectId" />
+<relation table="permition" row="objectId" />
+</row>
+<key type="PRIMARY" name="">
+<part>objectId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>app_classId</part>
+</key>
+<key type="PRIMARY" name="">
+</key>
+</table>
+<table x="394" y="800" name="permition">
+<row name="roleId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="objectId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Не может указывать на свойство типа method</comment>
+</row>
+<row name="methodId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Может указывать только на свойство типа method</comment>
+</row>
+<row name="enable" null="0" autoincrement="0">
+<datatype>bit(1)</datatype>
+<default>1</default></row>
+<key type="PRIMARY" name="">
+<part>roleId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>roleId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>objectId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>methodId</part>
+</key>
+</table>
+<table x="501" y="955" name="app_property">
+<row name="objectId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="permition" row="methodId" />
+<relation table="app_operLog" row="methodId" />
+</row>
+<row name="type" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="value" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="description" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>objectId</part>
+</key>
+<key type="UNIQUE" name="">
+<part>name</part>
+</key>
+</table>
+<table x="220" y="682" name="app_user_role">
+<row name="useId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="roleId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="enable" null="0" autoincrement="0">
+<datatype>bit(1)</datatype>
+<default>NULL</default></row>
+<row name="schedule" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>useId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>roleId</part>
+</key>
+</table>
+<table x="221" y="921" name="app_operLog">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="sessionId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="roleId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="objectId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Не может указывать на свойство типа method</comment>
+</row>
+<row name="methodId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Может указывать только на свойство типа method</comment>
+</row>
+<row name="datetime" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>'NULL'</default></row>
+<row name="retCode" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>objectId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>roleId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>methodId</part>
+</key>
+</table>
+<table x="459" y="135" name="object">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="object" row="inheritId" />
+<relation table="objectTree" row="objectId" />
+<relation table="objectTree" row="containerId" />
+<relation table="container" row="containerId" />
+<relation table="container" row="lastAddedObjectId" />
+<relation table="user_container" row="containerId" />
+<relation table="surveyItem" row="itemId" />
+<relation table="surveyVoted" row="surveyId" />
+<relation table="surveyVoted" row="itemId" />
+<relation table="user" row="homeDirId" />
+<relation table="user" row="photoId" />
+<relation table="application" row="logoId" />
+<relation table="objectProperty" row="objectId" />
+<relation table="application" row="id" />
+<relation table="surveyItem" row="surveyId" />
+<relation table="survey" row="surveyId" />
+</row>
+<row name="ownerId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="inheritId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Ссылка на предыдущую версию. Предыдущая версия сохраняется с новым Id. Изменения сохраняются с текущеим Id.</comment>
+</row>
+<row name="reason" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<row name="comment" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="createTime" null="0" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>'NULL'</default></row>
+<row name="lastAccessTime" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default></row>
+<row name="iconId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="type" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default><comment>SET(message, file)</comment>
+</row>
+<row name="content" null="0" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>'NULL'</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="PRIMARY" name="">
+<part>ownerId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>inheritId</part>
+</key>
+<comment>Mail, Blog, Chat, Forum, Article, Survey, Test</comment>
+</table>
+<table x="701" y="241" name="objectTree">
+<row name="containerId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="objectId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="position" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>objectId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>containerId</part>
+</key>
+</table>
+<table x="693" y="142" name="container">
+<row name="containerId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="lastAddedObjectId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Id последнего добавленного в контейнер объекта</comment>
+</row>
+<row name="lastAccessTime" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default><comment>Время последнего доступа к контейнеру</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>containerId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>lastAddedObjectId</part>
+</key>
+<comment>Дополнительные свойства объекта-контейнера</comment>
+</table>
+<table x="466" y="13" name="user_container">
+<row name="userId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="roleId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="containerId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="schedule" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>containerId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>roleId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>userId</part>
+</key>
+</table>
+<table x="651" y="16" name="containerUserRole">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="user_container" row="roleId" />
+</row>
+<row name="name" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="description" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="permition" null="0" autoincrement="0">
+<datatype>bit(16)</datatype>
+<default>NULL</default><comment>ViewContainer, CreateContainer, EditContainer, DelContainer, CreateDocument, EditDocument, DelDocument, AddUser, DelUser</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="456" y="387" name="surveyVoted">
+<row name="surveyId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="userId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Пользователь принявший участие в опросе</comment>
+</row>
+<row name="itemId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><comment>Пункт за который проголосовал пользователь</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>itemId</part>
+</key>
+<key type="PRIMARY" name="">
+</key>
+<key type="PRIMARY" name="">
+<part>surveyId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>userId</part>
+</key>
+<comment>Дополнительные свойства объекта-голосования. Пользователь проголосовавший за опцию голосования. При анонимном голосовании itemId = null</comment>
+</table>
+<table x="708" y="342" name="surveyItem">
+<row name="surveyId" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="itemId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="counter" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>0</default><comment>Для опросов. Количество голосов за этот пункт</comment>
+</row>
+<row name="isCorrect" null="0" autoincrement="0">
+<datatype>bit(1)</datatype>
+<default>0</default><comment>Для тестов. Правильный ответ</comment>
+</row>
+<key type="PRIMARY" name="">
+<part>itemId</part>
+</key>
+<key type="PRIMARY" name="">
+<part>surveyId</part>
+</key>
+<comment>Дополнительные свойства объекта-опции голосования. Если это голосование, counter показывает количество голосов отданных за эту опцию. Если это тест, isCorrect показывает что эта опция является правильным ответом.</comment>
+</table>
+<table x="498" y="497" name="objectProperty">
+<row name="objectId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="type" null="0" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default></row>
+<row name="name" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<row name="value" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<key type="PRIMARY" name="">
+<part>objectId</part>
+</key>
+</table>
+<table x="696.3333" y="472" name="survey">
+<row name="surveyId" null="0" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="mode" null="1" autoincrement="0">
+<datatype>SET</datatype>
+<default>NULL</default><comment>{one|and|or} Для тестов определяет логику выбора правильных ответов.</comment>
+</row>
+<row name="schedule" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>surveyId</part>
+</key>
+</table>
+</sql>
+

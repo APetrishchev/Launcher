@@ -6,160 +6,214 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"os/signal"
 	"path/filepath"
+	"strconv"
+	"strings"
 	"syscall"
 	"time"
+
+	"github.com/go-gem/sessions"
 )
 
 var (
-	log *controller.LogType
+	log  *controller.LogType
 	conf *controller.ConfigType
+	err error
 )
 
-func initial() {
-	log.Open()
-	model.Db(conf.DbHost, conf.DbPort, conf.DbUser, conf.DbPasswd, conf.DbName)
-	controller.Init(filepath.Join(conf.BackupDirPath, "init", "laucher.json"))
-	log.Close()
+func CheckDb() (err error) {
+	db := &model.DbType{
+		Host: conf.DbHost,
+		Port: conf.DbPort,
+		User: conf.DbUser,
+		Passwd: conf.DbPasswd,
+		Name: conf.DbName,
+	}
+	if err = db.Open(); err != nil {
+		return err
+	}
+	db.Close()
+	return nil
 }
 
-func backup() {
+func _init_(args []string) string {
+	var appDirPath string
+	appDirPath, err = filepath.Abs(filepath.Dir(args[0]))
+	if  err != nil {
+		return fmt.Sprintln(err)
+	}
+	// Config file
+	iniFilePath := filepath.Join(appDirPath, "config", "server.ini")
+	conf = &controller.ConfigType{AppDirPath: appDirPath, IniFilePath: iniFilePath}
+	if err = conf.Load(); err != nil {
+		return fmt.Sprintf("Fail to read ini file '%s': %v\n", conf.IniFilePath, err)
+	}
+	// Log file
+	log = &controller.LogType{LogFilePath: conf.LogFilePath}
+	if err = log.Open(); err != nil {
+		return fmt.Sprintf("Failed to open log file '%s': %v", conf.LogFilePath, err)
+	}
+	defer log.Close()
+	return "Ok"
 }
 
-func restore() {
-}
-
-func start() {
-	log.Open()
-	log.Write.Println()
-	log.Header.Println("Press Ctrl+C for stop server")
-
-	// db := model.Db(conf.DbHost, conf.DbPort, conf.DbUser, conf.DbPasswd, conf.DbName)
-	// db.Open()
-
-	// getSessionKey := func(key string) []byte {
-	// 	var buf []byte
-	// 	str := dtIni.Section("session").Key(key).String()
-	// 	if str != "" {
-	// 		for _, item := range strings.Fields(str) {
-	// 			val, _ := strconv.ParseUint(item, 10, 8)
-	// 			buf = append(buf, byte(val))
-	// 		}
-	// 	} else {
-	// 		buf = securecookie.GenerateRandomKey(32)
-	// 		str := fmt.Sprintf("%v", buf)
-	// 		dtIni.Section("session").Key(key).SetValue(str[1 : len(str)-1])
-	// 		conf.IsChanged = true
-	// 	}
-	// 	return buf
-	// }
-
-	// httpServer = HttpServer{
-	// 	favicon:						dtIni.Section("http").Key("favicon").MustString("favicon.ico"),
-	// 	sessionAuthKey1:		getSessionKey("auth_key_1"),
-	// 	sessionEncryptKey1: getSessionKey("encrypt_key_1"),
-	// 	sessionAuthKey2:		getSessionKey("auth_key_2"),
-	// 	sessionEncryptKey2: getSessionKey("encrypt_key_2"),
-	// }
-
+func start(args []string) string {
+	var pidFile *os.File
+	if ret := _init_(args); ret != "Ok" {
+		return ret
+	}
+	// Pid file
+	if pidFile, err = os.OpenFile(conf.PidFilePath, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0664); err != nil {
+		if os.IsExist(err) {
+			return fmt.Sprintf("File '%s' is exist. Server already running?\n", conf.PidFilePath)
+		}
+		return fmt.Sprintf("Fail to create pid file '%s': %v\n", conf.PidFilePath, err)
+	}
+	if _, err = pidFile.WriteString(strconv.Itoa(os.Getpid())); err != nil {
+		return fmt.Sprintf("Fail to write pid file '%s': %v\n", conf.PidFilePath, err)
+	}
+	if err = pidFile.Close(); err != nil {
+		return fmt.Sprintf("Fail to close pid file '%s': %v\n", conf.PidFilePath, err)
+	}
+	if err = CheckDb(); err != nil {
+		return fmt.Sprintf("Failed to open DB '%s': %v", conf.DbName, err)
+	}
+	var httpServer = &controller.HttpServerType{
+		CookieStore: sessions.NewCookieStore(
+			conf.SessionAuthKey1, conf.SessionEncryptKey1,
+			conf.SessionAuthKey2, conf.SessionEncryptKey2,
+		),
+	}
 	if conf.IsChanged {
 		conf.Save()
 	}
 
+	host := conf.Host + ":" + conf.Port
+	fmt.Printf("Server start at %s ... OK\n", host)
+	fmt.Println("Press Ctrl+C for stop server")
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt, syscall.SIGTERM, syscall.SIGTERM)
-
-	host := conf.Host + ":" + conf.Port
-	log.Info.Printf("Server start at %s ... OK\n", host)
-  var httpServer = &controller.HttpServer{Log: log, Conf: conf}
 	if conf.Proto == "https" {
 		go httpServer.StartHTTPS()
 	} else {
 		go httpServer.StartHTTP(host, httpServer.Handler)
 	}
-
-	//TestHttpClient()
-
 	<-stop
 	log.Write.Println()
-	log.Info.Printf("Server stop ... ")
+	log.Info.Printf("Server stopping ... ")
 	_, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer func() {
-		log.Info.Println("OK")
-		// db.Close()
-		log.Close()
+		log.Info.Println("Server stop ... OK")
 		cancel()
 	}()
-	if err := httpServer.Server.Shutdown(); err != nil {
-		log.Error.Println("Error: %v\n", err)
+	if err = httpServer.Server.Shutdown(); err != nil {
+		return fmt.Sprintln("Error: %v\n", err)
 	}
+	if err = os.Remove(conf.PidFilePath); err != nil {
+		return fmt.Sprintf("Fail to delete pid file '%s': %v\n", conf.PidFilePath, err)
+	}
+	return "Ok"
 }
 
-func stop() {
-}
-
-func restart() {
+func stop(args []string) string {
+	var (
+		pidFile *os.File
+		pidStr []byte
+		pid int
+	)
+	if ret := _init_(args); ret != "Ok" {
+		return ret
+	}
+	if pidFile, err = os.Open(conf.PidFilePath); err != nil {
+		if os.IsNotExist(err) {
+			return fmt.Sprintf("Pid file '%s' is not exist. Server is not running?\n", conf.PidFilePath)
+		}
+		return fmt.Sprintf("Fail to open pid file '%s': %v\n", conf.PidFilePath, err)
+	}
+	if pidStr, err = ioutil.ReadAll(pidFile); err != nil {
+		return fmt.Sprintf("Fail to read pid file '%s': %v\n", conf.PidFilePath, err)
+	}
+	if err = pidFile.Close(); err != nil {
+		return fmt.Sprintf("Fail to close pid file '%s': %v\n", conf.PidFilePath, err)
+	}
+	if pid, err = strconv.Atoi(string(pidStr)); err != nil {
+		return fmt.Sprintf("Fail to atoi pid: %v\n", err)
+	}
+	fmt.Println(pid)
+	return "Ok"
 }
 
 func main() {
-	var isVer = flag.Bool("V", false, "display version")
-	var isInit = flag.Bool("init", false, "initialization database")
-	var isStart = flag.Bool("start", false, "start server")
-	var isConf = flag.String("config", "", "config file")
-	var isStop = flag.Bool("stop", false, "stop server")
-	var isRestart = flag.Bool("restart", false, "restart server")
-	var isBackup = flag.Bool("backup", false, "backup database")
-	var isRestore = flag.Bool("restore", false, "restore database")
+	fmt.Println("\n" + strings.Repeat("*", 80))
+	var (
+		isVer = flag.Bool("V", false, "display version")
+		isInit = flag.Bool("init", false, "initialization database")
+		isStart = flag.Bool("start", false, "start server")
+		// isConf = flag.String("config", "", "config file")
+		isStop = flag.Bool("stop", false, "stop server")
+		isRestart = flag.Bool("restart", false, "restart server")
+		isBackup = flag.Bool("backup", false, "backup database")
+		isRestore = flag.Bool("restore", false, "restore database")
+	)
 	flag.Parse()
+	ret := "Ok"
+
+	// fmt.Println(">>>>>>", isConf)
+	// if len(flag.Args()) > 0 {
+	// 	iniFilePath = flag.Arg(0)
+	// }
 
 	if *isVer {
 		fmt.Println("v1.0.0")
-		os.Exit(0)
 	}
 
-	if *isStop {
-		stop()
-	}
-
-	if *isRestart {
-		restart()
+	if *isInit {
+		if ret = _init_(os.Args);	ret == "Ok" {
+			if _, err = os.Stat(conf.PidFilePath); err != nil {
+				if os.IsNotExist(err) {
+					if err = CheckDb(); err != nil {
+						ret = fmt.Sprintf("Failed to open DB '%s': %v", conf.DbName, err)
+					} else {
+						if err = controller.Init(filepath.Join(conf.BackupDirPath, "init", "laucher.json")); err != nil {
+							ret = fmt.Sprintf("Error: %v", err)
+						}
+					}
+				} else {
+					ret = fmt.Sprintf("Error: %v", err)
+				}
+			}	else {
+				ret = fmt.Sprintf("Pid file '%s' is exist. Server is running?\n", conf.PidFilePath)
+			}
+		}
 	}
 
 	if *isBackup {
-		backup()
 	}
 
 	if *isRestore {
-		restore()
-	}
-
-	var (
-		appDirPath, iniFilePath string
-		err error
-	)
-	if appDirPath, err = filepath.Abs(filepath.Dir(os.Args[0])); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	fmt.Println(">>>>>>", isConf)
-	if len(flag.Args()) > 0 {
-		iniFilePath = flag.Arg(0)
-	} else {
-		iniFilePath = filepath.Join(appDirPath, "config", "server.ini")
-	}
-	fmt.Println(iniFilePath)
-	conf = &controller.ConfigType{}
-	conf.Load(appDirPath, iniFilePath)
-	log = &controller.LogType{LogFilePath: conf.LogFilePath}
-
-	if *isInit {
-		initial()
-		os.Exit(0)
 	}
 
 	if *isStart {
-		start()
+		ret = start(os.Args)
+	}
+
+	if *isStop {
+		ret = stop(os.Args)
+	}
+
+	if *isRestart {
+		if stop(os.Args) == "Ok" {
+			ret = start(os.Args)
+		}
+	}
+
+	if ret == "Ok" {
+		os.Exit(0)
+	} else {
+		fmt.Println(ret)
+		os.Exit(1)
 	}
 }
