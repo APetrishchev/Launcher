@@ -1,4 +1,4 @@
-import { App, Obj } from "../../../../Application/1.0.0/front/scripts/system.js"
+import { App, Obj } from "../../../../Laucher/1.0.0/front/scripts/system.js"
 
 //******************************************************************************
 export class Application extends App {

@@ -1,5 +1,5 @@
-import { App } from "../../../../Application/1.0.0/front/scripts/system.js"
-import { Calendar } from "../../../../Application/1.0.0/front/scripts/calendar.js"
+import { App } from "../../../../Laucher/1.0.0/front/scripts/system.js"
+import { Calendar } from "../../../../Laucher/1.0.0/front/scripts/calendar.js"
 
 //******************************************************************************
 class Application extends App {
@@ -9,7 +9,7 @@ class Application extends App {
     this.calendar.onMouseOver = (evn) => { console.log(evn.target.id) }
     this.calendar.onMouseOut = (evn) => { }
     this.calendar.onClick = (evn) => {
-      let win = window.open(
+      const win = window.open(
         `${location.origin}/AppScheduler/1.0.0/front/index.html&date=${evn.target.id}`,
         "_blank", "left=100,top=100,width=520,height=480")
     }

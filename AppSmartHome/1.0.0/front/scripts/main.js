@@ -1,48 +1,103 @@
-import { App, Obj } from "../../../../Application/1.0.0/front/scripts/system.js"
-import { tokens } from "../../../../ini.js"
+import { App, Obj } from "../../../../Laucher/1.0.0/front/scripts/system.js"
+import { debug } from "../../../../Laucher/1.0.0/front/scripts/etc.js"
 
-var app, svg = {}
+//******************************************************************************
+class Remote {
+  static websocket = null
+  static waiting = {}
+
+  static connect() {
+    return new Promise((resolve, reject) => {
+      // Remote.websocket = new WebSocket(`ws://${window.location.host}/ws`)
+      Remote.websocket = new WebSocket(`ws://127.0.0.1/ws`)
+      Remote.websocket.onopen = () => {
+        resolve()
+      }
+      Remote.websocket.onerror = err => {
+        reject(err);
+      }
+      Remote.websocket.onmessage = evn => {
+        const result = JSON.parse(evn.data)
+        for (const id in result) {
+          console.log(`>>> MESSAGE ${id}:`, result[id])
+          if (Remote.waiting[id]) {
+            Remote.waiting[id].resolve(Remote.waiting[id].onmessage(result))
+            delete Remote.waiting[id]
+          } else if (id === "event") {
+            const obj = Application.objects[result[id].objId]
+            obj.value = result[id].event
+            obj.update()
+          }
+        }
+      }
+    })
+  }
+
+  static promise(id, body, onmessage) {
+    let resolve_, reject_
+    const promise = new Promise((resolve, reject) => {
+      resolve_ = resolve
+      reject_ = reject
+      console.log(`<<< MESSAGE ${id}:`, body)
+      Remote.websocket.send(`{${id}": ${JSON.stringify(body)}}`)
+    })
+    Remote.waiting[id] = { "resolve": resolve_, "reject": reject_, "onmessage": onmessage }
+    return promise
+  }
+}
+
+var instance, svg = {}
 //******************************************************************************
 export class Application extends App {
   static zones = {}
   static objects = {}
   static updateElements = [] // needed???????????????????????????????????????????????
 
-  constructor(kvargs = {}) {
-    super(kvargs)
-    app = this
-    this.token = new URL(location.href).searchParams.get("token")
-    // CONFIG CONFIG CONFIG CONFIG CONFIG CONFIG CONFIG CONFIG
-    this.ini = tokens[this.token]
-    // end CONFIG CONFIG CONFIG CONFIG CONFIG CONFIG CONFIG CONFIG
-    this.show()
+  static async getInstance(kvargs) {
+    instance = new Application(kvargs)
+    instance.className = kvargs.className
+    const res = await fetch("/home/.application/SmartHome/data.json")
+    instance.cfg = await res.json()
+    debug("SmartHome", instance.cfg)
+    try {
+      await Remote.connect()
+    } catch(err) {
+alert(`Ошибка подключения к "HomeServer".\nСервер не запущен или не установлен.\n${err}\n\nПри необходимости загрузите https://cabinet.duckdns.org/dounload/HomeServer ,\nзатем установите и запустите его.`,)
+    }
+      instance.show()
+    window.addEventListener("resize", () => {
+      instance.show()
+      console.log(">>> resize")
+    })
+    return instance
+  }
 
-    let checkbox = document.createElement("input")
+  show() {
+    super.show()
+    const checkbox = document.createElement("input")
     checkbox.id = "UpdateButton"
     checkbox.type = "checkbox"
-    this.element.appendChild(checkbox)
+    this.element.className = this.className
+    this.element.append(checkbox)
+    const rect = this.element.getBoundingClientRect()
+    console.log(rect)
+    svg.width = rect.width - 8
+    svg.height = rect.height - 8
 
     svg.element = document.createElementNS("http://www.w3.org/2000/svg", "svg")
-    this.element.appendChild(svg.element)
-    const svgRect = svg.element.getBoundingClientRect()
-    svg.width = svgRect.width
-    svg.height = svgRect.height
-
-    // CONFIG CONFIG CONFIG CONFIG CONFIG CONFIG CONFIG CONFIG
-    // await Remote.connect()
-    // let const = await Remote.promise("getConfig", null, (res) => {return res["getConfig"]})
-    const cfg = this.ini.applications.SmartHome.Home
-    // end CONFIG CONFIG CONFIG CONFIG CONFIG CONFIG CONFIG CONFIG
-    for (const [zoneId, zone] of Object.entries(cfg.Zones)) {
+    svg.element.setAttribute("width", `${svg.width}px`)
+    svg.element.setAttribute("height", `${svg.height}px`)
+    this.element.append(svg.element)
+    for (const [zoneId, zone] of Object.entries(this.cfg.Home.Zones)) {
       new Zone(zoneId, zone).show()
     }
-    for (const [zoneId, zone] of Object.entries(cfg.Objects)) {
+    for (const [zoneId, zone] of Object.entries(this.cfg.Home.Objects)) {
       for (const [objId, obj] of Object.entries(zone)) {
         console.log(objId, obj.type)
         obj.zoneId = zoneId
         obj.hide = obj.hide || false
 
-        let obj_ = new (Application[obj.type])(`${zoneId}_${objId}`, obj)
+        const obj_ = new (Application[obj.type])(`${zoneId}_${objId}`, obj)
         Application.objects[obj_.id] = obj_
         if (1) { //(!obj.hide) {
           // Application.updateElements.push({"zoneId": obj_.zoneId,
@@ -63,52 +118,6 @@ export class Application extends App {
 }
 
 //******************************************************************************
-class Remote {
-  static websocket = null
-  static waiting = {}
-
-  static connect() {
-    return new Promise((resolve, reject) => {
-      Remote.websocket = new WebSocket(`ws://${window.location.host}/ws`)
-      Remote.websocket.onopen = function () {
-        resolve()
-      }
-      Remote.websocket.onerror = function (err) {
-        reject(err);
-      }
-      Remote.websocket.onmessage = Remote.onMessage
-    })
-  }
-
-  static promise(id, body, onmessage) {
-    let resolve_, reject_
-    let promise = new Promise((resolve, reject) => {
-      resolve_ = resolve
-      reject_ = reject
-      console.log(`<<< MESSAGE ${id}:`, body)
-      Remote.websocket.send(`{${id}": ${JSON.stringify(body)}}`)
-    })
-    Remote.waiting[id] = { "resolve": resolve_, "reject": reject_, "onmessage": onmessage }
-    return promise
-  }
-
-  static onMessage(evn) {
-    let result = JSON.parse(evn.data)
-    for (let id in result) {
-      console.log(`>>> MESSAGE ${id}:`, result[id])
-      if (Remote.waiting[id]) {
-        Remote.waiting[id].resolve(Remote.waiting[id].onmessage(result))
-        delete Remote.waiting[id]
-      } else if (id === "event") {
-        let obj = Application.objects[result[id].objId]
-        obj.value = result[id].event
-        obj.update()
-      }
-    }
-  }
-}
-
-//******************************************************************************
 class Zone {
   constructor(zoneId, kvargs) {
     Application.zones[zoneId] = this
@@ -117,7 +126,7 @@ class Zone {
   }
 
   show() {
-    let ln = document.createElementNS(svg.element.namespaceURI, "polygon")
+    const ln = document.createElementNS(svg.element.namespaceURI, "polygon")
     ln.className.baseVal = "Zone"
     let points = ''
     for (let idx = 1; idx < this.geometry.length; idx++) {
@@ -126,13 +135,13 @@ class Zone {
     points += `${this.geometry[0][0] * svg.width},${this.geometry[0][1] * svg.height}`
     ln.setAttribute("points", points)
     ln.setAttribute("stroke", "rgb(0,0,0)")
-    svg.element.appendChild(ln)
-    let txt = document.createElementNS(svg.element.namespaceURI, "text")
+    svg.element.append(ln)
+    const txt = document.createElementNS(svg.element.namespaceURI, "text")
     txt.className.baseVal = "ZoneName"
     txt.setAttribute('x', this.geometry[0][0] * svg.width + 3)
     txt.setAttribute('y', this.geometry[0][1] * svg.height + 10)
-    txt.innerHTML = this.name
-    svg.element.appendChild(txt)
+    txt.append(this.name)
+    svg.element.append(txt)
   }
 }
 
@@ -153,14 +162,14 @@ class __Object {
   }
 
   show() {
-    this.element = Obj.createElement({ id: this.id, parent: app.element,
+    this.element = Obj.createElement({ id: this.id, parent: instance.element,
       left: this.x, top: this.y,  tips: this.name })
     this.element.master = this
     this.update()
   }
 
   async update() {
-    this.element.innerHTML = this.value === "on" ? "On" : "Off"
+    this.element.append(this.value === "on" ? "On" : "Off")
   }
 
   sendEvent(evn) {
@@ -185,7 +194,7 @@ Application.ModeButton = class ModeButton extends __Object {
   }
 
   async update() {
-    this.element.innerHTML = this.value === "on" ? "Auto" : "Man"
+    this.element.append(this.value === "on" ? "Auto" : "Man")
   }
 }
 
@@ -206,7 +215,7 @@ Application.TemperatureSensor = class TemperatureSensor extends Application.Sens
 
   async update() {
     this.value = await this.sendEvent("getValue")
-    this.element.innerHTML = `t${parseFloat(this.value).toFixed(1)}&#8451;`
+    this.element.append(`t${parseFloat(this.value).toFixed(1)}&#8451;`)
   }
 }
 
@@ -274,5 +283,5 @@ Application.MotionDetector = class MotionDetector extends Application.Sensor {
 
 //******************************************************************************
 window.addEventListener("load", async () => {
-  new Application({ parent: document.body, className: "Home" })
+  await Application.getInstance({ parent: document.body, className: "Home" })
 })

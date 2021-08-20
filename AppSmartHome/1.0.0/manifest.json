@@ -5,7 +5,7 @@
   "parentVersion": "",
   "picture": "public/pictures/.applications/SmartHome/home.png",
   "groups": [
-    "General"
+    "General", "Home"
   ],
   "author": {
     "name": "Andrey Petrishchev",

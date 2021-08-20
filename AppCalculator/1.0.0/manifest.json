@@ -5,7 +5,7 @@
   "parentVersion": "",
   "picture": "public/pictures/.applications/Calculator/calculator.png",
   "groups": [
-    "General"
+    "General", "Office", "Home"
   ],
   "author": {
     "name": "Andrey Petrishchev",

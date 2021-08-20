@@ -5,7 +5,7 @@
   "parentVersion": "",
   "picture": "public/pictures/.applications/Player/player.webp",
   "groups": [
-    "General"
+    "General", "Audio&Video"
   ],
   "author": {
     "name": "Andrey Petrishchev",

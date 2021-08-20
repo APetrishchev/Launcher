@@ -4,7 +4,7 @@ WORKDIR=/home/apetrishchev/Portable/Projects/github.com/APetrishchev/Laucher
 
 # export GO111MODULE=on
 # unset GOPATH
-# cd "$WORKDIR/src/Application/1.0.0"
+# cd "$WORKDIR/src/Laucher/1.0.0"
 # go mod init httpServer_
 # go mod tidy
 # go list
@@ -12,7 +12,7 @@ WORKDIR=/home/apetrishchev/Portable/Projects/github.com/APetrishchev/Laucher
 export GO111MODULE=off
 export GOPATH=$WORKDIR
 
-go get github.com/google/uuid
+# go get github.com/google/uuid
 # go get github.com/gorilla/securecookie
 # go get github.com/go-gem/sessions
 # go get github.com/valyala/fasthttp
@@ -24,7 +24,7 @@ go get github.com/google/uuid
 # @latest
 
 export GOBIN=/home/apetrishchev/Portable/data/admin/exe
-go install "$WORKDIR/src/Application/1.0.0/server.go"
+go install "$WORKDIR/src/Laucher/1.0.0/server.go"
 # cat /home/apetrishchev/Portable/data/admin/.passwd | sudo --stdin "$GOBIN/server"
 
 # export GOBIN=/home/apetrishchev/Portable/data/applications/HomeServer/1.0.0/linux_amd64

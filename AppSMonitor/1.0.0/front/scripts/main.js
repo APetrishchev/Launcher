@@ -1,5 +1,5 @@
-import { App, Obj, Form, ProgressBar, Gauge } from "../../../../Application/1.0.0/front/scripts/system.js"
-import { wait, units } from "../../../../Application/1.0.0/front/scripts/etc.js"
+import { App, Obj, Form, ProgressBar, Gauge } from "../../../../Laucher/1.0.0/front/scripts/system.js"
+import { wait, units } from "../../../../Laucher/1.0.0/front/scripts/etc.js"
 
 var app
 
@@ -14,7 +14,7 @@ export class TopProcess extends Obj {
     super.show()
     this.top = []
     for (let idx = 0; idx < 5; idx++) {
-      let hLayout = Obj.createElement({ parent: this.element, classList: ["HLayout"], children: [
+      const hLayout = Obj.createElement({ parent: this.element, classList: ["HLayout"], children: [
         Obj.createElement({ classList: ["SMonitor-TopProcess-Pid"] }),
         Obj.createElement({ classList: ["SMonitor-TopProcess-Cmd"] }),
         Obj.createElement({ classList: ["SMonitor-TopProcess-Perc"] })]
@@ -25,9 +25,9 @@ export class TopProcess extends Obj {
 
   update(metric) {
     for (let idx = 0; idx < 5; idx++) {
-      this.top[idx].children[0].innerHTML = metric[idx].pid
-      this.top[idx].children[1].innerHTML = metric[idx].cmd
-      this.top[idx].children[2].innerHTML = `${metric[idx].perc} %`
+      this.top[idx].children[0].append(metric[idx].pid)
+      this.top[idx].children[1].append(metric[idx].cmd)
+      this.top[idx].children[2].append(`${metric[idx].perc} %`)
     }
   }
 }
@@ -64,7 +64,7 @@ export class Application extends App {
       }
     })
     if (this.errorElement) {
-      this.element.removeChild(this.errorElement) }
+      this.errorElement.remove() }
     this.hostname = new Obj({ })
     this.uptime = new Obj({ })
     this.cpu = {}
@@ -73,7 +73,7 @@ export class Application extends App {
     let hLayout = Obj.createElement({parent: this.element, classList: ["HLayout"] })
     this.cpu.cpus = []
     for (let idx = 0; idx < this.metrics.cpu.cpus.length; idx++) {
-      let elm = new ProgressBar({ parent: hLayout, vertical: true })
+      const elm = new ProgressBar({ parent: hLayout, vertical: true })
       elm.show()
       this.cpu.cpus.push(elm)
     }
@@ -121,8 +121,8 @@ export class Application extends App {
       return }
     const prevMetric = this.metrics //[this.metrics.length - 2]
     const lastMetric = this.metrics //[this.metrics.length - 1]
-    this.hostname.element.innerHTML = lastMetric.hostname
-    this.uptime.element.innerHTML = units.uptime(lastMetric.uptime)
+    this.hostname.element.append(lastMetric.hostname)
+    this.uptime.element.append(units.uptime(lastMetric.uptime))
     this.cpu.cpu.value = lastMetric.cpu.cpu
     this.cpu.cpu.text = `CPU Used: ${lastMetric.cpu.cpu.toFixed(0)}%`
     for (let idx = 0, len = this.cpu.cpus.length; idx < len; idx++) {

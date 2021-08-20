@@ -1,0 +1,70 @@
+body {
+  margin: 5px;
+  border: solid 2px #888888;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 5px;
+  background-color: #cccccc;
+}
+
+.HLayout {
+  flex: 0 0 auto;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.LayoutMessage {
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.LayoutButtons {
+  align-items: center;
+  justify-content: space-around;
+}
+
+.Picture {
+  flex: 0 0 auto;
+  margin: 3px;
+  width: 80px;
+  height: 80px;
+  background-image: url(/data/applications/pictures/Dialogs/qwestion.png);
+  background-size: 80px 80px;
+}
+
+.Message {
+  flex: 1 1 auto;
+  margin: 3px;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.Button {
+  cursor: pointer;
+  margin: 3px;
+  border: solid 2px #888888;
+  border-left-color: white;
+  border-top-color: white;
+  border-radius: 10px;
+  background: radial-gradient(farthest-side ellipse at top left, white, #c7c7c7);
+  box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.3), -5px -10px 20px rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 25px;
+  padding: 5px;
+  font-size: 20px;
+}
+
+.Button:active {
+  background: radial-gradient(farthest-side ellipse at top left, #c7c7c7, white);
+}

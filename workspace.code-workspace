@@ -10,6 +10,8 @@
 	"settings": {
 		"go.autocompleteUnimportedPackages": false,
 		"go.useLanguageServer": true,
+		"compile-hero.disable-compile-files-on-did-save-code": false,
+		"compile-hero.sass-output-directory": "../",
 		// "go.inferGopath": true
 	}
 }

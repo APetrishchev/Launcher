@@ -1,12 +1,12 @@
 import { App, Obj, Splitter, Tree, Item,
   Form, ListBox, Label, Button, CheckBox, Dialog
-} from "../../../../Application/1.0.0/front/scripts/system.js"
-import { firstZero } from "../../../../Application/1.0.0/front/scripts/etc.js"
-import { Cron } from "../../../../Application/1.0.0/front/scripts/cron.js"
-import { Calendar } from "../../../../Application/1.0.0/front/scripts/calendar.js"
-import { LaucherDB } from "../../../../AppLaucher/1.0.0/front/scripts/laucher_db.js"
+} from "../../../../Laucher/1.0.0/front/scripts/system.js"
+import { firstZero } from "../../../../Laucher/1.0.0/front/scripts/etc.js"
+import { BinPosCode } from "./cron.js"
+import { Calendar } from "../../../../Laucher/1.0.0/front/scripts/calendar.js"
+import { LaucherDB } from "../../../../Laucher/1.0.0/front/scripts/laucher_db.js"
 
-var app
+var instance
 
 //******************************************************************************
 class CronList extends Tree {
@@ -16,14 +16,14 @@ class CronList extends Tree {
   }
 
   show() {
-    for (const [type, ids] of Object.entries(app.types)) {
-      const branch = this.addTree({ name: type, events: { "click": app.branchOnClick} })
+    for (const [type, ids] of Object.entries(instance.types)) {
+      const branch = this.addTree({ name: type, events: { "click": instance.branchOnClick} })
       for (const id of ids) {
-        const nameElement = Obj.createElement({ classList: Obj.combine(this.classList, "-Item-Name"), children: app.data[id].name })
-        const descrElement = Obj.createElement({ classList: Obj.combine(this.classList, "-Item-Descr"), children: app.data[id].descr })
-        let leaf = branch.addItem({ classList: branch.classList, children: [nameElement, descrElement],
-          events: {"click": app.leafOnClick} })
-        leaf.data = app.data[id]
+        const nameElement = Obj.createElement({ classList: Obj.combine(this.classList, "-Item-Name"), children: instance.data[id].name })
+        const descrElement = Obj.createElement({ classList: Obj.combine(this.classList, "-Item-Descr"), children: instance.data[id].descr })
+        const leaf = branch.addItem({ classList: branch.classList, children: [nameElement, descrElement],
+          events: {"click": instance.leafOnClick} })
+        leaf.data = instance.data[id]
       }
     }
     super.show()
@@ -55,7 +55,7 @@ class CronPanel extends Tree {
         typeof (val) === "bigint" ? val >>= 1n : val >>>= 1
       }
       if (this._value !== this.items[0].value) {
-        app.panels[1].buttonsEnable() }
+        instance.panels[1].buttonsEnable() }
     }
   }
 
@@ -146,13 +146,13 @@ class ActionPanel extends CronPanel {
 
   expand() {
     super.expand()
-    new ListBox({ parent: this.items[0].element, options: ["", "play"], value: app.panels[1].data.action }).show()
-    if (app.panels[1].data.action === "play") {
-      new Obj({ parent: this.items[0].element, classList: ["PlayPanel-Media"], children: app.panels[1].data.params.media || "" }).show()
+    new ListBox({ parent: this.items[0].element, options: ["", "play"], value: instance.panels[1].data.action }).show()
+    if (instance.panels[1].data.action === "play") {
+      new Obj({ parent: this.items[0].element, classList: ["PlayPanel-Media"], children: instance.panels[1].data.params.media || "" }).show()
       new Button({ parent: this.items[0].element, classList: ["PlayPanel-ChoiseButton"], children: "..." }).show()
       new Button({ parent: this.items[0].element, classList: ["PlayPanel-PlayButton"], children: ">" }).show()
-      new Obj({ parent: this.items[0].element, classList: ["PlayPanel-Timeout"], children: app.panels[1].data.timeout || "" }).show()
-      new Obj({ parent: this.items[0].element, classList: ["PlayPanel-Volume"], children: app.panels[1].data.params.volume || "" }).show()
+      new Obj({ parent: this.items[0].element, classList: ["PlayPanel-Timeout"], children: instance.panels[1].data.timeout || "" }).show()
+      new Obj({ parent: this.items[0].element, classList: ["PlayPanel-Volume"], children: instance.panels[1].data.params.volume || "" }).show()
     }
   }
 }
@@ -177,9 +177,9 @@ class MonthDaysPanel extends CronPanel {
 class WeekDaysPanel extends CronPanel {
   expand() {
     super.expand()
-    let rowElm = Obj.createElement({ parent: this.items[0].element,
+    const rowElm = Obj.createElement({ parent: this.items[0].element,
       classList: Obj.combine(this.classList, "-Row") })
-    let btn = new Button({ type: Button.Toggle, parent: rowElm,
+    const btn = new Button({ type: Button.Toggle, parent: rowElm,
       classList: Obj.combine(this.classList, "-WeekDaysButton"),
       events: { "click": elm => {
         // this.collapse()
@@ -197,10 +197,10 @@ class WeekDaysPanel extends CronPanel {
       elm.value = this.value < 256 ? 2 ** (col - 1) : 2 ** (5 + col) + 2 ** (12 + col) + 2 ** (19 + col) + 2 ** (26 + col)
 console.dir(elm)
     }
-    if (this.value & (!Cron.weekDaysEnableMask) >= 256) {
+    if (this.value & (!BinPosCode.weekDaysEnableMask) >= 256) {
       btn.status = Button.Down
       for (let row = 1; row < 5; row++) {
-        rowElm = Obj.createElement({ parent: this.items[0].element,
+        const rowElm = Obj.createElement({ parent: this.items[0].element,
           classList: Obj.combine(this.classList, "-Row") })
         elm = Obj.createElement({ parent: rowElm,
           classList: Obj.combine(this.classList, "-Cell"), children: row,
@@ -353,39 +353,34 @@ console.log(`  action "${this.fields[11][1].value}" = "${this.data.action}" ? ${
 
 //******************************************************************************
 export class Application extends Splitter {
-  constructor() {
-    super({ parent: document.body, panels: [new CronList(), new CronForm()] })
-    app = this
-  }
-
-  async show() {
-    this.changedIds = []
+  static async getInstance() {
+    instance = new Application({ parent: document.body, panels: [new CronList(), new CronForm()] })
+    instance.changedIds = []
     const db = new LaucherDB()
-    this.data = []
-    this.types = {}
+    instance.data = []
+    instance.types = {}
     for (const data of await db.get("cron")) {
-      this.data[data.id] = data
-      if (!(data.type in this.types)) {
-        this.types[data.type] = [] }
+      instance.data[data.id] = data
+      if (!(instance.data.type in instance.types)) {
+        instance.types[data.type] = [] }
       data.isChanged = false
-      this.types[data.type].push(data.id)
+      instance.types[data.type].push(data.id)
     }
-    super.show()
+    instance.show()
   }
 
   async branchOnClick(branch) {
-    await app.panels[1].update({ type: branch.name })
+    await this.panels[1].update({ type: branch.name })
   }
 
   async leafOnClick(leaf) {
-    await app.panels[1].update(leaf.data)
+    await this.panels[1].update(leaf.data)
   }
 }
 
 //******************************************************************************
 window.addEventListener("load", async () => {
-  new Application()
-  await app.show()
+  await Application.getInstance()
 })
 
 // const toggle = new Button({
