@@ -1,0 +1,343 @@
+html {
+  background-color: transparent;
+  margin: 0px;
+  height: 100%;
+  padding: 0px;
+}
+
+body {
+  margin: 2px;
+  border-width: 2px;
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background: -o-linear-gradient(left top, #888888, #CCCCCC);
+  background: -moz-linear-gradient(left top, #888888, #CCCCCC);
+  background: -webkit-linear-gradient(at left top, #888888, #CCCCCC);
+  background: radial-gradient(ellipse at left top, #888888, #CCCCCC);
+  padding: 2px;
+  min-width: calc(100% - 12px);
+  min-height: calc(100% - 12px);
+  color: black;
+}
+
+#measuring {
+  position: absolute;
+  visibility: hidden;
+  height: auto;
+  width: auto;
+  white-space: nowrap;
+}
+
+.HLayout {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.VLayout {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+}
+
+#Tips {
+  position: absolute;
+  box-shadow: -5px -5px 10px 0 rgba(255, 255, 255, 0.7), 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
+  border-width: 1px;
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: #FFFFAA;
+  padding: 3px;
+  font-size: 12;
+}
+
+.Button {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: -5px -5px 10px 0 #FFFFFFB2, 5px 5px 10px 0 #00000080;
+  margin: 1px;
+  border-width: 1px;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 20px;
+  padding: 1px 3px;
+}
+.Button:disabled {
+  color: #656565;
+}
+.Button:not(:disabled):active {
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background: -o-linear-gradient(top, #666666, #AAAAAA);
+  background: -moz-linear-gradient(top, #666666, #AAAAAA);
+  background: -webkit-linear-gradient(to bottom, #666666, #AAAAAA);
+  background: linear-gradient(to bottom, #666666, #AAAAAA);
+}
+.Button[status=up] {
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: -moz-linear-gradient(left top, #CCCCCC, #888888);
+  background: -o-linear-gradient(left top, #CCCCCC, #888888);
+  background: -webkit-linear-gradient(at left top, #CCCCCC, #888888);
+  background: radial-gradient(ellipse at left top, #CCCCCC, #888888);
+}
+.Button[status=down] {
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background: -o-linear-gradient(left top, #888888, #CCCCCC);
+  background: -moz-linear-gradient(left top, #888888, #CCCCCC);
+  background: -webkit-linear-gradient(at left top, #888888, #CCCCCC);
+  background: radial-gradient(ellipse at left top, #888888, #CCCCCC);
+}
+
+.ProgressBar {
+  margin: 4px;
+  border-width: 1px;
+  border-radius: 10px;
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: calc(100% - 15px);
+  height: 18px;
+  font-size: small;
+  font-weight: bold;
+  white-space: nowrap;
+  color: #0000aa;
+  overflow: hidden;
+}
+.ProgressBar-Vertical {
+  margin: 1px;
+  border-radius: 3px;
+  flex-flow: row nowrap;
+  align-items: flex-end;
+  height: calc(100% - 15px);
+  width: 100%;
+  /* width: 18px */
+}
+.ProgressBar-Normal, .ProgressBar-Warning, .ProgressBar-Critical {
+  margin: 1px 1px 1px 1px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  height: calc(100% - 4px);
+  border-width: 1px;
+  border-radius: 10px;
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  height: calc(100% - 2px);
+  padding: 0px 3px 0px 3px;
+}
+.ProgressBar-Vertical-Normal, .ProgressBar-Vertical-Warning, .ProgressBar-Vertical-Critical {
+  border-radius: 3px;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 3px 0px 3px 0px;
+}
+.ProgressBar-Normal {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), lime;
+}
+.ProgressBar-Vertical-Normal {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), lime;
+}
+.ProgressBar-Warning {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), linear-gradient(to right, lime, yellow);
+}
+.ProgressBar-Vertical-Warning {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), linear-gradient(to top, lime, yellow);
+}
+.ProgressBar-Critical {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), linear-gradient(to right, lime, yellow, red);
+}
+.ProgressBar-Vertical-Critical {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), linear-gradient(to top, lime, yellow, red);
+}
+
+.shadow {
+  -webkit-filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.5));
+}
+
+@keyframes rotation {
+  100% {
+    transform: rotate(var(--val));
+    /* transform: rotate(270deg) */
+  }
+}
+.Gauge {
+  margin: 2px;
+  border-width: 1px;
+  border-radius: 5px;
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  width: 100%;
+  height: 80px;
+}
+.Gauge-Normal {
+  stroke: lime;
+  fill: lime;
+}
+.Gauge-Warning {
+  stroke: gold;
+  fill: gold;
+}
+.Gauge-Critical {
+  stroke: #ff0000;
+  fill: #ff0000;
+}
+.Gauge-Scale {
+  fill: transparent;
+}
+.Gauge-Needle {
+  stroke: #000000;
+  fill: #000000;
+  transform-origin: 50%;
+  transform: rotate(var(--val));
+  /* animation: rotation .5s linear */
+}
+.Gauge-Text {
+  color: #000000;
+  fill: #000000;
+  line-height: 1;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.Gauge-Scale-Digits {
+  fill: #000000;
+  font-size: 0.65em;
+}
+.Gauge-Percents {
+  /* font-weight: bold */
+  font-size: 0.85em;
+}
+.Gauge-Text1, .Gauge-Text2, .Gauge-Text3 {
+  font-size: 0.75em;
+}
+
+.Form {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.Form-Fields {
+  margin: 1px 0px 1px 0px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+.Form-Field-Label {
+  flex: 0 0 auto;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+.Form-Field-Value {
+  margin: 1px 1px 1px 5px;
+  display: flex;
+  flex-flow: row nowrap;
+  border-width: 1px;
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  padding: 1px 3px 1px 3px;
+  width: 100%;
+  height: 16px;
+}
+.Form-Buttons {
+  margin: 5px 2px 2px 2px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+.Form-Button {
+  margin-right: 5px;
+}
+
+.SMonitor {
+  width: 100%;
+  height: 100%;
+}
+.SMonitor-Error {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: x-large;
+  color: red;
+}
+.SMonitor-TopProcess {
+  margin-left: 20px;
+  font-size: 0.65em;
+  color: #0000aa;
+}
+.SMonitor-TopProcess-Pid {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 20%;
+}
+.SMonitor-TopProcess-Cmd {
+  margin-left: 20px;
+  width: calc(60% - 50px);
+}
+.SMonitor-TopProcess-Perc {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 20%;
+}
+
+.ProgressBar {
+  height: 14px;
+  font-size: x-small;
+}
+.ProgressBar-Vertical {
+  height: 100%;
+}

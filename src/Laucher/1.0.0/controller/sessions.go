@@ -8,13 +8,14 @@ import (
 )
 
 type SessionType struct {
-	Id          string
-	ProfileId   int64 // *ProfileType
-	CreateTime  time.Time
-	Closed      int
-	ClientIp    string
-	ClientAgent string
-	LastActTime time.Time
+	Id          string `json:"id"`
+	UserId      int64 `json:"userId"`
+	ProfileId   int64 `json:"profileId"`
+	CreateTime  time.Time `json:"createTime"`
+	Closed      int `json:"closed"`
+	ClientIp    string `json:"clientIp"`
+	ClientAgent string `json:"clientAgent"`
+	LastActTime time.Time `json:"lastActTime"`
 }
 
 func (self *SessionType) Open(sid interface{}) (ok bool) {
@@ -22,7 +23,10 @@ func (self *SessionType) Open(sid interface{}) (ok bool) {
 		self.Id = sid.(string)
 		sessions := self.Get()
 		ok = len(*sessions) > 0
-		if ok {self = (*sessions)[0]}
+		if ok {
+			self.UserId = (*sessions)[0].UserId
+			self.ProfileId = (*sessions)[0].ProfileId
+		}
 	} else {ok = false}
 	return ok
 }
@@ -30,7 +34,7 @@ func (self *SessionType) Open(sid interface{}) (ok bool) {
 func (self *SessionType) Get() *[]*SessionType {
 	query := &model.QueryType{
 		Table: "sessions",
-		Fields: "Id, ProfileId, CreateTime, Closed, ClientIp, ClientAgent, LastActTime",
+		Fields: "Id, UserId, ProfileId, CreateTime, Closed, ClientIp, ClientAgent, LastActTime",
 	}
 	if self.Id != "" && self.ClientIp != "" && self.ClientAgent != "" {
 		query.Where = "Id=? AND ClientIp=? AND ClientAgent=? AND Closed=?"
@@ -46,8 +50,8 @@ func (self *SessionType) Get() *[]*SessionType {
 			createTime string
 			lastActTime string
 		)
-		if err = rows.Scan(&ses.Id, &ses.ProfileId, &createTime, &ses.Closed, &ses.ClientIp,
-			&ses.ClientAgent, &lastActTime); err != nil {panic(err)}
+		if err = rows.Scan(&ses.Id, &ses.UserId, &ses.ProfileId, &createTime, &ses.Closed,
+			&ses.ClientIp, &ses.ClientAgent, &lastActTime); err != nil {panic(err)}
 		if ses.CreateTime, err = time.Parse(time.RFC3339, createTime); err != nil {panic(err)}
 		if ses.LastActTime, err = time.Parse(time.RFC3339, lastActTime); err != nil {panic(err)}
 		sessions = append(sessions, ses)
@@ -62,9 +66,11 @@ func (self *SessionType) Add() {
 	self.Id = id.String()
   query := &model.QueryType{
 		Table: "sessions",
-		Fields: "Id, CreateTime, ClientIp, ClientAgent, LastActTime",
+		Fields: "Id, UserId, ProfileId, CreateTime, ClientIp, ClientAgent, LastActTime",
 		Values: []interface{}{
 			self.Id,
+			self.UserId,
+			self.ProfileId,
 			time.Now().Format(time.RFC3339),
 			self.ClientIp,
 			self.ClientAgent,
@@ -77,8 +83,8 @@ func (self *SessionType) Add() {
 func (self *SessionType) Update() {
   query := &model.QueryType{
 		Table: "sessions",
-		Fields: "ProfileId, LastActTime",
-		Values: []interface{}{self.ProfileId, time.Now().Format(time.RFC3339)},
+		Fields: "UserId, ProfileId, LastActTime",
+		Values: []interface{}{self.UserId, self.ProfileId, time.Now().Format(time.RFC3339)},
 	}
 	query.Update()
 }

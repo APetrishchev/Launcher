@@ -5,9 +5,9 @@ import (
 )
 
 type AppGroupsType struct {
-	Name        string
-	Description string
-	Picture     string
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Picture     string `json:"picture"`
 }
 
 func (self *AppGroupsType) Get() map[string]*AppGroupsType {

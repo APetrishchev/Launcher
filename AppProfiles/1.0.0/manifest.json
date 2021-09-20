@@ -1,0 +1,24 @@
+{
+  "name": "Profiles",
+  "version": "1.0.0",
+  "releaseDate": "2021-05-11",
+  "parentVersion": "",
+  "picture": "public/pictures/.applications/AppStore/setup.png",
+  "groups": [],
+  "author": {
+    "name": "Andrey Petrishchev",
+    "email": "PetriAndPetro@gmail.com"
+  },
+  "description": "Appication Profiles",
+  "langs": [
+    "ru-RU"
+  ],
+  "styles": [
+    "WhiteBlue",
+    "BlackGreen"
+  ],
+  "pageURL": "",
+  "license": "",
+  "price": "",
+  "wallet": ""
+}

@@ -1,16 +1,28 @@
 const CACHE = "Laucher_V1.0.0"
 const CACHED_FILES = [
+  "https://unpkg.com/idb/build/iife/index-min.js",
   "/",
   "/manifest.json",
   "/index.html",
   "/favicon.ico",
-  "/Laucher/1.0.0/front/styles/main.css",
-  "/Laucher/1.0.0/front/scripts/system.js",
-  "/Laucher/1.0.0/front/scripts/db.js",
-  "/Laucher/1.0.0/front/scripts/cron.js",
-  "/Laucher/1.0.0/front/scripts/etc.js",
-  "/Laucher/1.0.0/front/scripts/calendar.js",
-  "/Laucher/1.0.0/front/scripts/clock.js",
+
+  "/import/scripts/App.js",
+  "/import/scripts/Button.js",
+  "/import/scripts/Calendar.js",
+  "/import/scripts/CheckBox.js",
+  "/import/scripts/Clock.js",
+  "/import/scripts/db.js",
+  "/import/scripts/Dialog.js",
+  "/import/scripts/etc.js",
+  "/import/scripts/Form.js",
+  "/import/scripts/Gauge.js",
+  "/import/scripts/Label.js",
+  "/import/scripts/ListBox.js",
+  "/import/scripts/Obj.js",
+  "/import/scripts/ProgressBar.js",
+  "/import/scripts/Splitter.js",
+  "/import/scripts/Tips.js",
+  "/import/scripts/Tree.js",
 
   "/public/audio/sounds/atention.mp3",
   "/public/audio/voice/clock/ru-RU/female/0.wav",
@@ -40,31 +52,59 @@ const CACHED_FILES = [
   "/public/audio/voice/clock/ru-RU/female/oclock.wav",
   "/public/audio/voice/clock/ru-RU/female/minutes.wav",
 
-  "/AppCalendar/1.0.0/front/scripts/main.js",
-  "/AppCalendar/1.0.0/front/styles/main.css",
+  "/AppLaucher/1.0.0/scripts/main.js",
+  // "/AppLaucher/1.0.0/styles/default.css",
+  // "/public/pictures/.applications/Laucher/home.png",
 
-  "/AppChronos/1.0.0/front/scripts/main.js",
-  "/AppChronos/1.0.0/front/styles/main.css",
+  "/AppAppStore/1.0.0/scripts/main.js",
+  // "/AppAppStore/1.0.0/styles/default.css",
 
-  "/Laucher/1.0.0/front/scripts/main.js",
-  "/Laucher/1.0.0/front/styles/main.css",
-  "/public/pictures/.applications/Laucher/home.png",
+  "/AppCalculator/1.0.0/scripts/main.js",
+  // "/AppCalculator/1.0.0/styles/default.css",
+  // "/public/pictures/.applications/Calculator/calculator.png",
 
-  "/AppCalculator/1.0.0/front/scripts/main.js",
-  "/AppCalculator/1.0.0/front/styles/main.css",
-  "/public/pictures/.applications/Calculator/calculator.png",
+  "/AppCalendar/1.0.0/scripts/main.js",
+  // "/AppCalendar/1.0.0/styles/default.css",
 
-  "/AppPlayer/1.0.0/front/scripts/main.js",
-  "/AppPlayer/1.0.0/front/styles/main.css",
-  "/public/pictures/.applications/Player/player.webp",
+  // "/AppCanvas/1.0.0/scripts/main.js",
+  // "/AppCanvas/1.0.0/styles/default.css",
 
-  "/AppSmartHome/1.0.0/front/scripts/main.js",
-  "/AppSmartHome/1.0.0/front/styles/main.css",
-  "/public/pictures/.applications/SmartHome/home.png",
+  "/AppChronos/1.0.0/scripts/main.js",
+  "/AppChronos/1.0.0/scripts/alarmPlay.js",
+  "/AppChronos/1.0.0/scripts/alarmWin.js",
+  "/AppChronos/1.0.0/scripts/cron.js",
+  "/AppChronos/1.0.0/scripts/talkClock.js",
+  // "/AppChronos/1.0.0/styles/default.css",
 
-  "/AppWeather/1.0.0/front/scripts/main.js",
-  "/AppWeather/1.0.0/front/styles/main.css",
-  "/public/pictures/.applications/Weather/weather.webp"
+  "/AppFiles/1.0.0/scripts/main.js",
+  // "/AppFiles/1.0.0/styles/default.css",
+
+  // "/AppMessage/1.0.0/scripts/main.js",
+  // "/AppFiles/1.0.0/styles/default.css",
+
+  "/AppPlayer/1.0.0/scripts/main.js",
+  // "/AppPlayer/1.0.0/styles/default.css",
+  // "/public/pictures/.applications/Player/player.webp",
+
+  "/AppScheduler/1.0.0/scripts/main.js",
+  // "/AppScheduler/1.0.0/styles/default.css",
+
+  "/AppSmartHome/1.0.0/scripts/main.js",
+  // "/AppSmartHome/1.0.0/styles/default.css",
+  // "/public/pictures/.applications/SmartHome/home.png",
+
+  "/AppSMonitor/1.0.0/scripts/main.js",
+  // "/AppSMonitor/1.0.0/styles/default.css",
+
+  // "/AppTextEditor/1.0.0/scripts/main.js",
+  // "/AppTextEditor/1.0.0/styles/default.css",
+
+  "/AppWeather/1.0.0/scripts/main.js",
+  // "/AppWeather/1.0.0/styles/default.css",
+  // "/public/pictures/.applications/Weather/weather.webp"
+
+  "/AppWelcome/1.0.0/scripts/main.js",
+  // "/AppWelcome/1.0.0/styles/default.css",
 ]
 const TIMEOUT = 400
 

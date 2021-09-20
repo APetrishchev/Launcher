@@ -1,0 +1,200 @@
+@import "../../../../import/styles/.sass/Calendar.sass"
+@import "../../../../import/styles/.sass/Button.sass"
+//@import url("/Laucher/1.0.0/front/.import/styles/Calendar.css")
+
+@keyframes bellshake
+	0%
+		transform: rotate(0)
+	15%
+		transform: rotate(8deg)
+	30%
+		transform: rotate(-8deg)
+	45%
+		transform: rotate(4deg)
+	60%
+		transform: rotate(-4deg)
+	75%
+		transform: rotate(2deg)
+	85%
+		transform: rotate(-2deg)
+
+
+body
+	display: flex
+	flex-flow: column nowrap
+	align-items: center
+	justify-content: flex-start
+
+.Laucher
+	margin-top: 20px
+	margin-bottom: 20px
+	border: solid 1px #777777
+	border-radius: 10px
+	padding: 3px
+	height: 75px
+	display: flex
+	flex-flow: row wrap
+	align-items: flex-start
+	justify-content: center
+	color: rgb(0, 0, 100)
+
+.ChronosRunButton,
+.CalendarRunButton,
+.Item
+	cursor: pointer
+	padding-left: 3px
+	padding-right: 3px
+	display: flex
+	flex-flow: column nowrap
+	align-items: center
+	justify-content: center
+	font-size: x-small
+	transition: .2s cubic-bezier(0.22, 0.61, 0.36, 1)
+
+.CalendarRunButton:hover,
+.ChronosRunButton:hover,
+.Item:hover
+	font-size: medium
+
+.ChronosRunButton-Button,
+.CalendarRunButton-Button,
+.Item-Button
+	cursor: pointer
+	display: flex
+	flex-flow: column nowrap
+	align-items: center
+	justify-content: center
+	margin-top: 3px
+	margin-bottom: 3px
+	height: 50px
+	font-weight: bold
+	transition: .2s cubic-bezier(0.22, 0.61, 0.36, 1)
+
+.Item-Button[status="up"],
+.Item-Button[status="down"]
+	box-shadow: none
+	border: none
+	background: transparent
+
+.ChronosRunButton-Button,
+.CalendarRunButton-Button
+	border: solid 1px #777777
+	border-radius: 10px
+	background: radial-gradient(farthest-side ellipse at top left, white, #b1c4ff)
+	box-shadow: 5px 10px 20px rgba(0,0,0,0.3), -5px -10px 20px rgba(255,255,255,0.5)
+	height: 48px
+	font-size: large
+
+.ChronosRunButton-Button,
+.Item-Button
+	width: 50px
+
+.ChronosRunButton-Active,
+.CalendarRunButton-Active,
+.Item-Active
+	animation: bellshake .5s cubic-bezier(.36,.07,.19,.97) both
+	backface-visibility: hidden
+	transform-origin: center center
+
+.ChronosRunButton:hover .ChronosRunButton-Button,
+.Item:hover .Item-Button
+	width: 75px
+	height: 75px
+	font-size: 30px
+
+.CalendarRunButton-Button
+	width: 85px
+
+.CalendarRunButton:hover
+	&:hover .CalendarRunButton-Button
+		width: 230px
+		height: 200px
+		padding: 5px
+		font-size: 14px
+
+.ChronosRunButton-Title,
+.CalendarRunButton-Title,
+.Item-Title
+	border: solid 1px #777777
+	border-radius: 10px
+	background: radial-gradient(farthest-side ellipse at top left, white, #aaaaaa)
+	box-shadow: 5px 10px 20px rgba(0,0,0,0.3), -5px -10px 20px rgba(255,255,255,0.5)
+	padding-left: 3px
+	padding-right: 3px
+
+.ChronosRunButton-Title-Active,
+.CalendarRunButton-Title-Active,
+.Item-Title-Active
+	background: radial-gradient(farthest-side ellipse at top left, #aaaaaa, white)
+
+.RunButtonMenu
+	position: absolute
+	margin: 1px
+
+.PinButton
+	width: 20px
+	height: 20px
+
+	&[status="up"],
+	&[status="down"]
+		box-shadow: none
+		border: none
+		background-size: contain
+		&:active
+			border: none
+
+	&[status="up"]
+		background-image: url(/public/pictures/icons/PinUp_Blue.png)
+
+	&[status="down"]
+		background-image: url(/public/pictures/icons/PinDown_Blue.png)
+
+.Thumbnails
+	position: absolute
+	z-index: $Z_OnTop
+	display: flex
+	flex-flow: row wrap
+	align-items: center
+	justify-content: center
+	padding: 1px
+	border: solid 1px #777777
+	background-color: #88888840
+
+.Thumbnail
+	position: relative
+	left: 0
+	top: 0
+	margin: 1px
+	width: 200px
+	height: 160px
+	border: solid 1px #777777
+
+	&-Win
+		cursor: pointer
+		height: 100%
+		@include Transform(scale(attr(scale)))
+		@include Transform-origin(top left)
+
+	&-TollBar
+		position: absolute
+		left: 0
+		top: 0
+		border: solid 1px #777777
+		background-color: #CCCCCC40
+		display: flex
+		flex-flow: row nowrap
+		align-items: center
+		justify-content: flex-start
+		padding: 1px
+
+		&-CloseButton,
+		&-MoveToButton[status="up"]
+			margin: 1px
+			width: 20px
+			height: 20px
+
+		&-MoveToButton[status="up"],
+		&-MoveToButton[status="up"]:active
+			background-size: 20px
+			background-repeat: no-repeat
+			background-image: url(/public/pictures/icons/drag.png)

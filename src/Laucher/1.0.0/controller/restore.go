@@ -18,6 +18,7 @@ type manifestApplicationType struct {
   Picture string
   Groups []string
   Langs []string
+  Styles []string
   Description string
   AuthorName string
   AuthorEmail string
@@ -102,6 +103,7 @@ func Restore(backupFilePath string) {
         Picture: manifestApp.Picture,
         Groups: manifestApp.Groups,
         Langs: manifestApp.Langs,
+        Styles: manifestApp.Styles,
         Description: manifestApp.Description,
         URL: fmt.Sprintf("App%s/%s", manifestApp.Name, manifestApp.Version),
       }

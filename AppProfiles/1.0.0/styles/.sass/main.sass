@@ -1,0 +1,36 @@
+@import "../../../../import/styles/.sass/Button.sass"
+@import "../../../../import/styles/.sass/Tabs.sass"
+@import "../../../../import/styles/.sass/Form.sass"
+
+.Profile
+	&-HLayout
+		margin: 2px
+		border-width: 1px
+		@include UpBorder
+		align-items: flex-start
+
+.Form
+	margin: 2px
+	border-width: 1px
+	@include DownBorder
+	&-Field
+		&-Label
+			width: 150px
+		&-Value
+			width: 100%
+
+.Avatar
+	cursor: pointer
+	margin: 2px
+	border-width: 1px
+	@include DownBorder
+	width: 120px
+	height: 120px
+
+.Password
+	&:before
+		content: "*"
+	// &:required
+	// 	background: red
+	&:invalid
+		background: #FF000055

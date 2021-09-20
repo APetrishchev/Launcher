@@ -6,18 +6,18 @@ import (
 )
 
 type UserType struct {
-	Id          int64
-	Login       string
-	Passwd 			string
-	PublicKey   string
-	SecretKey   string
-	Countries   []string
-	Langs       []string
+	Id          int64 `json:"id"`
+	Login       string `json:"login"`
+	Passwd 			string `json:"passwd"`
+	PublicKey   string `json:"publicKey"`
+	SecretKey   string `json:"secretKey"`
+	Countries   []string `json:"countries"`
+	Langs       []string `json:"langs"`
 }
 
-func (self *UserType) Get() {
+func (self *UserType) Get() *UserType {
 	query := &model.QueryType{
-		Table:  "profiles",
+		Table:  "users",
 		Fields: "Id, Login, Passwd, PublicKey, SecretKey, Countries, Langs",
 	}
 	if self.Id != 0 {
@@ -26,9 +26,12 @@ func (self *UserType) Get() {
 	} else if self.Login != "" {
 		query.Where = "Login=?"
 		query.Values = append(query.Values, self.Login)
+		if self.Passwd != "" {
+			query.Where += " AND Passwd=?"
+			query.Values = append(query.Values, self.Passwd)
+		}
 	} else {
-		panic("User get params error")
-	}
+		panic("User.Get params error") }
 	rows := query.Get()
 	var (
 		countries string
@@ -42,6 +45,7 @@ func (self *UserType) Get() {
 		self.Langs = strings.Split(langs, ",")
 	}
 	rows.Close()
+	return self
 }
 
 func (self *UserType) Add() {
@@ -76,7 +80,4 @@ func (self *UserType) Update() {
 }
 
 func (self *UserType) Delete() {
-}
-
-func (self *UserType) Auth() {
 }

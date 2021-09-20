@@ -6,13 +6,13 @@ import (
 )
 
 type Profile_ApplicationType struct {
-	ProfileId         int64
-	ApplicationId     int64
-	ApplicationName   string
-	ApplicationGroups []string
-	Lang              string
-	Style             string
-	BackendURLs       []string
+	ProfileId         int64 `json:"profileId"`
+	ApplicationId     int64 `json:"applicationId"`
+	ApplicationName   string `json:"applicationName"`
+	ApplicationGroups []string `json:"applicationGroups"`
+	Lang              string `json:"lang"`
+	Style             string `json:"style"`
+	BackendURLs       []string `json:"backendURLs"`
 }
 
 func (self *Profile_ApplicationType) Get() *[]*Profile_ApplicationType {
@@ -48,18 +48,22 @@ func (self *Profile_ApplicationType) Get() *[]*Profile_ApplicationType {
 }
 
 func (self *Profile_ApplicationType) Add() {
+	fields := "ProfileId,ApplicationId,ApplicationName,ApplicationGroups,Lang,BackendURLs"
+	values := []interface{}{
+		self.ProfileId,
+		self.ApplicationId,
+		self.ApplicationName,
+		strings.Join(self.ApplicationGroups, ","),
+		self.Lang,
+		strings.Join(self.BackendURLs, ","),
+	}
+	if self.Style != "" {
+		fields += ",Style"
+		values = append(values, self.Style) }
 	query := &model.QueryType{
 		Table:  "profile_application",
-		Fields: "ProfileId, ApplicationId, ApplicationName, ApplicationGroups, Lang, Style, BackendURLs",
-		Values: []interface{}{
-			self.ProfileId,
-			self.ApplicationId,
-			self.ApplicationName,
-			strings.Join(self.ApplicationGroups, ","),
-			self.Lang,
-			self.Style,
-			strings.Join(self.BackendURLs, ","),
-		},
+		Fields: fields,
+		Values: values,
 	}
 	query.Add()
 }

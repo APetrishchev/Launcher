@@ -1,0 +1,288 @@
+<style>
+	:root {
+		--rowWidth: calc(100% - 10px);
+		--borderUp: #ffffff #555555 #555555 #ffffff;
+		--borderDown: #555555 #ffffff #ffffff #555555;
+		--bodyBg: #aaaaaa;
+		--titleBg: #dddddd;
+		--tableBg: #dddddd;
+		--headerBg: #cccccc;
+		--evenRowBg: #c0c0ff;
+		--spoilerBg: #bbbbbb;
+		--buttonBg: radial-gradient(ellipse at top left, #ffffff 15%, #777777);
+		--buttonActiveBg: radial-gradient(ellipse at top left, #777777 15%, #ffffff);
+	}
+
+	.cover {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: #88888877;
+	}
+</style>
+
+<script type="text/javascript">
+function coverOn() {
+	window.coverElement = document.createElement("div")
+	window.coverElement.className = "cover"
+	document.body.append(window.coverElement)
+}
+
+function coverOff() {
+	window.coverElement.remove()
+	delete window.coverElement
+}
+
+class Selects {
+	constructor(parent, className, numSelect, options) {
+		this.parent = parent
+		this.className = className
+		this.options = options
+		this.list = []
+		for (let idx = 0; idx < numSelect; idx++) {
+			this.addSelect() }
+		this.list[0].addOptions(this.options)
+		this.onChange(0)
+		this.list[0].focus()
+	}
+
+	onChange(idx) {
+		for (let idx_ = idx + 1; idx_ < this.list.length; idx_++) {
+			this.list[idx_].classList.remove("new-row-select-error")
+			this.list[idx_].delOptions() }
+		let options = this.options
+		if (idx < this.list.length - 1) {
+			for (let idx_ = 0; idx_ <= idx; idx_++) {
+				options = options[this.list[idx_].value] }
+			this.list[idx+1].addOptions(options)
+		}
+	}
+
+	addSelect() {
+		const idx = this.list.length
+		const elm = document.createElement("select")
+		elm.className = this.className
+		elm.onchange = () => this.onChange(idx)
+		elm.addOptions = this._addOptions.bind(elm)
+		elm.delOptions = this._delOptions.bind(elm)
+		this.list.push(elm)
+		this.parent.append(elm)
+		return elm
+	}
+
+	_addOptions(options) {
+		// this - select element
+		if (!(options instanceof Array)) {
+			options = Object.keys(options) }
+		for (const opt of options) {
+			const option = document.createElement("option")
+			option.value = opt
+			option.append(opt)
+			this.append(option)
+		}
+	}
+
+	_delOptions(options) {
+		// this - select element
+		while (this.firstChild) {
+			this.removeChild(this.lastChild) }
+	}
+
+	getValues() {
+		let values = []
+		let error = false
+		for (const select of this.list) {
+			if (select.selectedIndex === -1) {
+				select.classList.add("new-row-select-error")
+				error = true
+			}
+			values.push(select.value)
+		}
+		return error ? null : values
+	}
+}
+
+
+class Form {
+  async remote(params, contentType, data) {
+		coverOn()
+		let body, resp, result
+		if (contentType === "application/json") {
+			body = {sesKey: "{{ sesKey }}"}
+			for (const [key, val] of Object.entries(params)) {
+				body[key] = val }
+			if (params.op === "set") {
+				body.data = data
+				body = JSON.stringify(body)
+			}
+		} else {
+			contentType = "application/x-www-form-urlencoded"
+			body = `sesKey={{ sesKey }}`
+			for (const [key, val] of Object.entries(params)) {
+				body += `&${key}=${val}` }
+		}
+		// console.log("<<<", params)
+		try {
+			resp = await fetch(new Request("", {
+				method: "POST",	body: body,	headers: {"Content-Type": contentType} }))
+			// console.log(`>>> ${resp.url} ${resp.status} ${resp.statusText}`)
+			if (resp.status !== 200) {
+				throw(`${resp.status}: ${resp.statusText}`) }
+		} catch(err) {
+			alert(err)
+			result = false
+		}
+		if (params.op === "get") {
+			result = await resp.json()
+		} else {
+			result = true }
+		coverOff()
+		return result
+  }
+
+	show() {
+		let elm = document.createElement("div")
+		elm.className = "page-headers"
+		document.body.append(elm)
+		let elm_ = document.createElement("div")
+		elm_.className = "title"
+		elm_.append("Панель администратора")
+		elm.append(elm_)
+		this.submitButton = document.createElement("input")
+		this.submitButton.type = "submit"
+		this.submitButton.className = "button submitButton"
+		this.submitButton.onclick = async evn => {
+			evn.preventDefault()
+			await this.submit()
+		}
+		elm.append(this.submitButton)
+		this.resetButton = document.createElement("input")
+		this.resetButton.type = "reset"
+		this.resetButton.className = "button resetButton"
+		this.resetButton.onclick = evn => {
+			evn.preventDefault()
+		  this.reset()
+		}
+		elm.append(this.resetButton)
+		this.btnsDisable(1)
+		elm_ = document.createElement("button")
+		elm_.className = "button exitButton"
+		elm_.onclick = () => { window.location.href = "/" }
+		elm.append(elm_)
+
+		this.element = document.createElement("form")
+		this.element.className = "form"
+		document.body.append(this.element)
+		elm = document.createElement("input")
+		elm.type = "hidden"
+		elm.name = "sesKey"
+		elm.value = "{{ sesKey }}"
+		this.element.append(elm)
+
+		this.table1 = document.createElement("div")
+		this.table1.className = "table"
+		this.element.append(this.table1)
+		this.addKeyValRow(this.table1, "field-val", "userPin", this.data.userPin, "[_0-9a-zA-Z]{5,12}", true)
+		this.addKeyValRow(this.table1, "field-val", "adminPin", this.data.adminPin, "[_0-9a-zA-Z]{5,12}", true)
+		this.addKeyValRow(this.table1, "field-val", "notifyEMail", this.data.notifyEMail, "^\\S+@\\S+$")
+
+		this.table2 = new Table(this.element, Table.RowAdd|Table.RowDelete)
+		for (const group of this.data.groups) {
+			const tab = this.table2.addTab(group)
+			this.table2.addHeader("Ticket", "ticket-key")
+			this.table2.addHeader("Trashold", "ticket-val")
+			for (const key in this.data[group]) {
+				const row = tab.addRow()
+				row.addColumn(key.replaceAll('/', ' | ').replaceAll('<', '/'), "ticket-key")
+				const field = this.addValField(row, "ticket-val", `${group}/${key}`, this.data[group][key], "\\d{1,3}")
+				field.onchange = env => this.btnsDisable(0)
+			}
+		}
+		this.table2.addNewRow = async newRowElement => {
+			newRowElement.selects = new Selects(newRowElement, " new-row-select", 4, await this.getSR(this.table2.tab.innerText))
+			newRowElement.field = this.addValField(newRowElement, "new-row-input", "", "", "\\d{1,3}")
+		}
+		this.table2.saveNewRow = newRowElement => {
+			const values = newRowElement.selects.getValues()
+			if (!(values && newRowElement.field.validity.valid)) {
+				return false }
+			const row = this.table2.tab.addRow()
+			row.addColumn(values.join(" | ").replaceAll("<", "/"), "ticket-key")
+			const field = this.addValField(row, "ticket-val", `${this.table2.tab.innerText}/${values.join("/")}`, newRowElement.field.value, "\\d{1,3}")
+			field.onchange = env => this.btnsDisable(0)
+			// row.addColumn(newRowElement.field)
+			// this.data[this.table2.tab.innerText][values.join("/")] = newRowElement.field.value
+			this.btnsDisable(0)
+			return row
+		}
+		this.table2.deleteRows = (delRows) => {
+			const ans = confirm(`Удалить ${delRows.length} элемент(a,ов)?`)
+			if (ans) {
+				this.btnsDisable(0) }
+			return ans
+		}
+		this.table2.toggle(0)
+	}
+
+	async getSR(grp) {
+		if (!Form.#sr[grp]) {
+			Form.#sr[grp] = await this.remote({op: "get", obj: "sr", grp: grp})	}
+		return Form.#sr[grp]
+	}
+
+	addValField(row, valFieldClassName, name, value, pattern, passwd) {
+		const field = document.createElement("input")
+		if (passwd) {
+			field.type = "password"
+			field.onfocus = () => field.type = "text"
+			field.onblur = () => field.type = "password"
+		} else {
+			field.type = "text" }
+		field.name = name
+		field.value = value
+		field.className = `table-field ${valFieldClassName}`
+		field.required = true
+		field.pattern = pattern
+		row.append(field)
+		return field
+	}
+
+	addKeyValRow(table, valFieldClassName, name, value, pattern, passwd) {
+		const row = document.createElement("div")
+		row.className = "table-row"
+		table.append(row)
+		let field = document.createElement("div")
+		field.className = "table-field field-key"
+		field.append(name)
+		row.append(field)
+		field = this.addValField(row, valFieldClassName, name, value, pattern, passwd)
+		field.onchange = env => this.btnsDisable(0)
+	}
+
+  btnsDisable(dis) {
+		this.submitButton.disabled = dis
+		this.resetButton.disabled = dis
+  }
+
+  async submit() {
+		const data = {}
+		for (const row of this.table1.children) {
+			data[row.children[0].innerText] = row.children[1].value }
+		for (const tab of this.table2.tabs) {
+			data[tab.innerText] = {}
+			for (const row of tab.rows) {
+				data[tab.innerText][row.children[2].name.replace(`${tab.innerText}/`, "")] = row.children[2].value }
+		}
+    if (await this.remote({op: "set", obj: "tickets"}, "application/json", data)) {
+    	this.btnsDisable(1) }
+	}
+
+  reset() {
+  	coverOn()
+  	document.location.reload()
+  }
+
+}
+</script>

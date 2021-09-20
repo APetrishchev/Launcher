@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "releaseDate": "2021-05-11",
   "parentVersion": "",
-  "picture": "public/pictures/.applications/AppCanvas/empty.png",
+  "picture": "public/pictures/pictures/noImage.png",
   "groups": [
     "General", "Graphics", "Office", "Home"
   ],
@@ -14,6 +14,10 @@
   "description": "Application Graphical Editor",
   "langs": [
     "ru-RU"
+  ],
+  "styles": [
+    "WhiteBlue",
+    "BlackGreen"
   ],
   "pageURL": "",
   "license": "",

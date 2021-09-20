@@ -1,0 +1,39 @@
+@import "../../../../import/styles/.sass/Button.sass"
+
+.Calculator
+	display: flex
+	flex-flow: column nowrap
+	align-items: center
+	justify-content: flex-start
+
+	&-Display
+		flex: 1 0 auto
+		display: flex
+		flex-flow: row wrap
+		align-items: flex-end
+		justify-content: flex-end
+		margin: 2px
+		border-width: 1px
+		@include FlatDown
+		// width: 100%
+		height: 100px
+		padding: 4px
+		font-size: large
+
+	&-Digits
+		&-Row
+			display: flex
+			flex-flow: row nowrap
+			align-items: flex-start
+			justify-content: flex-start
+			width: 100%
+
+		&-Button
+			width: 40px
+			height: 20px
+
+#OpEqu
+	width: 82px
+
+#OpAdd
+	height: 42px

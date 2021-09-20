@@ -1,8 +1,7 @@
 package controller
 
 import (
-	"encoding/json"
-	"fmt"
+	"html/template"
 	"net/http"
 	"path/filepath"
 	"strings"
@@ -28,7 +27,7 @@ func (self *HttpServerType) webdavHandler() *webdav.Handler {
 func (self *HttpServerType) Handler(ctx *fasthttp.RequestCtx) {
 	self.logMiddleware(func(ctx *fasthttp.RequestCtx) {
 		path := string(ctx.Path())
-		// pathArray := strings.Split(string(ctx.Path()), "/")[1:]
+		pathArray := strings.Split(string(ctx.Path()), "/")[1:]
 		//		 //--------------------------------------------------------------------------
 		//		 if pathArray[0] == "Desktop" {
 		//			 sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
@@ -61,35 +60,33 @@ func (self *HttpServerType) Handler(ctx *fasthttp.RequestCtx) {
 		//					 ctx.Write(dt.DesktopApplicationGet(ctx))
 		//				 }
 		//			 })(ctx)
-		if strings.HasPrefix(path, "/webdav") {
-			self.sessionMiddleware(fasthttpadaptor.NewFastHTTPHandler(self.webdavHandler()))(ctx)
-		} else if strings.HasPrefix(path, "/admin") {
-			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
-				fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.DataDirPath, path))
-			})(ctx)
-		} else if path == "/AppLaucher/1.0.0/ini.js" {
-			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
-				//
-			})(ctx)
-		} else if path == "/" || path == "/index.html" {
+		if path == "/" || path == "/index.html" {
 			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
 				fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.RootDirPath, "index.html"))
 			})(ctx)
-		} else if path == "/profile" {
+		} else if strings.HasPrefix(path, "/App") && strings.HasSuffix(path, "/index.html") {
+			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
+				ctx.SetContentType("text/html")
+				fullPath := filepath.Join(Config.RootDirPath, "import", "templates", "index.tmpl")
+				// fullPath := filepath.Join(Config.RootDirPath, path)
+				data := struct{Style string; Application string} {
+					Style: "default", Application: strings.TrimPrefix(pathArray[0], "App")}
+				tmpl := template.Must(template.ParseFiles(fullPath))
+				tmpl.Execute(ctx, data)
+			})(ctx)
+		} else if strings.HasSuffix(path, "/api") {
+			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
+				api(ctx)
+			})(ctx)
+		} else if strings.HasPrefix(path, "/home") {
 			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
 				profile := &ProfileType{Id: ctx.UserValue("ProfileId").(int64)}
-				profiles := profile.Get()
-				profile = (*profiles)[0]
-				fmt.Printf("\n%s\n", strings.Repeat("-", 80))
-				fmt.Printf("ProfileId: %+v\nProfile: %+v\n", ctx.UserValue("ProfileId"), profile)
-				fmt.Println("Applications:")
-				for _, app := range profile.Applications {
-					fmt.Printf("  %+v\n", app)}
-				fmt.Printf("\n%s\n", strings.Repeat("-", 80))
-				res, err := json.Marshal(profile)
-				if err != nil {panic(err)}
-				ctx.Response.Header.Set("Content-Type", "application/json; charset=utf-8")
-				ctx.Write(res)
+				fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.DataDirPath,
+					(*profile.Get())[0].HomeFolder, strings.TrimPrefix(path, "/home")))
+			})(ctx)
+		} else if strings.HasPrefix(path, "/admin") {
+			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
+				fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.DataDirPath, path))
 			})(ctx)
 		} else if strings.HasPrefix(path, "/public") {
 			fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.DataDirPath, path))
@@ -97,12 +94,10 @@ func (self *HttpServerType) Handler(ctx *fasthttp.RequestCtx) {
 		// 	self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
 		// 		fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.DataDirPath, path))
 		// 	})(ctx)
-		} else if strings.HasPrefix(path, "/home") {
-			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
-				profile := &ProfileType{Id: ctx.UserValue("ProfileId").(int64)}
-				fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.DataDirPath,
-					(*profile.Get())[0].HomeFolder, strings.TrimPrefix(path, "/home")))
-			})(ctx)
+		} else if strings.HasPrefix(path, "/webdav") {
+			self.sessionMiddleware(fasthttpadaptor.NewFastHTTPHandler(self.webdavHandler()))(ctx)
+		} else if strings.HasPrefix(path, "/import") {
+			fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.RootDirPath, path))
 		} else {
 			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
 				fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.RootDirPath, path))

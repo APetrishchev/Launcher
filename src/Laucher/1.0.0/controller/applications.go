@@ -33,39 +33,40 @@ func (self JsonDateType) Format() string {
 
 //==============================================================================
 type ApplicationDataType struct {
-  AuthorName string
-  AuthorEmail string
-  SubsCounter int64
-  VoteCounter int64
-  RatingComposite int8
-	RatingDesign int8
-	RatingUsability int8
-	RatingFunctionality int8
-  PageURL string
-  License string
-  Price string
-	Wallet string
+  AuthorName string `json:"authorName"`
+  AuthorEmail string `json:"authorEmail"`
+  SubsCounter int64 `json:"subsCounter"`
+  VoteCounter int64 `json:"voteCounter"`
+  RatingComposite int8 `json:"ratingComposite"`
+	RatingDesign int8 `json:"ratingDesign"`
+	RatingUsability int8 `json:"ratingUsability"`
+	RatingFunctionality int8 `json:"ratingFunctionality"`
+  PageURL string `json:"pageURL"`
+  License string `json:"license"`
+  Price string `json:"price"`
+	Wallet string `json:"wallet"`
 }
 
 type ApplicationType struct {
-  Id int64
-  Name string
-  Version string
-  ParentVersion string
-  ReleaseDate JsonDateType
-  Picture string
-  Groups []string
-  Langs []string
-  Description string
-  URL string
-  LastUseTime JsonDateType
-  // ApplicationDataType
+  Id int64 `json:"id"`
+  Name string `json:"name"`
+  Version string `json:"version"`
+  ParentVersion string `json:"parentVersion"`
+  ReleaseDate JsonDateType `json:"releaseDate"`
+  Picture string `json:"picture"`
+  Groups []string `json:"groups"`
+  Langs []string `json:"langs"`
+  Styles []string `json:"styles"`
+  Description string `json:"description"`
+  URL string `json:"url"`
+  LastUseTime JsonDateType `json:"lastUseTime"`
+  // ApplicationDataType `json:""`
 }
 
 func (self *ApplicationType) Get() *[]*ApplicationType {
 	query := &model.QueryType{
 		Table: "applications",
-		Fields: "Id, Name, Version, ParentVersion, ReleaseDate, Picture, Groups, Description, Langs, LastUseTime, URL",
+		Fields: "Id, Name, Version, ParentVersion, ReleaseDate, Picture, Groups, Description, Langs, Styles, LastUseTime, URL",
   }
   if self.Id != 0 {
     query.Where = "Id=?"
@@ -87,9 +88,10 @@ func (self *ApplicationType) Get() *[]*ApplicationType {
       lastUseTimeString string
       groups string
       langs string
+      styles string
     )
     if err := rows.Scan(&app.Id, &app.Name, &app.Version, &app.ParentVersion, &dateString, &app.Picture,
-    &groups, &app.Description, &langs, &lastUseTimeString, &app.URL); err != nil{
+    &groups, &app.Description, &langs, &styles, &lastUseTimeString, &app.URL); err != nil{
       fmt.Println(err)
       continue
     }
@@ -99,6 +101,7 @@ func (self *ApplicationType) Get() *[]*ApplicationType {
     app.LastUseTime = JsonDateType(lastUseTime)
     app.Groups = strings.Split(groups, ",")
     app.Langs = strings.Split(langs, ",")
+    app.Styles = strings.Split(styles, ",")
     *apps = append(*apps, app)
   }
 	rows.Close()
@@ -108,7 +111,7 @@ func (self *ApplicationType) Get() *[]*ApplicationType {
 func (self *ApplicationType) Add() {
 	query := &model.QueryType{
 		Table: "applications",
-		Fields: "Name, Version, ParentVersion, ReleaseDate, Picture, Groups, Description, Langs, LastUseTime, URL",
+		Fields: "Name, Version, ParentVersion, ReleaseDate, Picture, Groups, Description, Langs, Styles, LastUseTime, URL",
 		Values: []interface{}{
 			self.Name,
 			self.Version,
@@ -118,6 +121,7 @@ func (self *ApplicationType) Add() {
       strings.Join(self.Groups, ","),
       self.Description,
       strings.Join(self.Langs, ","),
+      strings.Join(self.Styles, ","),
       self.LastUseTime.Format(),
       self.URL,
     },
@@ -128,7 +132,7 @@ func (self *ApplicationType) Add() {
 func (self *ApplicationType) Update() {
 	query := &model.QueryType{
 		Table: "applications",
-		Fields: "Name, Version, ParentVersion, ReleaseDate, Picture, Groups, Description, Langs, LastUseTime, URL",
+		Fields: "Name, Version, ParentVersion, ReleaseDate, Picture, Groups, Description, Langs, Styles, LastUseTime, URL",
 		Values: []interface{}{
 			self.Name,
 			self.Version,
@@ -138,6 +142,7 @@ func (self *ApplicationType) Update() {
       strings.Join(self.Groups, ","),
       self.Description,
       strings.Join(self.Langs, ","),
+      strings.Join(self.Styles, ","),
       self.LastUseTime.Format(),
       self.URL,
     },

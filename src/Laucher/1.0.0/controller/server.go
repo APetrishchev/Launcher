@@ -114,7 +114,7 @@ func (self *HttpServerType) panicMiddleware(next fasthttp.RequestHandler) fastht
 		defer func() {
 			if err := recover(); err != nil {
 				Log.Error.Printf("%s\n", err)
-				// Log.Trace()
+				Log.Trace()
 				ctx.Error(fasthttp.StatusMessage(fasthttp.StatusInternalServerError), fasthttp.StatusInternalServerError)
 			}
 		}()
@@ -132,6 +132,8 @@ func (self *HttpServerType) sessionMiddleware(next fasthttp.RequestHandler) fast
 		ses := &SessionType{ClientIp: ctx.UserValue("ClientIp").(string),
 			ClientAgent: ctx.UserValue("ClientAgent").(string)}
 		if !ses.Open(sid) {
+			ses.UserId = 1 // user Ananimous
+			ses.ProfileId = 1 // profile Ananimous
 			ses.Add()
 			cookies.Values["sid"] = ses.Id
 			cookies.Options = &sessions.Options{
@@ -146,6 +148,7 @@ func (self *HttpServerType) sessionMiddleware(next fasthttp.RequestHandler) fast
 			ctx.Redirect("/", fasthttp.StatusTemporaryRedirect)
 			return
 		}
+		ctx.SetUserValue("UserId", ses.UserId)
 		ctx.SetUserValue("ProfileId", ses.ProfileId)
 		next(ctx)
 	})

@@ -6,45 +6,46 @@ import (
 )
 
 type ProfileApplicationType struct {
-	Id          int64
-	Name        string
-	Groups      []string
-	Lang        string
-	Langs       []string
-	Style       string
-	Styles      []string
-	Picture     string
-	Description string
-	URL         string
-	Windows     map[string]string
-	BackendURLs []string
+	Id          int64 `json:"id"`
+	Name        string `json:"name"`
+	Groups      []string `json:"groups"`
+	Lang        string `json:"lang"`
+	Langs       []string `json:"langs"`
+	Style       string `json:"style"`
+	Styles      []string `json:"styles"`
+	Picture     string `json:"picture"`
+	Description string `json:"desription"`
+	URL         string `json:"url"`
+	Windows     map[string]string  `json:"windows"`
+	BackendURLs []string `json:"backendURLs"`
 }
-// type jsonType struct {Id int64; Json string}
-// type chronosType struct {ProfileApplicationType; Cron []jsonType; TalkClock jsonType}
+
+type ProfileApplicationsType struct {
+	AppGroups             map[string]*AppGroupsType `json:"appGroups"`
+	Applications          map[string]interface{} `json:"applications"`
+	RunningApplications   []string `json:"runningApplications"`
+}
 
 type ProfileType struct {
-	Id                    int64
-	UserId                int64
-	OwnerId               int64
-	Name                  string
-	FirstName             string
-	LastName              string
-	ShortDescr            string
-	Description           string
-	Gender                string
-	Birthday              string
-	Picture               string
-	HomeFolder            string
-	DocumentsFolder       string
-	PicturesFolder        string
-	AudioFolder           string
-	VideoFolder           string
-	Countries             []string
-	Langs                 []string
-	AppGroups             map[string]*AppGroupsType
-	Applications          map[string]interface{}
-	PreferredApplications []string
-	RunningApplications   []string
+	Id                    int64 `json:"id"`
+	UserId                int64 `json:"userId"`
+	OwnerId               int64 `json:"ownerId"`
+	Name                  string `json:"name"`
+	FirstName             string `json:"firstName"`
+	LastName              string `json:"lastName"`
+	ShortDescr            string `json:"shortDescr"`
+	Description           string `json:"description"`
+	Gender                string `json:"gender"`
+	Birthday              string `json:"birthday"`
+	Picture               string `json:"picture"`
+	HomeFolder            string `json:"homeFolder"`
+	DocumentsFolder       string `json:"documentsFolder"`
+	PicturesFolder        string `json:"picturesFolder"`
+	AudioFolder           string `json:"audioFolder"`
+	VideoFolder           string `json:"videoFolder"`
+	Countries             []string `json:"countries"`
+	Langs                 []string `json:"langs"`
+	PreferredApplications []string `json:"preferredApplications"`
 }
 
 func (self *ProfileType) Get() *[]*ProfileType {
@@ -56,6 +57,9 @@ func (self *ProfileType) Get() *[]*ProfileType {
 	if self.Id != 0 {
 		query.Where = "p.Id=? AND UserId=u.Id"
 		query.Values = append(query.Values, self.Id)
+	} else if self.UserId != 0 {
+		query.Where = "UserId=?"
+		query.Values = append(query.Values, self.UserId)
 	} else if self.Name != "" {
 		query.Where = "p.Name=?"
 		query.Values = append(query.Values, self.Name)
@@ -80,7 +84,6 @@ func (self *ProfileType) Get() *[]*ProfileType {
 		profile.PreferredApplications = strings.Split(preferredApplications, ",")
 		profile.Countries = strings.Split(countries, ",")
 		profile.Langs = strings.Split(langs, ",")
-		profile.getApplication()
 		*profiles = append(*profiles, profile)
 	}
 	rows.Close()
@@ -144,7 +147,7 @@ func (self *ProfileType) Delete() {
 	query.Delete()
 }
 
-func (self *ProfileType) getApplication() {
+func (self *ProfileType) getApplication() *ProfileApplicationsType {
 	query := &model.QueryType{
 		Table: "profile_application AS pa, applications AS a",
 		Fields: "pa.ApplicationId, CASE WHEN pa.ApplicationName LIKE '' THEN a.Name ELSE pa.ApplicationName END AS Name," +
@@ -159,7 +162,7 @@ func (self *ProfileType) getApplication() {
 		langs    string
 		backends string
 	)
-	self.Applications = make(map[string]interface{})
+	data := &ProfileApplicationsType{Applications: make(map[string]interface{})}
 	for rows.Next() {
 		app := ProfileApplicationType{}
 		if err := rows.Scan(&app.Id, &app.Name, &groups, &app.Lang, &langs, &app.Style,
@@ -183,12 +186,13 @@ func (self *ProfileType) getApplication() {
 		// Windows
 		win := WindowType{ProfileId: self.Id, ApplicationId: app.Id}
 		app.Windows = win.Get()
-		self.Applications[app.Name] = app
+		data.Applications[app.Name] = app
 	}
 	// AppGroups
 	grp := &AppGroupsType{}
-	self.AppGroups = grp.Get()
+	data.AppGroups = grp.Get()
 	// RunningApplications
-	self.RunningApplications = make([]string, 1)
-	self.RunningApplications[0] = "Chronos"
+	data.RunningApplications = make([]string, 1)
+	data.RunningApplications[0] = "Chronos"
+	return data
 }

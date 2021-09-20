@@ -1,0 +1,168 @@
+@import "../../../../import/styles/.sass/Splitter.sass"
+@import "../../../../import/styles/.sass/Tree.sass"
+@import "../../../../import/styles/.sass/Form.sass"
+
+.Chronos
+	width: calc(100% - 10px)
+	height: calc(100% - 10px)
+
+.CronList,
+.CronForm
+	padding: 3px
+	overflow: auto
+
+.CronList
+	width: 30%
+
+.CronList-Item-Name
+	display: flex
+	flex-flow: column nowrap
+	align-items: flex-start
+	justify-content: flex-start
+
+.CronList-Item-Descr
+	display: flex
+	flex-flow: column nowrap
+	align-items: flex-start
+	justify-content: flex-start
+	font-size: small
+
+.CronForm
+	width: calc(70% - 6px)
+
+.CronForm-Start:empty:not(:focus):before
+	color: var(--PlaceholderColor)
+	content:attr(placeholder)
+
+.CronForm-Start
+	margin: 2px
+	border: var(--Border)
+	@include DownBorder
+	width: calc(100% - 10px)
+
+.CronForm-Spoiler
+	margin: 2px
+	border: var(--Border)
+	@include UpBorder
+	width: calc(100% - 10px)
+
+.CronForm-Spoiler-Header
+	margin-bottom: 2px
+
+.CronForm-Spoiler-Header-ClearButton
+	margin-left: auto
+	box-shadow: none
+	width: 20px
+	color: red
+
+.CronForm-Spoiler-Header-ClearButton:not(:disabled):hover
+	@include FlatUp
+	font-weight: bold
+
+//.CronForm-Spoiler-Header-ClearButton:not(:disabled):active
+//	@include ActiveBorder
+//	@include ActiveBackground
+
+.CronForm-Spoiler-Header-ClearButton[status="up"]
+	border-color: #888888
+	background: transparent
+
+.CronForm-Spoiler-Header-ClearButton[status="down"]
+	@include ActiveBorder
+	@include ActiveBackground
+
+.CronForm-Spoiler-Header-ClearButton::before
+	content: "X"
+
+.CronForm-Spoiler-Panel
+	margin: 0px
+	border-width: 1px
+	@include DownBorder
+	padding: 3px
+	display: flex
+	flex-flow: column nowrap
+	align-items: flex-start
+	justify-content: center
+	width: calc(100% - 8px)
+
+.CronForm-Spoiler-Row
+	display: flex
+	flex-flow: row nowrap
+	align-items: center
+	justify-content: flex-start
+	width: 100%
+
+.CronForm-Spoiler-Cell
+	cursor: pointer
+	flex: 1 0 auto
+	margin: 1px
+	border-width: 1px
+	border-color: #888888
+	border-radius: 5px
+	display: flex
+	flex-flow: column nowrap
+	align-items: center
+	justify-content: center
+
+.CronForm-Spoiler-Cell[status="down"]
+	background-color: $WinTitleBackgroundColor
+
+.CronForm-Spoiler-WeekDaysButton
+	flex: 1 0 auto
+	box-shadow: none
+	border-radius: 5px
+	display: flex
+	flex-flow: column nowrap
+	align-items: center
+	justify-content: center
+	height: 100%
+
+.CronForm-Spoiler-WeekDaysButton[status="up"],
+.CronForm-Spoiler-WeekDaysButton[status="down"],
+.CronForm-Spoiler-WeekDaysButton:active
+	border-color: #888888
+	background: transparent
+
+.CronForm-Spoiler-WeekDaysButton::before
+	content: "\25B6"
+
+.CronForm-Spoiler-WeekDaysButton[status="down"]::before
+	transform: rotate(90deg)
+
+.CronForm-Spoiler-Cell-Weekday
+	cursor: pointer
+	flex: 0 1 13.5%
+	margin: 0px 1px 0px 1px
+	border-width: 1px
+	border-color: #888888
+	border-radius: 5px
+	display: flex
+	flex-direction: row
+	align-items: center
+	justify-content: center
+	padding: 2px
+
+.CronForm-Spoiler-Cell-Weekday
+	font-weight: bold
+
+.CronForm-Spoiler-Cell-Weekend
+	color: #ff0000
+
+.CronForm-Spoiler-PlayPanel
+	display: flex
+	flex-flow: row nowrap
+	align-items: center
+	justify-content: flex-start
+	width: calc(100% - 6px)
+	padding: 2px
+
+.PlayPanel-Media
+	margin-left: 2px
+	border-width: 1px
+	border-color: var(--FlatBorderColor)
+	padding: 1px 3px 1px 3px
+
+.PlayPanel-PlayButton,
+.PlayPanel-ChoiseButton
+	margin-left: 2px
+	width: 20px

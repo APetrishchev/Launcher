@@ -1,0 +1,415 @@
+html {
+  background-color: transparent;
+  margin: 0px;
+  height: 100%;
+  padding: 0px;
+}
+
+body {
+  margin: 0;
+  border-width: 2px;
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background-color: #B1C4FF;
+  padding: 2px;
+  min-width: calc(100% - 8px);
+  min-height: calc(100% - 8px);
+  color: black;
+}
+
+#measuring {
+  position: absolute;
+  visibility: hidden;
+  height: auto;
+  width: auto;
+  white-space: nowrap;
+}
+
+.HLayout {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.VLayout {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+}
+
+#Tips {
+  position: absolute;
+  box-shadow: -5px -5px 10px 0 rgba(255, 255, 255, 0.7), 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
+  border-width: 1px;
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: #FFFFAA;
+  padding: 3px;
+  font-size: 12;
+}
+
+.Button {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: -5px -5px 10px 0 #FFFFFFB2, 5px 5px 10px 0 #00000080;
+  margin: 1px;
+  border-width: 1px;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 20px;
+  padding: 1px 3px;
+}
+.Button:disabled {
+  color: #656565;
+}
+.Button:not(:disabled):active {
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background: -o-linear-gradient(top, #666666, #AAAAAA);
+  background: -moz-linear-gradient(top, #666666, #AAAAAA);
+  background: -webkit-linear-gradient(to bottom, #666666, #AAAAAA);
+  background: linear-gradient(to bottom, #666666, #AAAAAA);
+}
+.Button[status=up] {
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: -moz-linear-gradient(left top, #CCCCCC, #888888);
+  background: -o-linear-gradient(left top, #CCCCCC, #888888);
+  background: -webkit-linear-gradient(at left top, #CCCCCC, #888888);
+  background: radial-gradient(ellipse at left top, #CCCCCC, #888888);
+}
+.Button[status=down] {
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background: -o-linear-gradient(left top, #888888, #CCCCCC);
+  background: -moz-linear-gradient(left top, #888888, #CCCCCC);
+  background: -webkit-linear-gradient(at left top, #888888, #CCCCCC);
+  background: radial-gradient(ellipse at left top, #888888, #CCCCCC);
+}
+
+#UpdateButton {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+.Home {
+  border: solid 1px;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #888888;
+  border-right-color: #888888;
+  background-color: #bbbbbb;
+  padding: 3px;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+}
+
+.Home svg {
+  /* width: 800px; */
+  /* height: 700px; */
+}
+
+.Zone {
+  stroke: #444444;
+  fill: transparent;
+}
+
+.ZoneName {
+  fill: blue;
+  font-size: 0.7em;
+}
+
+.Sensor,
+.Relay,
+.Button {
+  position: absolute;
+  border-radius: 5px;
+  border: solid 1px;
+  background-color: #bbbbbb;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 20px 20px;
+  padding: 0px;
+  height: 20px;
+  width: 20px;
+  font-size: 0.65em;
+  text-align: center;
+}
+
+.Sensor {
+  border-color: #444444;
+}
+
+.Relay,
+.Button {
+  box-shadow: -5px -5px 10px 0 rgba(255, 255, 255, 0.7), 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #888888;
+  border-right-color: #888888;
+}
+
+.Relay:active,
+.Button:active {
+  border-top-color: #888888;
+  border-left-color: #888888;
+  border-bottom-color: #ffffff;
+  border-right-color: #ffffff;
+}
+
+.LightModeButtonOn {
+  background: url("/public/pictures/.applications/SmartHome/Light-Bulb-On.png"), radial-gradient(at top left, #eeeeee, #888888);
+}
+
+.LightModeButtonOff {
+  background-image: url("/public/pictures/.applications/SmartHome/Light-Bulb-Off.png");
+}
+
+.LightSensorOn {
+  background-image: url("/public/pictures/.applications/SmartHome/Sun.png");
+}
+
+.LightSensorOff {
+  background-image: url("/public/pictures/.applications/SmartHome/Moon.png");
+}
+
+.LightRelayOn {
+  background-image: url("/public/pictures/.applications/SmartHome/Light-Bulb-On.png");
+}
+
+.LightRelayOff {
+  background-image: url("/public/pictures/.applications/SmartHome/Light-Bulb-Off.png");
+}
+
+.DoorBellModeButtonOn {
+  background-image: url("/public/pictures/.applications/SmartHome/Bell-On.png");
+}
+
+.DoorBellModeButtonOff {
+  background-image: url("/public/pictures/.applications/SmartHome/Bell-Off.png");
+}
+
+.DoorBellRelayOn {
+  background-image: url("/public/pictures/.applications/SmartHome/Bell-On.png"), radial-gradient(at top left, #eeeeee, #888888);
+}
+
+.DoorBellRelayOn:active {
+  background-image: url("/public/pictures/.applications/SmartHome/Bell-On.png"), radial-gradient(at top left, #888888, #eeeeee);
+}
+
+.DoorBellRelayOff {
+  background-image: url("/public/pictures/.applications/SmartHome/Bell-Off.png"), radial-gradient(at top left, #eeeeee, #888888);
+}
+
+.DoorBellRelayOff:active {
+  background-image: url("/public/pictures/.applications/SmartHome/Bell-Off.png"), radial-gradient(at top left, #888888, #eeeeee);
+}
+
+.MotionDetectorOn {
+  background-image: url("/public/pictures/.applications/SmartHome/Running-Man1.png");
+}
+
+.MotionDetectorOff {
+  background-image: url("/public/pictures/.applications/SmartHome/Standing-Man.png");
+}
+
+#OutDoor {
+  background-color: #bbbbff;
+}
+
+#Toilet {
+  background-color: #ffbbbb;
+}
+
+#Kitchen {
+  background-color: #ffffbb;
+}
+
+#Hall {
+  background-color: #bbffbb;
+}
+
+#Bathroom {
+  background-color: #ffbbbb;
+}
+
+#Bedroom1, #Bedroom2 {
+  background-color: #bbbbdd;
+}
+
+#UpdateButton {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+.Home {
+  border: solid 1px;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #888888;
+  border-right-color: #888888;
+  background-color: #bbbbbb;
+  padding: 3px;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+}
+
+.Home svg {
+  /* width: 800px; */
+  /* height: 700px; */
+}
+
+.Zone {
+  stroke: #444444;
+  fill: transparent;
+}
+
+.ZoneName {
+  fill: blue;
+  font-size: 0.7em;
+}
+
+.Sensor,
+.Relay,
+.Button {
+  position: absolute;
+  border-radius: 5px;
+  border: solid 1px;
+  background-color: #bbbbbb;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 20px 20px;
+  padding: 0px;
+  height: 20px;
+  width: 20px;
+  font-size: 0.65em;
+  text-align: center;
+}
+
+.Sensor {
+  border-color: #444444;
+}
+
+.Relay,
+.Button {
+  box-shadow: -5px -5px 10px 0 rgba(255, 255, 255, 0.7), 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-bottom-color: #888888;
+  border-right-color: #888888;
+}
+
+.Relay:active,
+.Button:active {
+  border-top-color: #888888;
+  border-left-color: #888888;
+  border-bottom-color: #ffffff;
+  border-right-color: #ffffff;
+}
+
+.LightModeButtonOn {
+  background: url("/public/pictures/.applications/SmartHome/Light-Bulb-On.png"), radial-gradient(at top left, #eeeeee, #888888);
+}
+
+.LightModeButtonOff {
+  background-image: url("/public/pictures/.applications/SmartHome/Light-Bulb-Off.png");
+}
+
+.LightSensorOn {
+  background-image: url("/public/pictures/.applications/SmartHome/Sun.png");
+}
+
+.LightSensorOff {
+  background-image: url("/public/pictures/.applications/SmartHome/Moon.png");
+}
+
+.LightRelayOn {
+  background-image: url("/public/pictures/.applications/SmartHome/Light-Bulb-On.png");
+}
+
+.LightRelayOff {
+  background-image: url("/public/pictures/.applications/SmartHome/Light-Bulb-Off.png");
+}
+
+.DoorBellModeButtonOn {
+  background-image: url("/public/pictures/.applications/SmartHome/Bell-On.png");
+}
+
+.DoorBellModeButtonOff {
+  background-image: url("/public/pictures/.applications/SmartHome/Bell-Off.png");
+}
+
+.DoorBellRelayOn {
+  background-image: url("/public/pictures/.applications/SmartHome/Bell-On.png"), radial-gradient(at top left, #eeeeee, #888888);
+}
+
+.DoorBellRelayOn:active {
+  background-image: url("/public/pictures/.applications/SmartHome/Bell-On.png"), radial-gradient(at top left, #888888, #eeeeee);
+}
+
+.DoorBellRelayOff {
+  background-image: url("/public/pictures/.applications/SmartHome/Bell-Off.png"), radial-gradient(at top left, #eeeeee, #888888);
+}
+
+.DoorBellRelayOff:active {
+  background-image: url("/public/pictures/.applications/SmartHome/Bell-Off.png"), radial-gradient(at top left, #888888, #eeeeee);
+}
+
+.MotionDetectorOn {
+  background-image: url("/public/pictures/.applications/SmartHome/Running-Man1.png");
+}
+
+.MotionDetectorOff {
+  background-image: url("/public/pictures/.applications/SmartHome/Standing-Man.png");
+}
+
+#OutDoor {
+  background-color: #bbbbff;
+}
+
+#Toilet {
+  background-color: #ffbbbb;
+}
+
+#Kitchen {
+  background-color: #ffffbb;
+}
+
+#Hall {
+  background-color: #bbffbb;
+}
+
+#Bathroom {
+  background-color: #ffbbbb;
+}
+
+#Bedroom1, #Bedroom2 {
+  background-color: #bbbbdd;
+}

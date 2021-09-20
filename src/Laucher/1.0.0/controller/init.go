@@ -38,7 +38,7 @@ func Init(initFilePath string) (err error) {
 		"`Langs` VARCHAR(256)",
 		"`Description` VARCHAR(512)",
 		// "`CallName` VARCHAR(64) NOT NULL",
-		// "`Styles` VARCHAR(256)",
+		"`Styles` VARCHAR(256)",
 		"`URL` VARCHAR(256) NOT NULL",
 		"`LastUseTime` CHAR(26) DEFAULT ''",
 	}, "")))
@@ -63,7 +63,8 @@ func Init(initFilePath string) (err error) {
 	fmt.Printf("  create \"sessions\" ... ")
 	fmt.Println(model.CheckError(model.Db.CreateTable("sessions", []string{
 		"`Id` CHAR(36) PRIMARY KEY UNIQUE",
-		"`ProfileId` INTEGER DEFAULT 0",
+		"`UserId` INTEGER NOT NULL",
+		"`ProfileId` INTEGER NOT NULL",
 		"`CreateTime` CHAR(26) NOT NULL",
 		"`Closed` TINYINT DEFAULT 0",
 		"`ClientIp` VARCHAR(15) NOT NULL",
@@ -110,7 +111,7 @@ func Init(initFilePath string) (err error) {
 		"`ApplicationName` VARCHAR(32)",
 		"`ApplicationGroups` VARCHAR(512)",
 		"`Lang` CHAR(5)",
-		"`Style` VARCHAR(128)",
+		"`Style` VARCHAR(128) DEFAULT 'default'",
 		"`BackendURLs` VARCHAR(1280)", // URL of Backend Hosts (через запятую)
 	}, "")))
 

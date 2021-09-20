@@ -1,0 +1,249 @@
+html {
+  background-color: transparent;
+  margin: 0px;
+  height: 100%;
+  padding: 0px;
+}
+
+body {
+  margin: 0;
+  border-width: 2px;
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background-color: #B1C4FF;
+  padding: 2px;
+  min-width: calc(100% - 8px);
+  min-height: calc(100% - 8px);
+  color: black;
+}
+
+#measuring {
+  position: absolute;
+  visibility: hidden;
+  height: auto;
+  width: auto;
+  white-space: nowrap;
+}
+
+.HLayout {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.VLayout {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+}
+
+#Tips {
+  position: absolute;
+  box-shadow: -5px -5px 10px 0 rgba(255, 255, 255, 0.7), 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
+  border-width: 1px;
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: #FFFFAA;
+  padding: 3px;
+  font-size: 12;
+}
+
+.Button {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: -5px -5px 10px 0 #FFFFFFB2, 5px 5px 10px 0 #00000080;
+  margin: 1px;
+  border-width: 1px;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 20px;
+  padding: 1px 3px;
+}
+.Button:disabled {
+  color: #656565;
+}
+.Button:not(:disabled):active {
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background: -o-linear-gradient(top, #666666, #AAAAAA);
+  background: -moz-linear-gradient(top, #666666, #AAAAAA);
+  background: -webkit-linear-gradient(to bottom, #666666, #AAAAAA);
+  background: linear-gradient(to bottom, #666666, #AAAAAA);
+}
+.Button[status=up] {
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: -moz-linear-gradient(left top, #CCCCCC, #888888);
+  background: -o-linear-gradient(left top, #CCCCCC, #888888);
+  background: -webkit-linear-gradient(at left top, #CCCCCC, #888888);
+  background: radial-gradient(ellipse at left top, #CCCCCC, #888888);
+}
+.Button[status=down] {
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background: -o-linear-gradient(left top, #888888, #CCCCCC);
+  background: -moz-linear-gradient(left top, #888888, #CCCCCC);
+  background: -webkit-linear-gradient(at left top, #888888, #CCCCCC);
+  background: radial-gradient(ellipse at left top, #888888, #CCCCCC);
+}
+
+.Calendar {
+  flex: 1 1 12.5%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  justify-content: stretch;
+  height: 100%;
+  padding: 2px;
+}
+.Calendar-Header, .Calendar-Weekdays, .Calendar-Week {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+}
+.Calendar-Header {
+  margin: 5px;
+  border-width: 1px;
+  border-radius: 10px;
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: -moz-linear-gradient(left top, #CCCCCC, #888888);
+  background: -o-linear-gradient(left top, #CCCCCC, #888888);
+  background: -webkit-linear-gradient(at left top, #CCCCCC, #888888);
+  background: radial-gradient(ellipse at left top, #CCCCCC, #888888);
+  background-color: #AAAAAA;
+  padding: 2px;
+}
+.Calendar-Weekday, .Calendar-Day {
+  margin: 2px;
+  flex: 0 1 13.5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid 1px #444444;
+  border-radius: 50%;
+  padding: 2px;
+  /* line-height: 1.25 */
+}
+.Calendar-Weekday {
+  cursor: default;
+  background-color: #aaaaaa;
+  font-weight: bold;
+}
+.Calendar-Day {
+  cursor: pointer;
+}
+.Calendar-Weekend {
+  color: #ff0000;
+}
+.Calendar-OtherDay, .Calendar-OtherWeekend {
+  border: solid 1px #888888;
+}
+.Calendar-OtherDay, .Calendar-PastDay {
+  color: #888888;
+}
+.Calendar-OtherWeekend, .Calendar-PastWeekend {
+  color: #ff8888;
+}
+.Calendar-Today {
+  border: solid 2px #FF0000;
+  padding: 1px;
+  font-weight: bold;
+}
+
+.Calendar {
+  flex: 1 1 12.5%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: stretch;
+  justify-content: stretch;
+  height: 100%;
+  padding: 2px;
+}
+.Calendar-Header, .Calendar-Weekdays, .Calendar-Week {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+}
+.Calendar-Header {
+  margin: 5px;
+  border-width: 1px;
+  border-radius: 10px;
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: -moz-linear-gradient(left top, #CCCCCC, #888888);
+  background: -o-linear-gradient(left top, #CCCCCC, #888888);
+  background: -webkit-linear-gradient(at left top, #CCCCCC, #888888);
+  background: radial-gradient(ellipse at left top, #CCCCCC, #888888);
+  background-color: #AAAAAA;
+  padding: 2px;
+}
+.Calendar-Weekday, .Calendar-Day {
+  margin: 2px;
+  flex: 0 1 13.5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid 1px #444444;
+  border-radius: 50%;
+  padding: 2px;
+  /* line-height: 1.25 */
+}
+.Calendar-Weekday {
+  cursor: default;
+  background-color: #aaaaaa;
+  font-weight: bold;
+}
+.Calendar-Day {
+  cursor: pointer;
+}
+.Calendar-Weekend {
+  color: #ff0000;
+}
+.Calendar-OtherDay, .Calendar-OtherWeekend {
+  border: solid 1px #888888;
+}
+.Calendar-OtherDay, .Calendar-PastDay {
+  color: #888888;
+}
+.Calendar-OtherWeekend, .Calendar-PastWeekend {
+  color: #ff8888;
+}
+.Calendar-Today {
+  border: solid 2px #FF0000;
+  padding: 1px;
+  font-weight: bold;
+}

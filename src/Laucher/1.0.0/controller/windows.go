@@ -4,10 +4,10 @@ import "Laucher/1.0.0/model"
 
 //==============================================================================
 type WindowType struct {
-  ProfileId int64
-  ApplicationId int64
-  Name string
-  Json string
+  ProfileId int64 `json:"profileId"`
+  ApplicationId int64 `json:"applicationId"`
+  Name string `json:"name"`
+  Json string `json:"json"`
 }
 
 func (self *WindowType) Get() (wins map[string]string) {

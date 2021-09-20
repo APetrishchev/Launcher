@@ -1,0 +1,64 @@
+.Calendar
+	flex: 1 1 12.5%
+	display: flex
+	flex-flow: column nowrap
+	align-items: stretch
+	justify-content: stretch
+	height: 100%
+	padding: 2px
+
+	&-Header,
+	&-Weekdays,
+	&-Week
+		display: flex
+		flex-flow: row nowrap
+		align-items: center
+		justify-content: center
+
+	&-Header
+		margin: 5px
+		border-width: 1px
+		border-radius: 10px
+		@include FlatUp
+		background-color: #AAAAAA
+		padding: 2px
+
+	&-Weekday,
+	&-Day
+		margin: 2px
+		flex: 0 1 13.5%
+		display: flex
+		align-items: center
+		justify-content: center
+		border: solid 1px #444444
+		border-radius: 50%
+		padding: 2px
+		/* line-height: 1.25 */
+
+	&-Weekday
+		cursor: default
+		background-color: #aaaaaa
+		font-weight: bold
+
+	&-Day
+		cursor: pointer
+
+	&-Weekend
+		color: #ff0000
+
+	&-OtherDay,
+	&-OtherWeekend
+		border: solid 1px #888888
+
+	&-OtherDay,
+	&-PastDay
+		color: #888888
+
+	&-OtherWeekend,
+	&-PastWeekend
+		color: #ff8888
+
+	&-Today
+		border: solid 2px #FF0000
+		padding: 1px
+		font-weight: bold
