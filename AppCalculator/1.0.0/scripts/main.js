@@ -9,7 +9,7 @@ class Display extends Obj {
   }
 
   set value(key) {
-    if (("0" <= key && key <= "9") || key === ".") {
+    if (("0" <= key && key.toLowerCase() <= "f") || key === ".") {
       if (!this.numberElement) {
         this.numberElement = Obj.createElement({
           tagName: "span",
@@ -19,20 +19,29 @@ class Display extends Obj {
             click: (evn, obj) => console.log(obj.innerText)
           }]
         })
+        if (this.numberSystems?.radix !== 10) {
+          Obj.createElement({
+            tagName: "sub",
+            parent: this.editableElement,
+            children: this.numberSystems.radix
+          })
+        }
       }
       if (key === "." && this.numberElement.innerText.includes(".")) {
         return }
       this.numberElement.innerText += key
-      this.numberSystem(parseInt(this.numberElement.innerText))
+      this.numberSystems?.update(this.numberElement.innerText)
     } else {
       delete this.numberElement
       this.editableElement.append(key)
     }
   }
 
-  constructor(kvargs = {}) {
+  constructor(kvargs) {
+    kvargs.classList = [`${kvargs.classList}-Display`]
     super(kvargs)
     this.show()
+    this.numberSystems = kvargs.numberSystems
     this.historyElement = Obj.createElement({
       parent: this.element,
       classList: [`${this.classList}-History`],
@@ -52,35 +61,21 @@ class Display extends Obj {
       children: this.value
     })
     this.editableElement.setAttribute("contenteditable", "true")
-    this.numBinElement = Obj.createElement({
-      classList: [`${this.classList}-NumberSystem-Bin`],
-      children: "0"
-    })
-    this.numDecElement = Obj.createElement({
-      classList: [`${this.classList}-NumberSystem-Dec`],
-      children: "0"
-    })
-    this.numHexElement = Obj.createElement({
-      classList: [`${this.classList}-NumberSystem-Hex`],
-      children: "0"
-    })
-    Obj.createElement({
-      parent: this.element,
-      classList: [`${this.classList}-NumberSystem`],
-      children: [this.numBinElement, this.numDecElement, this.numHexElement]
-    })
-  }
-
-  numberSystem(num) {
-    this.numBinElement.innerText = num.toString(2).toUpperCase()
-    this.numDecElement.innerText = num.toString(10).toUpperCase()
-    this.numHexElement.innerText = num.toString(16).toUpperCase()
+    if (this.numberSystems) {
+      this.numberSystems.parent = this.element
+      this.numberSystems.show()
+      this.numberSystems.onChange.push(radix => {
+        if (this.numberElement) {
+          this.numberElement.innerText = parseInt(this.numberElement.innerText, this.numberSystems.radix).toString(radix)
+        }
+      })
+    }
   }
 
   operation(opr) {
     if (opr === "OpClr") {
       this.editableElement.innerText = ""
-      this.numberSystem(0)
+      this.numberSystems?.update("0")
     } else if (opr === "OpEqu") {
       this.compute()
     } else if (opr === "OpBack") {
@@ -88,7 +83,7 @@ class Display extends Obj {
         this.editableElement.lastChild.innerText = this.editableElement.lastChild.innerText.slice(0, -1)
         if (this.editableElement.lastChild.innerText.length === 0) {
           this.editableElement.lastChild.remove() }
-        this.numberSystem(parseInt(this.editableElement.lastChild.innerText))
+        this.numberSystems?.update(this.editableElement.lastChild.innerText)
       } else {
         this.editableElement.lastChild.remove() }
     } else if (opr === "OpLPrnth") {
@@ -129,7 +124,7 @@ class Display extends Obj {
       }).innerHTML = this.editableElement.innerHTML
       this.errorElement.innerText = ""
       this.editableElement.innerText = result
-      this.numberSystem(result)
+      this.numberSystems?.update(result)
       delete this.numberElement
     } catch(err) {
       this.errorElement.innerText = "Err" }
@@ -138,9 +133,29 @@ console.log(this.editableElement.textContent)
 }
 
 //******************************************************************************
-export class Application extends App {
-  constructor(kvargs = {}) {
+class KeyPad extends Obj {
+  constructor(kvargs) {
     super(kvargs)
+    this.classList = [`${kvargs.classList}-KeyPad`]
+  }
+
+  onClick(evn, btn) {
+    if (btn.id.startsWith("Key")) {
+      this.display.value = btn.element.innerText
+    } else {
+      this.display.operation(btn.id) }
+  }
+}
+
+//******************************************************************************
+class ProgrammerCalculator extends KeyPad {
+  constructor(kvargs) {
+    super(kvargs)
+    this.display = new Display({
+      parent: kvargs.parent,
+      classList: kvargs.classList,
+      numberSystems: new NumberSystems({ classList: kvargs.classList })
+    })
     this.show()
   }
 
@@ -155,69 +170,229 @@ export class Application extends App {
       "OpRSh": ">>", "OpSqr": "Sqr", "OpSqu": "q", "OpEqu": "=", "OpBack": "Bck",
       "OpClr": "Clr"
     }
-    const programmer = [
-      ["OpLPrnth"  ,"OpRPrnth"  ,"OpBack" ,"OpClr" , ""      ,""    ],
-      ["OpAND"     ,"OpOR"      ,"OpXOR"  ,"OpNOT" ,"OpLSh" ,"OpRSh"],
-      ["KeyC"      ,"KeyD"      ,"KeyE"   ,"KeyF"  ,"OpDiv" ,"OpSqr"],
-      ["Key8"      ,"Key9"      ,"KeyA"   ,"KeyB"  ,"OpMul" ,"OpSqu"],
-      ["Key4"      ,"Key5"      ,"Key6"   ,"Key7"  ,"OpSub" ,""     ],
-      ["Key0"      ,"Key1"      ,"Key2"   ,"Key3"  ,"OpAdd" ,""     ],
-      ["KeyPoint"  ,"OpMinus"   ,"OpEqu"  ,""      ,""      ,""     ],
+    const layout = [
+      ["OpLPrnth"  ,"OpRPrnth"  ,"OpBack"    ,"OpClr"],
+      ["OpLSh"     ,"OpRSh"     ,"OpXOR"     ,""     ],
+      ["OpAND"     ,"OpOR"      ,"OpNOT"     ,"OpSqr"],
+      ["KeyD"      ,"KeyE"      ,"KeyF"      ,"OpSqu"],
+      ["KeyA"      ,"KeyB"      ,"KeyC"      ,"OpDiv"],
+      ["Key7"      ,"Key8"      ,"Key9"      ,"OpMul"],
+      ["Key4"      ,"Key5"      ,"Key6"      ,"OpSub"],
+      ["Key1"      ,"Key2"      ,"Key3"      ,"OpAdd"],
+      ["OpMinus"   ,"Key0"      ,"KeyPoint"  ,"OpEqu" ]
     ]
-    const layout = programmer
     super.show()
-    Obj.createElement({
-      parent: this.element,
-      classList: [`${this.classList}`],
-      children: "ordinary financical programmer"
-    })
-    this.display = new Display({
-      parent: this.element,
-      classList: [`${this.classList}-Display`],
-    })
-    const numberSystemsElement = Obj.createElement({
-      parent: this.element,
-      classList: [`${this.classList}-NumSys`],
-    })
-    numberSystemsElement.innerHTML = `<input type="radio" name="NumSys" value="2">Bin</input> ` +
-      `<input type="radio" name="NumSys" value="10" checked>Dec</input> ` +
-      `<input type="radio" name="NumSys" value="16">Hex</input>`
+    this.display.numberSystems.getControlElement({ parent: this.element, classList: this.classList })
     for (let row = 0; row < layout.length; row++) {
       const rowElement = Obj.createElement({
         parent: this.element,
-        classList: [`${this.classList}-Digits-Row`]
+        classList: [`${this.classList}-Row`]
       })
       for (let col = 0; col < layout[row].length; col++) {
         if (layout[row][col]) {
           const btn = new Button({
             id: layout[row][col],
             parent: rowElement,
-            classList: [`${this.classList}-Digits-Button`],
+            classList: [`${this.classList}-Button`],
             children: keys[layout[row][col]],
             events: [{
-              click: this.onKeyPress.bind(this)
+              click: this.onClick.bind(this)
             }]
           })
           btn.show()
         } else {
           Obj.createElement({
             parent: rowElement,
-            classList: [`${this.classList}-Digits-Button`],
+            classList: [`${this.classList}-Button`],
           })
         }
       }
     }
+    this.keyEnable(this.display.numberSystems.radix)
+    this.display.numberSystems.onChange.push(this.keyEnable)
   }
 
-  hide() {
-    super.hide()
+  keyEnable(radix) {
+    if (radix === "16") {
+      document.querySelector("#Key2").disabled = false
+      document.querySelector("#Key3").disabled = false
+      document.querySelector("#Key4").disabled = false
+      document.querySelector("#Key5").disabled = false
+      document.querySelector("#Key6").disabled = false
+      document.querySelector("#Key7").disabled = false
+      document.querySelector("#Key8").disabled = false
+      document.querySelector("#Key9").disabled = false
+      document.querySelector("#KeyA").disabled = false
+      document.querySelector("#KeyB").disabled = false
+      document.querySelector("#KeyC").disabled = false
+      document.querySelector("#KeyD").disabled = false
+      document.querySelector("#KeyE").disabled = false
+      document.querySelector("#KeyF").disabled = false
+    } else if (radix === "10") {
+      document.querySelector("#Key2").disabled = false
+      document.querySelector("#Key3").disabled = false
+      document.querySelector("#Key4").disabled = false
+      document.querySelector("#Key5").disabled = false
+      document.querySelector("#Key6").disabled = false
+      document.querySelector("#Key7").disabled = false
+      document.querySelector("#Key8").disabled = false
+      document.querySelector("#Key9").disabled = false
+      document.querySelector("#KeyA").disabled = true
+      document.querySelector("#KeyB").disabled = true
+      document.querySelector("#KeyC").disabled = true
+      document.querySelector("#KeyD").disabled = true
+      document.querySelector("#KeyE").disabled = true
+      document.querySelector("#KeyF").disabled = true
+    } else if (radix === "2") {
+      document.querySelector("#Key2").disabled = true
+      document.querySelector("#Key3").disabled = true
+      document.querySelector("#Key4").disabled = true
+      document.querySelector("#Key5").disabled = true
+      document.querySelector("#Key6").disabled = true
+      document.querySelector("#Key7").disabled = true
+      document.querySelector("#Key8").disabled = true
+      document.querySelector("#Key9").disabled = true
+      document.querySelector("#KeyA").disabled = true
+      document.querySelector("#KeyB").disabled = true
+      document.querySelector("#KeyC").disabled = true
+      document.querySelector("#KeyD").disabled = true
+      document.querySelector("#KeyE").disabled = true
+      document.querySelector("#KeyF").disabled = true
+    }
+  }
+}
+
+//******************************************************************************
+class NumberSystems extends Obj {
+  constructor(kvargs) {
+    kvargs.classList = [`${kvargs.classList}-NumberSystems`]
+    super(kvargs)
+    this.radix = 10
+    this.onChange = []
   }
 
-  onKeyPress(evn, btn) {
-    if (btn.id.startsWith("Key")) {
-      this.display.value = btn.element.innerText
-    } else {
-      this.display.operation(btn.id) }
+  show() {
+    super.show()
+    let numberSystemElement = Obj.createElement({
+      parent: this.element,
+      classList: [`${this.classList}-NumberSystem`],
+    })
+    Obj.createElement({
+      parent: numberSystemElement,
+      classList: [`${this.classList}-NumberSystem-Raddix`],
+      children: "Bin"
+    })
+    this.numBinElement = Obj.createElement({
+      parent: numberSystemElement,
+      classList: [`${this.classList}-NumberSystem-Number`],
+      children: "0"
+    })
+    numberSystemElement = Obj.createElement({
+      parent: this.element,
+      classList: [`${this.classList}-NumberSystem`],
+    })
+    Obj.createElement({
+      parent: numberSystemElement,
+      classList: [`${this.classList}-NumberSystem-Raddix`],
+      children: "Dec"
+    })
+    this.numDecElement = Obj.createElement({
+      parent: numberSystemElement,
+      classList: [`${this.classList}-NumberSystem-Number`],
+      children: "0"
+    })
+    numberSystemElement = Obj.createElement({
+      parent: this.element,
+      classList: [`${this.classList}-NumberSystem`],
+    })
+    Obj.createElement({
+      parent: numberSystemElement,
+      classList: [`${this.classList}-NumberSystem-Raddix`],
+      children: "Hex"
+    })
+    this.numHexElement = Obj.createElement({
+      parent: numberSystemElement,
+      classList: [`${this.classList}-NumberSystem-Number`],
+      children: "0"
+    })
+  }
+
+  update(num) {
+    const addSpace = (str, len) => {
+      let res = str.slice(0, str.length % len) + " "
+      for (let i = str.length % len; i < str.length; i += len) {
+        res += str.slice(i, i + len) + " " }
+      return res
+    }
+    num = parseInt(num, parseInt(this.radix))
+    this.numBinElement.innerText = addSpace(num.toString(2).toUpperCase(), 8)
+    this.numDecElement.innerText = addSpace(num.toString(10).toUpperCase(), 3)
+    this.numHexElement.innerText = addSpace(num.toString(16).toUpperCase(), 2)
+  }
+
+  getControlElement(kvargs) {
+    const controlElement = Obj.createElement({
+      parent: kvargs.parent,
+      classList: [`${kvargs.classList}-NumSys`],
+    })
+    Obj.createElement({
+      tagName: "input",
+      type: "radio",
+      name: "NumSys",
+      value: 2,
+      parent: controlElement,
+      events: {
+        click: this.onClick.bind(this)
+      }
+    })
+    controlElement.append("Bin")
+    Obj.createElement({
+      tagName: "input",
+      type: "radio",
+      name: "NumSys",
+      value: 10,
+      parent: controlElement,
+      events: {
+        click: this.onClick.bind(this)
+      }
+    })
+    controlElement.append("Dec")
+    Obj.createElement({
+      tagName: "input",
+      type: "radio",
+      name: "NumSys",
+      value: 16,
+      parent: controlElement,
+      events: {
+        click: this.onClick.bind(this)
+      }
+    })
+    controlElement.append("Hex")
+    controlElement.children[1].checked = "checked"
+  }
+
+  onClick(evn, btn) {
+    for (const fn of this.onChange) {
+      fn(btn.value) }
+    this.radix = btn.value
+  }
+}
+
+//******************************************************************************
+export class Application extends App {
+  constructor(kvargs = {}) {
+    super(kvargs)
+    super.show()
+    Obj.createElement({
+      parent: this.element,
+      classList: [`${this.classList}-ToolBar`],
+      children: "ordinary financical programmer"
+    })
+    const Calculator = ProgrammerCalculator
+    new Calculator({
+      parent: this.element,
+      classList: this.classList
+    })
   }
 }
 

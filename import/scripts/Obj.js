@@ -28,6 +28,8 @@ export class Obj {
     const element = kvargs.tagName ? document.createElement(kvargs.tagName) : document.createElement("div")
     if (kvargs.id) {
       element.id = kvargs.id }
+    if (kvargs.name) {
+      element.setAttribute("name", kvargs.name) }
     if (kvargs.parent) {
       kvargs.parent.append(element) }
     if (kvargs.classList) {
