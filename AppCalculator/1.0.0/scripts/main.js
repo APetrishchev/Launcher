@@ -3,45 +3,89 @@ import { Obj } from "../../../import/scripts/Obj.js"
 import { Button } from "../../../import/scripts/Button.js"
 
 //******************************************************************************
-class Display extends Obj {
-  get value() {
-    return this.editableElement?.innerText
+class Number_ extends Obj {
+  static addSpace = (str, len) => {
+    let res = str.slice(0, str.length % len) + " "
+    for (let i = str.length % len; i < str.length; i += len) {
+      res += str.slice(i, i + len) + " " }
+    return res
   }
 
-  set value(key) {
-    if (("0" <= key && key.toLowerCase() <= "f") || key === ".") {
-      if (!this.numberElement) {
-        this.numberElement = Obj.createElement({
-          tagName: "span",
-          parent: this.editableElement,
-          classList: [`${this.classList}-Number`],
-          events: [{
-            click: (evn, obj) => console.log(obj.innerText)
-          }]
-        })
-        if (this.numberSystems?.radix !== 10) {
-          Obj.createElement({
-            tagName: "sub",
-            parent: this.editableElement,
-            children: this.numberSystems.radix
-          })
-        }
-      }
-      if (key === "." && this.numberElement.innerText.includes(".")) {
-        return }
-      this.numberElement.innerText += key
-      this.numberSystems?.update(this.numberElement.innerText)
-    } else {
-      delete this.numberElement
-      this.editableElement.append(key)
+  get value() { return this.numberElement.innerText }
+  set value(val) { this.numberElement.innerText = val }
+
+  get radix() { return parseInt(this.radixElement?.textContent) || 10 }
+  set radix(radix) {
+    this.radixElement?.remove()
+
+    // this.value = parseInt(this.value, this.numberSystems.radix)
+    //   .toString(radix).toUpperCase()
+
+    if (radix !== 10) {
+      this.radixElement = Obj.createElement({
+        owner: this,
+        parent: this.element,
+        classList: [`${this.classList}-Radix`],
+        children: radix
+      })
     }
   }
 
   constructor(kvargs) {
-    kvargs.classList = [`${kvargs.classList}-Display`]
-    super(kvargs)
+    super({
+      id: "Number",
+      parent: kvargs.parent,
+      classList: [`${kvargs.classList}-Number`]
+    })
     this.show()
-    this.numberSystems = kvargs.numberSystems
+    this.numberElement = Obj.createElement({
+      owner: this,
+      parent: this.element,
+      events: [{
+        click: (evn, obj) => console.log(obj.innerText)
+      }]
+    })
+    this.radix = kvargs.radix
+  }
+
+  addChar(chr) {
+    if (chr === "." && this.value.includes(".")) { return }
+    this.value += chr
+  }
+}
+
+//******************************************************************************
+class Display extends Obj {
+  get value() { return this.editableElement?.innerHTML || "" }
+  set value(chr) {
+    if (("0" <= chr && chr <= "9") || "A" <= chr.toUpperCase() && chr.toUpperCase() <= "F" || chr === ".") {
+      if (!this.number) {
+        this.number = new Number_({
+          parent: this.editableElement,
+          classList: this.classList,
+          radix: this.numberSystems.radix
+        })
+      }
+      this.number.addChar(chr)
+      if (this.numberSystems) { this.numberSystems.value = this.number.value }
+    } else {
+      if (this.numberSystems) { this.numberSystems.value = "0" }
+      delete this.number
+      Obj.createElement({
+        id: "Operation",
+        parent: this.editableElement,
+        children: chr
+      })
+    }
+  }
+
+  constructor(kvargs) {
+    super(kvargs)
+    this.classList = [`${kvargs.classList}-Display`]
+  }
+
+  show() {
+    super.show()
     this.historyElement = Obj.createElement({
       parent: this.element,
       classList: [`${this.classList}-History`],
@@ -61,74 +105,55 @@ class Display extends Obj {
       children: this.value
     })
     this.editableElement.setAttribute("contenteditable", "true")
-    if (this.numberSystems) {
-      this.numberSystems.parent = this.element
-      this.numberSystems.show()
-      this.numberSystems.onChange.push(radix => {
-        if (this.numberElement) {
-          this.numberElement.innerText = parseInt(this.numberElement.innerText, this.numberSystems.radix).toString(radix)
-        }
-      })
-    }
   }
 
-  operation(opr) {
-    if (opr === "OpClr") {
-      this.editableElement.innerText = ""
-      this.numberSystems?.update("0")
-    } else if (opr === "OpEqu") {
-      this.compute()
-    } else if (opr === "OpBack") {
-      if (this.editableElement.lastChild instanceof HTMLElement) {
-        this.editableElement.lastChild.innerText = this.editableElement.lastChild.innerText.slice(0, -1)
-        if (this.editableElement.lastChild.innerText.length === 0) {
-          this.editableElement.lastChild.remove() }
-        this.numberSystems?.update(this.editableElement.lastChild.innerText)
-      } else {
-        this.editableElement.lastChild.remove() }
-    } else if (opr === "OpLPrnth") {
-      this.value = "("
-    } else if (opr === "OpRPrnth") {
-      this.value = ")"
-    } else if (this.editableElement.lastChild) {
-      if (["*", "/", "+", "-"].includes(this.editableElement.lastChild.textContent)) {
-        this.editableElement.lastChild.remove() }
-      if (opr === "OpMul") {
-        this.value = "*"
-      } else if (opr === "OpDiv") {
-        this.value = "/"
-      } else if (opr === "OpAdd") {
-        this.value = "+"
-      } else if (opr === "OpSub") {
-        this.value = "-"
+  clear() {
+    this.errorElement.innerText = ""
+    this.editableElement.innerText = ""
+    delete this.number
+    if (this.numberSystems) { this.numberSystems.value = "0" }
+  }
+
+  back() {
+    if (this.number?.value.length) {
+      this.number.value = this.number.value.slice(0, -1)
+      if (this.number.value.length === 0) {
+        this.number.element.remove()
+        this.number.radixElement?.remove()
+        delete this.number
       }
-    }
+      if (this.numberSystems) { this.numberSystems.value = this.number?.value || "0" }
+    } else {
+      this.editableElement.lastChild?.remove() }
   }
 
-  compute() {
+  result() {
+    let exp = ""
+    for (const item of this.editableElement.childNodes) {
+      if (item.id === "Number") {
+        exp += parseInt(item.owner.value, item.owner.radix)
+      } else {
+        exp += item.textContent }
+    }
     try {
-      const result = eval(this.editableElement.textContent)
-      this.editableElement.append("=")
-      Obj.createElement({
-        tagName: "span",
+      const result = eval(exp).toString(this.numberSystems?.radix || 10).toUpperCase()
+console.log(result)
+      this.errorElement.innerText = ""
+      this.value = "="
+      this.number = new Number_({
         parent: this.editableElement,
-        classList: [`${this.classList}-Number`],
-        children: result,
-        events: [{
-          click: (evn, obj) => console.log(obj.innerText)
-        }]
+        classList: this.classList
       })
+      this.number.value = result
+      this.number.radix = this.numberSystems?.radix || 10
       Obj.createElement({
         parent: this.historyElement,
         classList: [`${this.classList}-History-Row`]
       }).innerHTML = this.editableElement.innerHTML
-      this.errorElement.innerText = ""
-      this.editableElement.innerText = result
-      this.numberSystems?.update(result)
-      delete this.numberElement
+      this.editableElement.innerHTML = this.number.element.outerHTML
+      if (this.numberSystems) { this.numberSystems.value = result }
     } catch(err) {
       this.errorElement.innerText = "Err" }
-console.log(this.editableElement.textContent)
   }
 }
 
@@ -137,13 +162,43 @@ class KeyPad extends Obj {
   constructor(kvargs) {
     super(kvargs)
     this.classList = [`${kvargs.classList}-KeyPad`]
+    this.display = new Display({
+      parent: kvargs.parent,
+      classList: kvargs.classList
+    })
   }
 
   onClick(evn, btn) {
     if (btn.id.startsWith("Key")) {
       this.display.value = btn.element.innerText
     } else {
-      this.display.operation(btn.id) }
+      this.operation(btn.id) }
+  }
+
+  operation(opr) {
+    if (opr === "OpEqu") {
+      this.display.result()
+    } else if (opr === "OpClr") {
+      this.display.clear()
+    } else if (opr === "OpBack") {
+      this.display.back()
+    } else if (opr === "OpLPrnth") {
+      this.display.value = "("
+    } else if (opr === "OpRPrnth") {
+      this.display.value = ")"
+    } else if (this.display.editableElement.lastChild) {
+      if (["*", "/", "+", "-"].includes(this.display.editableElement.lastChild.textContent)) {
+        this.display.editableElement.lastChild.remove() }
+      if (opr === "OpMul") {
+        this.display.value = "*"
+      } else if (opr === "OpDiv") {
+        this.display.value = "/"
+      } else if (opr === "OpAdd") {
+        this.display.value = "+"
+      } else if (opr === "OpSub") {
+        this.display.value = "-"
+      }
+    }
   }
 }
 
@@ -151,11 +206,10 @@ class KeyPad extends Obj {
 class ProgrammerCalculator extends KeyPad {
   constructor(kvargs) {
     super(kvargs)
-    this.display = new Display({
-      parent: kvargs.parent,
-      classList: kvargs.classList,
-      numberSystems: new NumberSystems({ classList: kvargs.classList })
-    })
+    this.numberSystems = new NumberSystems({ classList: kvargs.classList })
+    this.display.numberSystems = this.numberSystems
+    this.display.show()
+    this.numberSystems.showPanel({ parent: this.display.element, classList: kvargs.classList })
     this.show()
   }
 
@@ -179,10 +233,11 @@ class ProgrammerCalculator extends KeyPad {
       ["Key7"      ,"Key8"      ,"Key9"      ,"OpMul"],
       ["Key4"      ,"Key5"      ,"Key6"      ,"OpSub"],
       ["Key1"      ,"Key2"      ,"Key3"      ,"OpAdd"],
-      ["OpMinus"   ,"Key0"      ,"KeyPoint"  ,"OpEqu" ]
+      ["Key0"      ,"KeyPoint"  ,"OpMinus"   ,"OpEqu" ]
     ]
     super.show()
-    this.display.numberSystems.getControlElement({ parent: this.element, classList: this.classList })
+    this.numberSystems.parent = this.element
+    this.numberSystems.show()
     for (let row = 0; row < layout.length; row++) {
       const rowElement = Obj.createElement({
         parent: this.element,
@@ -208,12 +263,19 @@ class ProgrammerCalculator extends KeyPad {
         }
       }
     }
-    this.keyEnable(this.display.numberSystems.radix)
-    this.display.numberSystems.onChange.push(this.keyEnable)
+    this.keyEnable(this.numberSystems.radix)
+    this.numberSystems.onChange = (radix) => {
+      this.keyEnable(radix)
+      if (this.display.number) {
+        this.display.number.value = parseInt(this.display.number.value, this.numberSystems.radix)
+        .toString(radix).toUpperCase()
+        this.display.number.radix = radix
+      }
+    }
   }
 
   keyEnable(radix) {
-    if (radix === "16") {
+    if (radix === 16) {
       document.querySelector("#Key2").disabled = false
       document.querySelector("#Key3").disabled = false
       document.querySelector("#Key4").disabled = false
@@ -228,7 +290,7 @@ class ProgrammerCalculator extends KeyPad {
       document.querySelector("#KeyD").disabled = false
       document.querySelector("#KeyE").disabled = false
       document.querySelector("#KeyF").disabled = false
-    } else if (radix === "10") {
+    } else if (radix === 10) {
       document.querySelector("#Key2").disabled = false
       document.querySelector("#Key3").disabled = false
       document.querySelector("#Key4").disabled = false
@@ -243,7 +305,7 @@ class ProgrammerCalculator extends KeyPad {
       document.querySelector("#KeyD").disabled = true
       document.querySelector("#KeyE").disabled = true
       document.querySelector("#KeyF").disabled = true
-    } else if (radix === "2") {
+    } else if (radix === 2) {
       document.querySelector("#Key2").disabled = true
       document.querySelector("#Key3").disabled = true
       document.querySelector("#Key4").disabled = true
@@ -264,17 +326,71 @@ class ProgrammerCalculator extends KeyPad {
 
 //******************************************************************************
 class NumberSystems extends Obj {
+  get value() {return this.numBinElement.innerText}
+  set value(num) {
+    num = parseInt(num, this.radix)
+    this.numBinElement.innerText = Number_.addSpace(num.toString(2).toUpperCase(), 8)
+    this.numDecElement.innerText = Number_.addSpace(num.toString(10).toUpperCase(), 3)
+    this.numHexElement.innerText = Number_.addSpace(num.toString(16).toUpperCase(), 4)
+  }
+
   constructor(kvargs) {
     kvargs.classList = [`${kvargs.classList}-NumberSystems`]
     super(kvargs)
     this.radix = 10
-    this.onChange = []
   }
 
   show() {
+    this.classList = [`${this.classList}-Control`]
     super.show()
-    let numberSystemElement = Obj.createElement({
+    Obj.createElement({
+      tagName: "input",
+      type: "radio",
+      name: "NumSys",
+      value: 2,
       parent: this.element,
+      events: {
+        click: this.onClick.bind(this)
+      }
+    })
+    this.element.append("Bin")
+    Obj.createElement({
+      tagName: "input",
+      type: "radio",
+      name: "NumSys",
+      value: 10,
+      parent: this.element,
+      events: {
+        click: this.onClick.bind(this)
+      }
+    }).checked = "checked"
+    this.element.append("Dec")
+    Obj.createElement({
+      tagName: "input",
+      type: "radio",
+      name: "NumSys",
+      value: 16,
+      parent: this.element,
+      events: {
+        click: this.onClick.bind(this)
+      }
+    })
+    this.element.append("Hex")
+  }
+
+  onClick(evn, btn) {
+    const radix = parseInt(btn.value)
+    this.onChange(radix)
+    this.radix = radix
+  }
+
+  showPanel(kvargs) {
+    const element = Obj.createElement({
+      parent: kvargs.parent,
+      classList: [`${kvargs.classList}-NumberSystems`],
+    })
+    let numberSystemElement = Obj.createElement({
+      parent: element,
       classList: [`${this.classList}-NumberSystem`],
     })
     Obj.createElement({
@@ -288,7 +404,7 @@ class NumberSystems extends Obj {
       children: "0"
     })
     numberSystemElement = Obj.createElement({
-      parent: this.element,
+      parent: element,
       classList: [`${this.classList}-NumberSystem`],
     })
     Obj.createElement({
@@ -302,7 +418,7 @@ class NumberSystems extends Obj {
       children: "0"
     })
     numberSystemElement = Obj.createElement({
-      parent: this.element,
+      parent: element,
       classList: [`${this.classList}-NumberSystem`],
     })
     Obj.createElement({
@@ -315,66 +431,6 @@ class NumberSystems extends Obj {
       classList: [`${this.classList}-NumberSystem-Number`],
       children: "0"
     })
-  }
-
-  update(num) {
-    const addSpace = (str, len) => {
-      let res = str.slice(0, str.length % len) + " "
-      for (let i = str.length % len; i < str.length; i += len) {
-        res += str.slice(i, i + len) + " " }
-      return res
-    }
-    num = parseInt(num, parseInt(this.radix))
-    this.numBinElement.innerText = addSpace(num.toString(2).toUpperCase(), 8)
-    this.numDecElement.innerText = addSpace(num.toString(10).toUpperCase(), 3)
-    this.numHexElement.innerText = addSpace(num.toString(16).toUpperCase(), 2)
-  }
-
-  getControlElement(kvargs) {
-    const controlElement = Obj.createElement({
-      parent: kvargs.parent,
-      classList: [`${kvargs.classList}-NumSys`],
-    })
-    Obj.createElement({
-      tagName: "input",
-      type: "radio",
-      name: "NumSys",
-      value: 2,
-      parent: controlElement,
-      events: {
-        click: this.onClick.bind(this)
-      }
-    })
-    controlElement.append("Bin")
-    Obj.createElement({
-      tagName: "input",
-      type: "radio",
-      name: "NumSys",
-      value: 10,
-      parent: controlElement,
-      events: {
-        click: this.onClick.bind(this)
-      }
-    })
-    controlElement.append("Dec")
-    Obj.createElement({
-      tagName: "input",
-      type: "radio",
-      name: "NumSys",
-      value: 16,
-      parent: controlElement,
-      events: {
-        click: this.onClick.bind(this)
-      }
-    })
-    controlElement.append("Hex")
-    controlElement.children[1].checked = "checked"
-  }
-
-  onClick(evn, btn) {
-    for (const fn of this.onChange) {
-      fn(btn.value) }
-    this.radix = btn.value
   }
 }
 

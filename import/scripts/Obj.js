@@ -26,6 +26,8 @@ export class Obj {
 
   static createElement(kvargs) {
     const element = kvargs.tagName ? document.createElement(kvargs.tagName) : document.createElement("div")
+    if (kvargs.owner) {
+      element.owner = kvargs.owner }
     if (kvargs.id) {
       element.id = kvargs.id }
     if (kvargs.name) {
@@ -56,8 +58,6 @@ export class Obj {
       element.setAttribute("disabled", "disabled") }
     if (kvargs.tips) {
       new Tips(element, kvargs.tips) }
-    // if (kvargs.owner) {
-    //   element.owner = kvargs.owner
     if (kvargs.events) {
       if (kvargs.events instanceof Array) {
         for (const event of kvargs.events) {

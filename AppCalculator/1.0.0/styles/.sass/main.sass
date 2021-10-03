@@ -62,15 +62,20 @@
 			font-size: xx-large
 			&:empty:before
 				content: attr(placeholder)
-			& sub
-				margin-top: 20px
-				font-size: medium
 
 		&-Number
 			cursor: pointer
+			display: flex
+			flex-flow: row nowrap
+			justify-content: flex-start
+			align-items: center
 			padding: 0px 3px 0px 3px
 			&:hover
 				font-weight: bold
+
+			&-Radix
+				margin-top: 20px
+				font-size: medium
 
 	&-NumberSystems
 		border-style: none
@@ -78,7 +83,7 @@
 		display: flex
 		flex-flow: column nowrap
 		justify-content: flex-start
-		align-items: flex-end
+		align-items: center
 		width: 100%
 
 		&-NumberSystem
@@ -103,6 +108,13 @@
 				justify-content: flex-end
 				align-items: center
 
+		&-Control
+			display: flex
+			flex-flow: row nowrap
+			justify-content: flex-start
+			align-items: center
+			width: 100%
+
 	&-KeyPad
 		flex: 1 1 auto
 		display: flex
@@ -122,6 +134,7 @@
 		&-Button
 			width: 100%
 			height: 100%
+			font-weight: bold
 
 // #OpEqu
 // 	width: 82px
