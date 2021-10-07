@@ -117,7 +117,6 @@ class Display extends Obj {
         id: item.id,
         parent: this.editableElement
       })
-console.log(item)
       oper.operation = item.operation
       if (item.id === "OpEqu") {
         oper.append("=")
@@ -127,11 +126,12 @@ console.log(item)
       } else if (item.id === "OpRPrnth") {
         oper.append(")")
       } else if (this.editableElement.lastChild) {
-        if (["*", "/", "+", "-"].includes(this.editableElement.lastChild.textContent)) {
+        if (["OpMul", "OpDiv", "OpAdd", "OpSub"].includes(this.editableElement.lastChild.id)) {
           this.editableElement.lastChild.remove()
         }
-        oper.append(item.element.textContent)
+        oper.append(item.operation)
       }
+console.dir(oper)
     }
   }
 
@@ -310,7 +310,7 @@ class ProgrammerCalculator extends KeyPad {
             events: [{click: (evn, btn) => { this.display.add(btn) } }]
           })
           btn.group = isDigit ? "Digit" : "Operation"
-          if (isDigit) {
+          if (!isDigit) {
             btn.operation = keys[layout[row][col]][1]
           }
           btn.show()
