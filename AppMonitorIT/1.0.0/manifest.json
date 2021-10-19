@@ -1,0 +1,26 @@
+{
+  "name": "MonitorIT",
+  "version": "1.0.0",
+  "releaseDate": "2021-05-11",
+  "parentVersion": "",
+  "picture": "public/pictures/.applications/SMonitor/monitor.png",
+  "groups": [
+    "General"
+  ],
+  "author": {
+    "name": "Andrey Petrishchev",
+    "email": "PetriAndPetro@gmail.com"
+  },
+  "description": "Monitor IT",
+  "langs": [
+    "ru-RU"
+  ],
+  "styles": [
+    "WhiteBlue",
+    "BlackGreen"
+  ],
+  "pageURL": "",
+  "license": "",
+  "price": "",
+  "wallet": ""
+}
