@@ -1,6 +1,10 @@
 package controller
 
-func Init()) (err error) {
+import (
+	"fmt"
+)
+
+func Init() (err error) {
 	fmt.Println("Database initialization")
 	// fmt.Printf("Database \"%s\" connect as %s@%s:%d ... ", model.Db.Name, model.Db.User,
 	// 	model.Db.Host, model.Db.Port)
@@ -12,10 +16,9 @@ func Init()) (err error) {
 	fmt.Printf("  create \"networks\" ... ")
 	fmt.Println(model.CheckError(model.Db.CreateTable("networks", []string{
 		"`Id` INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE",
-		"`Network` CHAR(15) NOT NULL UNIQUE",
-		"`NetMask` INTEGER NOT NULL",
-		"`Gateway` CHAR(15)",
 		"`Name` VARCHAR(48) NOT NULL UNIQUE",
+		"`Network` CHAR(18) NOT NULL UNIQUE",
+		"`Gateway` CHAR(15)",
 		"`Description` VARCHAR(1024)",
 		"`Disable` INTEGER DEFAULT 0",
 	}, "")))
