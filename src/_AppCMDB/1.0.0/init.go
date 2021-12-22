@@ -20,19 +20,19 @@ func Init() (err error) {
 		"`Network` CHAR(18) NOT NULL UNIQUE",
 		"`Gateway` CHAR(15)",
 		"`Description` VARCHAR(1024)",
-		"`Disable` INTEGER DEFAULT 0",
+		"`Disabled` INTEGER DEFAULT 0",
 	}, "")))
 
 	fmt.Printf("  create \"ips\" ... ")
 	fmt.Println(model.CheckError(model.Db.CreateTable("ips", []string{
 		"`Ip` CHAR(15) PRIMARY KEY UNIQUE",
+		"`Available` INTEGER",
 		"`NetId` INTEGER NOT NULL",
 		"`HostId` CHAR(256)",
 		"`LastChangeTime` INTEGER",
 		"`LastCheckTime` INTEGER",
 		"`Description` VARCHAR(1024)",
-		"`Availability` INTEGER",
-		"`Disable` INTEGER DEFAULT 0",
+		"`Disabled` INTEGER DEFAULT 0",
 	}, "")))
 
 	fmt.Printf("  create \"hosts\" ... ")

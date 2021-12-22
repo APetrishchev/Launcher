@@ -51,6 +51,7 @@ class Number_ extends Obj {
     const id = kvargs.id || "Number"
     super({
       id: id,
+      name: kvargs.name,
       parent: kvargs.parent,
       classList: [`${kvargs.classList}-Number`]
     })
@@ -75,8 +76,9 @@ class Display extends Obj {
   }
 
   add(item) {
-    if (item.group === "Digit") {
-      if (this.number?.id === "Result") {
+console.log(item)
+    if (item.name === "Digit") {
+      if (this.number?.name === "Result") {
         this.clear()
       }
       if (!this.number) {
@@ -89,7 +91,7 @@ class Display extends Obj {
       if (this.app.numberSystems) {
         this.app.numberSystems.value = this.number.value
       }
-    } else {
+    } else if (item.name === "Operation") {
       if (this.app.numberSystems) {
         this.app.numberSystems.value = "0"
       }
@@ -112,26 +114,23 @@ class Display extends Obj {
           this.editableElement.lastChild?.remove()
         }
         return
-      }
-      const oper = Obj.createElement({
-        id: item.id,
-        parent: this.editableElement
-      })
-      oper.operation = item.operation
-      if (item.id === "OpEqu") {
-        oper.append("=")
+      } else if (item.id === "OpEqu") {
         this.result()
-      } else if (item.id === "OpLPrnth") {
-        oper.append("(")
-      } else if (item.id === "OpRPrnth") {
-        oper.append(")")
-      } else if (this.editableElement.lastChild) {
+        return
+      }
+      if (this.editableElement.lastChild?.name === "Operation") {
         if (["OpMul", "OpDiv", "OpAdd", "OpSub"].includes(this.editableElement.lastChild.id)) {
           this.editableElement.lastChild.remove()
         }
-        oper.append(item.operation)
       }
-console.dir(oper)
+      const operationElement = Obj.createElement({
+        owner: item,
+        id: item.id,
+        parent: this.editableElement,
+        children: item.operation
+      })
+    } else {
+      console.err("not digit or operation")
     }
   }
 
@@ -144,18 +143,22 @@ console.dir(oper)
   show() {
     super.show()
     this.historyElement = Obj.createElement({
+      owner: this,
       parent: this.element,
       classList: [`${this.classList}-History`],
     })
     const inputElement = Obj.createElement({
+      owner: this,
       parent: this.element,
       classList: [`${this.classList}-Input`],
     })
     this.errorElement = Obj.createElement({
+      owner: this,
       parent: inputElement,
       classList: [`${this.classList}-Error`],
     })
     this.editableElement = Obj.createElement({
+      owner: this,
       parent: inputElement,
       classList: [`${this.classList}-Editable`],
       placeholder: "0",
@@ -166,7 +169,7 @@ console.dir(oper)
 
   clear() {
     this.errorElement.innerText = ""
-    this.editableElement.innerText = ""
+    Obj.clearElement(this.editableElement)
     delete this.number
     if (this.app.numberSystems) {
       this.app.numberSystems.value = "0"
@@ -175,41 +178,41 @@ console.dir(oper)
 
   result() {
     let exp = ""
-    for (const item of this.editableElement.childNodes) {
-console.log(item.id, item.operation)
-      if (item.id === "Number") {
-        exp += parseInt(item.owner.value, item.owner.radix)
-      } else {
-        if (item.id !== "OpEqu")
-        exp += item.operation
+    for (const element of this.editableElement.children) {
+      if (element.id === "Number") {
+        exp += parseInt(element.owner.value, element.owner.radix)
+      } else if (element.id !== "OpEqu") {
+        exp += element.owner.operation
       }
     }
-console.log(exp)
     try {
       const result = eval(exp).toString(this.app.numberSystems?.radix || 10).toUpperCase()
-      console.log(result)
       this.errorElement.innerText = ""
-      this.add("=")
+      this.editableElement.append("=")
       new Number_(this.app, {
         parent: this.editableElement,
         classList: this.classList,
         value: result
       })
+console.log(`${exp}=${result}`)
       Obj.createElement({
+        owner: this,
         parent: this.historyElement,
         classList: [`${this.classList}-History-Row`]
       }).innerHTML = this.editableElement.innerHTML
-      this.editableElement.innerText = ""
+      Obj.clearElement(this.editableElement)
       this.number = new Number_(this.app, {
-        id: "Result",
+        name: "Result",
         parent: this.editableElement,
         classList: this.classList,
         value: result
       })
+console.log(this.number)
       if (this.app.numberSystems) {
         this.app.numberSystems.value = result
       }
     } catch (err) {
+console.log(`${exp}=Error`)
       this.errorElement.innerText = "Err"
     }
   }
@@ -296,6 +299,7 @@ class ProgrammerCalculator extends KeyPad {
     this.numberSystems.show()
     for (let row = 0; row < layout.length; row++) {
       const rowElement = Obj.createElement({
+        owner: this,
         parent: this.element,
         classList: [`${this.classList}-Row`]
       })
@@ -304,18 +308,19 @@ class ProgrammerCalculator extends KeyPad {
           const isDigit = layout[row][col].startsWith("Key")
           const btn = new Button({
             id: layout[row][col],
+            name: isDigit ? "Digit" : "Operation",
             parent: rowElement,
             classList: [`${this.classList}-Button`],
             children: isDigit ? keys[layout[row][col]] : keys[layout[row][col]][0],
             events: [{click: (evn, btn) => { this.display.add(btn) } }]
           })
-          btn.group = isDigit ? "Digit" : "Operation"
           if (!isDigit) {
             btn.operation = keys[layout[row][col]][1]
           }
           btn.show()
         } else {
           Obj.createElement({
+            owner: this,
             parent: rowElement,
             classList: [`${this.classList}-Button`],
           })
@@ -405,6 +410,7 @@ class NumberSystems extends Obj {
     this.classList = [`${this.classList}-Control`]
     super.show()
     Obj.createElement({
+      owner: this,
       tagName: "input",
       type: "radio",
       name: "NumSys",
@@ -416,6 +422,7 @@ class NumberSystems extends Obj {
     })
     this.element.append("Bin")
     Obj.createElement({
+      owner: this,
       tagName: "input",
       type: "radio",
       name: "NumSys",
@@ -427,6 +434,7 @@ class NumberSystems extends Obj {
     }).checked = "checked"
     this.element.append("Dec")
     Obj.createElement({
+      owner: this,
       tagName: "input",
       type: "radio",
       name: "NumSys",
@@ -447,53 +455,64 @@ class NumberSystems extends Obj {
 
   showPanel(kvargs) {
     const element = Obj.createElement({
+      owner: this,
       parent: kvargs.parent,
       classList: [`${kvargs.classList}-NumberSystems`],
     })
     let numberSystemElement = Obj.createElement({
+      owner: this,
       parent: element,
       classList: [`${this.classList}-NumberSystem`],
     })
     Obj.createElement({
+      owner: this,
       parent: numberSystemElement,
       classList: [`${this.classList}-NumberSystem-Raddix`],
       children: "Bin"
     })
     this.numBinElement = Obj.createElement({
+      owner: this,
       parent: numberSystemElement,
       classList: [`${this.classList}-NumberSystem-Number`],
       children: "0"
     })
     numberSystemElement = Obj.createElement({
+      owner: this,
       parent: element,
       classList: [`${this.classList}-NumberSystem`],
     })
     Obj.createElement({
+      owner: this,
       parent: numberSystemElement,
       classList: [`${this.classList}-NumberSystem-Raddix`],
       children: "Dec"
     })
     this.numDecElement = Obj.createElement({
+      owner: this,
       parent: numberSystemElement,
       classList: [`${this.classList}-NumberSystem-Number`],
       children: "0"
     })
     numberSystemElement = Obj.createElement({
+      owner: this,
       parent: element,
       classList: [`${this.classList}-NumberSystem`],
     })
     Obj.createElement({
+      owner: this,
       parent: numberSystemElement,
       classList: [`${this.classList}-NumberSystem-Raddix`],
       children: "Hex"
     })
     this.numHexElement = Obj.createElement({
+      owner: this,
       parent: numberSystemElement,
       classList: [`${this.classList}-NumberSystem-Number`],
       children: "0"
     })
   }
 }
+
 //******************************************************************************
 export class Application extends App {
   constructor(kvargs = {}) {
