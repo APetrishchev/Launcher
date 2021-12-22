@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"Laucher/1.0.0/model"
+	"Launcher/1.0.0/model"
 
 	"github.com/go-gem/sessions"
 	"github.com/valyala/fasthttp"
@@ -124,7 +124,7 @@ func (self *HttpServerType) panicMiddleware(next fasthttp.RequestHandler) fastht
 
 func (self *HttpServerType) sessionMiddleware(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 	return self.panicMiddleware(func(ctx *fasthttp.RequestCtx) {
-		cookies, err := self.CookieStore.Get(ctx, "laucher_session")
+		cookies, err := self.CookieStore.Get(ctx, "launcher_session")
 		if err != nil {panic(err)}
 		sid := cookies.Values["sid"]
 		model.Db.Open()

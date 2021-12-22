@@ -1,9 +1,9 @@
 {
-  "name": "Laucher",
+  "name": "Launcher",
   "version": "1.0.0",
   "releaseDate": "2021-05-11",
   "parentVersion": "",
-  "picture": "public/pictures/.applications/Laucher/Home.png",
+  "picture": "public/pictures/.applications/Launcher/Home.png",
   "groups": [
     "System"
   ],
@@ -11,7 +11,7 @@
     "name": "Andrey Petrishchev",
     "email": "PetriAndPetro@gmail.com"
   },
-  "description": "Laucher",
+  "description": "Launcher",
   "langs": [
     "ru-RU"
   ],

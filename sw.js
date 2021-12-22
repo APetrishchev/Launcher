@@ -52,7 +52,7 @@ const CACHED_FILES = [
   "/public/audio/voice/clock/ru-RU/female/oclock.wav",
   "/public/audio/voice/clock/ru-RU/female/minutes.wav",
 
-  "/AppLaucher/1.0.0/scripts/main.js",
+  "/AppLauncher/1.0.0/scripts/main.js",
   // "/AppLaucher/1.0.0/styles/default.css",
   // "/public/pictures/.applications/Laucher/home.png",
 

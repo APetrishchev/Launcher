@@ -1,8 +1,8 @@
 import { DB } from "../../../import/scripts/db.js"
 
-export class LaucherDB extends DB {
+export class LauncherDB extends DB {
   constructor(version=1) {
-    super("Laucher", version)
+    super("Launcher", version)
   }
 
   async create(db, oldVersion, transaction) {

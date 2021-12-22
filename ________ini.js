@@ -429,7 +429,7 @@ const Cron = {
 //   "lang": "en_US"
 // }
 
-// users["default"]["Laucher"] = {
+// users["default"]["Launcher"] = {
 //   "TalkClock": {
 //     "disable": 0,
 //     "lang": "en-US",
@@ -569,7 +569,7 @@ const Cron = {
 //   "lang": "ru-RU"
 // }
 
-// users["APetrishchev"]["Laucher"] = {
+// users["APetrishchev"]["Launcher"] = {
 //   "TalkClock": {
 //     "disable": 0,
 //     "lang": users["APetrishchev"]["lang"],

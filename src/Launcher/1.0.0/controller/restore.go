@@ -28,7 +28,7 @@ type manifestApplicationType struct {
 	Wallet string
 }
 
-type laucherType struct {
+type launcherType struct {
   ApplicationGroups []*struct{
     Name        string
     Description string
@@ -119,21 +119,21 @@ func Restore(backupFilePath string) {
   jsonFile, err := os.Open(backupFilePath)
   if err != nil {panic(err)}
   jsonData, _ := ioutil.ReadAll(jsonFile)
-  laucher := laucherType{}
-  if err = json.Unmarshal(jsonData, &laucher); err != nil {
+  launcher := launcherType{}
+  if err = json.Unmarshal(jsonData, &launcher); err != nil {
     fmt.Println(err)
     panic(err)
   }
 
   fmt.Println("\nApplicationGroups")
-  for _, group := range laucher.ApplicationGroups {
+  for _, group := range launcher.ApplicationGroups {
     grp := &AppGroupsType{Name: group.Name, Description: group.Description, Picture: group.Picture}
     grp.Add()
     fmt.Printf("  add \"%s\" ... OK\n", group.Name)
   }
 
   fmt.Println("\nUsers")
-  for _, item := range laucher.Users {
+  for _, item := range launcher.Users {
     user := &UserType{Login: item.Login, Passwd: item.Passwd,
       PublicKey: item.PublicKey, SecretKey: item.SecretKey,
       Countries: strings.Split(item.Countries, ","), Langs: strings.Split(item.Langs, ",")}
@@ -143,7 +143,7 @@ func Restore(backupFilePath string) {
   }
 
   fmt.Println("\nProfiles")
-  for _, item := range laucher.Profiles {
+  for _, item := range launcher.Profiles {
     profile := &ProfileType{UserId: ids.users[item.User], OwnerId: ids.users[item.User], Name: item.Name,
       FirstName: item.FirstName, LastName: item.LastName, ShortDescr: item.ShortDescr,
       Description: item.Description, Gender: item.Gender, Birthday: item.Birthday,
@@ -155,7 +155,7 @@ func Restore(backupFilePath string) {
   }
 
   fmt.Println("\nProfile_Application")
-  for _, items := range laucher.Profile_Application {
+  for _, items := range launcher.Profile_Application {
     for profileName, apps := range items {
       for appName, app := range apps {
         profileApplication := &Profile_ApplicationType{ProfileId: ids.profiles[profileName],

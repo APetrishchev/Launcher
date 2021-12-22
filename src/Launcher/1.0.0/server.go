@@ -1,8 +1,8 @@
 package main
 
 import (
-	"Laucher/1.0.0/controller"
-	"Laucher/1.0.0/model"
+	"Launcher/1.0.0/controller"
+	"Launcher/1.0.0/model"
 	"context"
 	"flag"
 	"fmt"
@@ -177,7 +177,7 @@ func main() {
 					if err = CheckDb(); err != nil {
 						ret = fmt.Sprintf("Failed to open DB '%s': %v", conf.DbName, err)
 					} else {
-						if err = controller.Init(filepath.Join(conf.BackupDirPath, "init", "laucher.json")); err != nil {
+						if err = controller.Init(filepath.Join(conf.BackupDirPath, "init", "launcher.json")); err != nil {
 							ret = fmt.Sprintf("Error: %v", err)
 						}
 					}

@@ -1,10 +1,10 @@
 #!/bin/bash
 
-WORKDIR=/home/apetrishchev/Portable/Projects/github.com/APetrishchev/Laucher
+WORKDIR=/home/apetrishchev/Portable/Projects/github.com/APetrishchev/Launcher
 
 # export GO111MODULE=on
 # unset GOPATH
-# cd "$WORKDIR/src/Laucher/1.0.0"
+# cd "$WORKDIR/src/Launcher/1.0.0"
 # go mod init httpServer_
 # go mod tidy
 # go list
@@ -24,7 +24,7 @@ export GOPATH=$WORKDIR
 # @latest
 
 export GOBIN=/home/apetrishchev/Portable/data/admin/exe
-go install "$WORKDIR/src/Laucher/1.0.0/server.go"
+go install "$WORKDIR/src/Launcher/1.0.0/server.go"
 # cat /home/apetrishchev/Portable/data/admin/.passwd | sudo --stdin "$GOBIN/server"
 
 # export GOBIN=/home/apetrishchev/Portable/data/applications/HomeServer/1.0.0/linux_amd64

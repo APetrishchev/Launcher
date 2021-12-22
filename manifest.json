@@ -1,11 +1,11 @@
 {
   "dir": "ltr",
   "lang": "Russian",
-  "name": "Laucher",
+  "name": "Launcher",
   "scope": "/",
   "display": "fullscreen",
   "start_url": "/index.html",
-  "short_name": "Laucher",
+  "short_name": "Launcher",
   "description": "¯\\_(ツ)_/¯",
   "orientation": "any",
   "background_color": "#fafafa",
@@ -14,7 +14,7 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "public/pictures/.applications/Laucher/home.png",
+      "src": "public/pictures/.applications/Launcher/home.png",
       "sizes": "144x144",
       "type": "image/png"
     }

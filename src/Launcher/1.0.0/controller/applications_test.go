@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"Laucher/1.0.0/model"
+	"Launcher/1.0.0/model"
 	"fmt"
 	"strings"
 	"testing"

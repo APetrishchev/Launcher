@@ -3,7 +3,7 @@ import { App } from "../../../import/scripts/App.js"
 import { api } from "../../../import/scripts/api.js"
 import { Button } from "../../../import/scripts/Button.js"
 import { debug, firstZero, capitalize } from "../../../import/scripts/etc.js"
-import { LaucherDB } from "./db.js"
+import { LauncherDB } from "./db.js"
 import { Menu, Item } from "../../../import/scripts/Menu.js"
 import { Calendar } from "../../../import/scripts/Calendar.js"
 import { Cron } from "../../../AppChronos/1.0.0/scripts/cron.js"
@@ -224,7 +224,7 @@ class CalendarRunButton extends RunButton {
   constructor(menu, kvargs) {
     super(menu, { parent: kvargs.parent, classList: ["CalendarRunButton"],
       name: "Calendar", title: "Calendar" })
-    this.lang = instance.data.applications.Laucher.lang
+    this.lang = instance.data.applications.Launcher.lang
   }
 
   show() {
@@ -259,22 +259,22 @@ class Application extends App {
       instance.data = await instance.getData()
     } catch(err) {
       console.error(err) }
-    if (!instance.data.applications.Laucher.lang) {
-      instance.data.applications.Laucher.lang = instance.data.user.langs.filter(
-        val => instance.data.applications.Laucher.langs.includes(val))
+    if (!instance.data.applications.Launcher.lang) {
+      instance.data.applications.Launcher.lang = instance.data.user.langs.filter(
+        val => instance.data.applications.Launcher.langs.includes(val))
     }
 
-    instance.mainMenu = new Menu({ id: "MainMenu", classList: ["Laucher"] })
+    instance.mainMenu = new Menu({ id: "MainMenu", classList: ["Launcher"] })
     document.body.addEventListener("click", evn => instance.mainMenu.hide(1))
 
-    const menu = new Menu({ id: "Profiles", classList: ["Laucher"] })
+    const menu = new Menu({ id: "Profiles", classList: ["Launcher"] })
     new RunButton(instance.mainMenu, {subMenu: menu, name: "Profiles",
       title: instance.data.profile.name, picture: instance.data.profile.picture })
     instance.systemApplication.push("Profiles")
     const add = (menu_, items) => {
       if (items.applications) {
         if (items.applications.length) {
-          const subMenu = new Menu({ id: items.name, classList: ["Laucher"] })
+          const subMenu = new Menu({ id: items.name, classList: ["Launcher"] })
           new Item_(menu_, { subMenu: subMenu, name: items.name,
             title: items.name, picture: items.picture })
           add(subMenu, items.applications)
@@ -314,7 +314,7 @@ class Application extends App {
   }
 
   async getData() {
-    const db = new LaucherDB()
+    const db = new LauncherDB()
     let data
     try {
       data = await api({ cmd: "getUser", fields: "profiles, applications" })
@@ -366,5 +366,5 @@ window.addEventListener("load", async () => {
   // window.addEventListener("unhandledrejection", evn => {
   //   console.error(`Error: ${evn.reason.message}`)
   // })
-  Application.getInstance({ parent: document.body, classList: ["Laucher"] })
+  Application.getInstance({ parent: document.body, classList: ["Launcher"] })
 })
