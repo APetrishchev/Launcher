@@ -1,3 +1,4 @@
+@charset "UTF-8";
 html {
   background-color: transparent;
   margin: 0px;
@@ -57,59 +58,12 @@ body {
   padding: 3px;
   font-size: 12;
 }
-
-.Button {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-  cursor: pointer;
-  box-shadow: -5px -5px 10px 0 #FFFFFFB2, 5px 5px 10px 0 #00000080;
-  margin: 1px;
-  border-width: 1px;
-  border-radius: 5px;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 20px;
-  padding: 1px 3px;
+#Tips ul {
+  margin: 0px;
+  padding: 0px;
 }
-.Button:disabled {
-  color: #656565;
-}
-.Button:not(:disabled):active {
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  background: -o-linear-gradient(top, #666666, #AAAAAA);
-  background: -moz-linear-gradient(top, #666666, #AAAAAA);
-  background: -webkit-linear-gradient(to bottom, #666666, #AAAAAA);
-  background: linear-gradient(to bottom, #666666, #AAAAAA);
-}
-.Button[status=up] {
-  border-style: solid;
-  border-top-color: #FFFFFF;
-  border-right-color: #444444;
-  border-bottom-color: #444444;
-  border-left-color: #FFFFFF;
-  background: -moz-linear-gradient(left top, #CCCCCC, #888888);
-  background: -o-linear-gradient(left top, #CCCCCC, #888888);
-  background: -webkit-linear-gradient(at left top, #CCCCCC, #888888);
-  background: radial-gradient(ellipse at left top, #CCCCCC, #888888);
-}
-.Button[status=down] {
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  background: -o-linear-gradient(left top, #888888, #CCCCCC);
-  background: -moz-linear-gradient(left top, #888888, #CCCCCC);
-  background: -webkit-linear-gradient(at left top, #888888, #CCCCCC);
-  background: radial-gradient(ellipse at left top, #888888, #CCCCCC);
+#Tips ul li {
+  margin: 0px 0px 0px 20px;
 }
 
 .Calendar {
@@ -136,10 +90,10 @@ body {
   border-right-color: #444444;
   border-bottom-color: #444444;
   border-left-color: #FFFFFF;
-  background: -moz-linear-gradient(left top, #CCCCCC, #888888);
-  background: -o-linear-gradient(left top, #CCCCCC, #888888);
-  background: -webkit-linear-gradient(at left top, #CCCCCC, #888888);
-  background: radial-gradient(ellipse at left top, #CCCCCC, #888888);
+  background: -moz-linear-gradient(left top, #B1C4FF, #888888);
+  background: -o-linear-gradient(left top, #B1C4FF, #888888);
+  background: -webkit-linear-gradient(at left top, #B1C4FF, #888888);
+  background: radial-gradient(ellipse at left top, #B1C4FF, #888888);
   background-color: #AAAAAA;
   padding: 2px;
 }
@@ -180,6 +134,152 @@ body {
   font-weight: bold;
 }
 
+.Button {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: -5px -5px 10px 0 #FFFFFFB2, 5px 5px 10px 0 #00000080;
+  margin: 1px;
+  border-radius: 5px;
+  border-width: 1px;
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: -moz-linear-gradient(left top, #B1C4FF, #888888);
+  background: -o-linear-gradient(left top, #B1C4FF, #888888);
+  background: -webkit-linear-gradient(at left top, #B1C4FF, #888888);
+  background: radial-gradient(ellipse at left top, #B1C4FF, #888888);
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 3px;
+}
+.Button:disabled {
+  color: #656565;
+}
+.Button:not(:disabled):active {
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background: -o-linear-gradient(top, #666666, #AAAAAA);
+  background: -moz-linear-gradient(top, #666666, #AAAAAA);
+  background: -webkit-linear-gradient(to bottom, #666666, #AAAAAA);
+  background: linear-gradient(to bottom, #666666, #AAAAAA);
+}
+.Button[status=up] {
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: -moz-linear-gradient(left top, #B1C4FF, #888888);
+  background: -o-linear-gradient(left top, #B1C4FF, #888888);
+  background: -webkit-linear-gradient(at left top, #B1C4FF, #888888);
+  background: radial-gradient(ellipse at left top, #B1C4FF, #888888);
+}
+.Button[status=down] {
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background: -o-linear-gradient(left top, #888888, #B1C4FF);
+  background: -moz-linear-gradient(left top, #888888, #B1C4FF);
+  background: -webkit-linear-gradient(at left top, #888888, #B1C4FF);
+  background: radial-gradient(ellipse at left top, #888888, #B1C4FF);
+}
+.Button-Left {
+  padding: 1px 3px 2px 1px;
+}
+.Button-Left:before {
+  content: "◂";
+}
+.Button-Right {
+  padding: 1px 1px 2px 3px;
+}
+.Button-Right:before {
+  content: "▸";
+}
+.Button-Up {
+  padding: 1px 1px 3px 1px;
+}
+.Button-Up:before {
+  content: "▴";
+}
+.Button-Down {
+  padding: 1px 1px 3px 1px;
+}
+.Button-Down:before {
+  content: "▾";
+}
+.Button-Ok:before {
+  content: "Ok";
+}
+.Button-Cansel:before {
+  content: "Cansel";
+}
+.Button-Close:before {
+  color: red;
+  content: "✖";
+}
+
+.exitButton {
+  margin-left: 5px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px 16px, 100%;
+  background-image: url(pictures/exit.png), var(--buttonBg);
+  width: 35px;
+  height: 22px;
+}
+.exitButton:active {
+  background-image: url(pictures/exit.png), var(--buttonActiveBg);
+}
+
+.submitButton,
+.resetButton {
+  width: 80px;
+}
+
+.submitButton:not(:disabled):hover,
+.resetButton:not(:disabled):hover {
+  font-weight: bold;
+}
+
+.addButton:before {
+  content: "➕";
+}
+
+.deleteButton:before {
+  content: "✖";
+}
+
+.saveButton:before {
+  content: "✔";
+}
+
+.canselButton:before {
+  content: "✘";
+}
+
+.submitButton,
+.addButton,
+.saveButton {
+  color: green;
+}
+
+.resetButton,
+.deleteButton,
+.canselButton {
+  color: red;
+}
+
 @keyframes bellshake {
   0% {
     transform: rotate(0);
@@ -211,7 +311,7 @@ body {
 }
 
 .Launcher {
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 20px;
   border: solid 1px #777777;
   border-radius: 10px;
@@ -224,9 +324,9 @@ body {
   color: #000064;
 }
 
-.ChronosRunButtonLayout,
-.CalendarRunButtonLayout,
-.AppRunButtonLayout {
+.ChronosRunButton,
+.CalendarRunButton,
+.Item {
   cursor: pointer;
   padding-left: 3px;
   padding-right: 3px;
@@ -238,15 +338,15 @@ body {
   transition: 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.CalendarRunButtonLayout:hover,
-.ChronosRunButtonLayout:hover,
-.AppRunButtonLayout:hover {
+.CalendarRunButton:hover,
+.ChronosRunButton:hover,
+.Item:hover {
   font-size: medium;
 }
 
-.ChronosRunButton,
-.CalendarRunButton,
-.AppRunButton {
+.ChronosRunButton-Button,
+.CalendarRunButton-Button,
+.Item-Button {
   cursor: pointer;
   display: flex;
   flex-flow: column nowrap;
@@ -259,15 +359,15 @@ body {
   transition: 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-.AppRunButton[status=up],
-.AppRunButton[status=down] {
+.Item-Button[status=up],
+.Item-Button[status=down] {
   box-shadow: none;
   border: none;
   background: transparent;
 }
 
-.ChronosRunButton,
-.CalendarRunButton {
+.ChronosRunButton-Button,
+.CalendarRunButton-Button {
   border: solid 1px #777777;
   border-radius: 10px;
   background: radial-gradient(farthest-side ellipse at top left, white, #b1c4ff);
@@ -276,40 +376,40 @@ body {
   font-size: large;
 }
 
-.ChronosRunButton,
-.AppRunButton {
+.ChronosRunButton-Button,
+.Item-Button {
   width: 50px;
 }
 
-.ChronosRunButtonActive,
-.CalendarRunButtonActive,
-.AppRunButtonActive {
+.ChronosRunButton-Active,
+.CalendarRunButton-Active,
+.Item-Active {
   animation: bellshake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   backface-visibility: hidden;
   transform-origin: center center;
 }
 
-.ChronosRunButtonLayout:hover .ChronosRunButton,
-.AppRunButtonLayout:hover .AppRunButton {
+.ChronosRunButton:hover .ChronosRunButton-Button,
+.Item:hover .Item-Button {
   width: 75px;
   height: 75px;
   font-size: 30px;
 }
 
-.CalendarRunButton {
+.CalendarRunButton-Button {
   width: 85px;
 }
 
-.CalendarRunButtonLayout:hover:hover .CalendarRunButton {
+.CalendarRunButton:hover:hover .CalendarRunButton-Button {
   width: 230px;
   height: 200px;
   padding: 5px;
   font-size: 14px;
 }
 
-.ChronosRunButtonTitle,
-.CalendarRunButtonTitle,
-.AppRunButtonTitle {
+.ChronosRunButton-Title,
+.CalendarRunButton-Title,
+.Item-Title {
   border: solid 1px #777777;
   border-radius: 10px;
   background: radial-gradient(farthest-side ellipse at top left, white, #aaaaaa);
@@ -318,8 +418,86 @@ body {
   padding-right: 3px;
 }
 
-.ChronosRunButtonTitleActive,
-.CalendarRunButtonTitleActive,
-.AppRunButtonTitleActive {
+.ChronosRunButton-Title-Active,
+.CalendarRunButton-Title-Active,
+.Item-Title-Active {
   background: radial-gradient(farthest-side ellipse at top left, #aaaaaa, white);
+}
+
+.RunButtonMenu {
+  position: absolute;
+  margin: 1px;
+}
+
+.PinButton {
+  width: 20px;
+  height: 20px;
+}
+.PinButton[status=up], .PinButton[status=down] {
+  box-shadow: none;
+  border: none;
+  background-size: contain;
+}
+.PinButton[status=up]:active, .PinButton[status=down]:active {
+  border: none;
+}
+.PinButton[status=up] {
+  background-image: url(/public/pictures/icons/PinUp_Blue.png);
+}
+.PinButton[status=down] {
+  background-image: url(/public/pictures/icons/PinDown_Blue.png);
+}
+
+.Thumbnails {
+  position: absolute;
+  z-index: 100;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 1px;
+  border: solid 1px #777777;
+  background-color: #88888840;
+}
+
+.Thumbnail {
+  position: relative;
+  left: 0;
+  top: 0;
+  margin: 1px;
+  width: 200px;
+  height: 160px;
+  border: solid 1px #777777;
+}
+.Thumbnail-Win {
+  cursor: pointer;
+  height: 100%;
+  transform: scale(attr(scale));
+  -webkit-transform: scale(attr(scale));
+  -ms-transform: scale(attr(scale));
+  transform-origin: top left;
+  -webkit-transform-origin: top left;
+  -ms-transform-origin: top left;
+}
+.Thumbnail-TollBar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: solid 1px #777777;
+  background-color: #CCCCCC40;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1px;
+}
+.Thumbnail-TollBar-CloseButton, .Thumbnail-TollBar-MoveToButton[status=up] {
+  margin: 1px;
+  width: 20px;
+  height: 20px;
+}
+.Thumbnail-TollBar-MoveToButton[status=up], .Thumbnail-TollBar-MoveToButton[status=up]:active {
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-image: url(/public/pictures/icons/drag.png);
 }

@@ -1,13 +1,13 @@
-import { debug } from "../../../import/scripts/etc.js"
-import { DB } from "../../../import/scripts/db.js"
-import { App } from "../../../import/scripts/App.js"
-import { Obj } from "../../../import/scripts/Obj.js"
-import { md5 } from "../../../import/scripts/md5.js"
-import { api } from "../../../import/scripts/api.js"
-import { Label } from "../../../import/scripts/Label.js"
-import { Form } from "../../../import/scripts/Form.js"
-import { Tabs } from "../../../import/scripts/Tabs.js"
-import { Button } from "../../../import/scripts/Button.js"
+import { debug } from "../../../lib/scripts/etc.js"
+import { DB } from "../../../lib/scripts/db.js"
+import { App } from "../../../lib/scripts/App.js"
+import { Obj } from "../../../lib/scripts/Obj.js"
+import { md5 } from "../../../lib/scripts/md5.js"
+import { api } from "../../../lib/scripts/api.js"
+import { Label } from "../../../lib/scripts/Label.js"
+import { Form } from "../../../lib/scripts/Form.js"
+import { Tabs } from "../../../lib/scripts/Tabs.js"
+import { Button } from "../../../lib/scripts/Button.js"
 
 const Password = {
   minLength: 8,

@@ -58,432 +58,12 @@ body {
   padding: 3px;
   font-size: 12;
 }
-
-.Button {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-  cursor: pointer;
-  box-shadow: -5px -5px 10px 0 #FFFFFFB2, 5px 5px 10px 0 #00000080;
-  margin: 1px;
-  border-width: 1px;
-  border-radius: 5px;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 20px;
-  padding: 1px 3px;
-}
-.Button:disabled {
-  color: #656565;
-}
-.Button:not(:disabled):active {
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  background: -o-linear-gradient(top, #666666, #AAAAAA);
-  background: -moz-linear-gradient(top, #666666, #AAAAAA);
-  background: -webkit-linear-gradient(to bottom, #666666, #AAAAAA);
-  background: linear-gradient(to bottom, #666666, #AAAAAA);
-}
-.Button[status=up] {
-  border-style: solid;
-  border-top-color: #FFFFFF;
-  border-right-color: #444444;
-  border-bottom-color: #444444;
-  border-left-color: #FFFFFF;
-  background: -moz-linear-gradient(left top, #CCCCCC, #888888);
-  background: -o-linear-gradient(left top, #CCCCCC, #888888);
-  background: -webkit-linear-gradient(at left top, #CCCCCC, #888888);
-  background: radial-gradient(ellipse at left top, #CCCCCC, #888888);
-}
-.Button[status=down] {
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  background: -o-linear-gradient(left top, #888888, #CCCCCC);
-  background: -moz-linear-gradient(left top, #888888, #CCCCCC);
-  background: -webkit-linear-gradient(at left top, #888888, #CCCCCC);
-  background: radial-gradient(ellipse at left top, #888888, #CCCCCC);
-}
-
-.Splitter {
-  border: solid 2px;
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  width: calc(100% - 10px);
-  height: 100%;
-  display: flex;
-}
-.Splitter-Panel1, .Splitter-Panel2 {
-  min-width: 10px;
-  height: 100%;
-  background: -o-linear-gradient(left top, #888888, #CCCCCC);
-  background: -moz-linear-gradient(left top, #888888, #CCCCCC);
-  background: -webkit-linear-gradient(at left top, #888888, #CCCCCC);
-  background: radial-gradient(ellipse at left top, #888888, #CCCCCC);
-  display: flex;
-}
-.Splitter-Panel1 {
-  width: 50%;
-  order: 1;
-}
-.Splitter-Panel2 {
-  width: 50%;
-  order: 3;
-}
-.Splitter-Separator {
-  cursor: col-resize;
-  border-width: 1px;
-  border-top-width: 0px;
-  border-bottom-width: 0px;
-  border-style: solid;
-  border-top-color: #FFFFFF;
-  border-right-color: #444444;
-  border-bottom-color: #444444;
-  border-left-color: #FFFFFF;
-  background: -o-linear-gradient(left top, #888888, #CCCCCC);
-  background: -moz-linear-gradient(left top, #888888, #CCCCCC);
-  background: -webkit-linear-gradient(at left top, #888888, #CCCCCC);
-  background: radial-gradient(ellipse at left top, #888888, #CCCCCC);
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='5' height='13'><path d='M2 0 v3 M2 5 v3 M2 10 v3' fill='none' stroke='black'/></svg>");
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 5px;
-  height: 100%;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  order: 2;
-}
-
-.Tree {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 3px;
-  width: 100%;
-}
-.Tree-Header {
-  cursor: default;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-}
-.Tree-Header-Toggler, .Tree-Header-Toggler-Expanded {
-  padding-right: 3px;
-}
-.Tree-Header-Toggler::before, .Tree-Header-Toggler-Expanded::before {
-  content: "▶";
-}
-.Tree-Header-Toggler-Expanded {
-  transform: rotate(90deg);
-}
-.Tree-Header-Name {
-  font-weight: bold;
-}
-.Tree-Item {
-  cursor: default;
-  flex: 0 0 auto;
-  margin: 1px 1px 1px 15px;
-  border-width: 1px;
-  border-style: none;
-  border-bottom-style: dashed;
-  border-color: #888888;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: calc(100% - 30px);
-  padding: 1px 3px 1px 3px;
-}
-.Tree:last-child {
-  border-style: none;
-}
-.Tree-Item:hover {
-  border-style: dashed;
-  border-color: #555555;
-}
-
-.Item {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-
-.Form {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-.Form-Fields {
-  margin: 1px 0px 1px 0px;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-}
-.Form-Field-Label {
-  flex: 0 0 auto;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-start;
-}
-.Form-Field-Value {
-  margin: 1px 1px 1px 5px;
-  display: flex;
-  flex-flow: row nowrap;
-  border-width: 1px;
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  padding: 1px 3px 1px 3px;
-  width: 100%;
-  height: 16px;
-}
-.Form-Buttons {
-  margin: 5px 2px 2px 2px;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-}
-.Form-Button {
-  margin-right: 5px;
-}
-
-.Chronos {
-  width: calc(100% - 10px);
-  height: calc(100% - 10px);
-}
-
-.CronList,
-.CronForm {
-  padding: 3px;
-  overflow: auto;
-}
-
-.CronList {
-  width: 30%;
-}
-
-.CronList-Item-Name {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-
-.CronList-Item-Descr {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  font-size: small;
-}
-
-.CronForm {
-  width: calc(70% - 6px);
-}
-
-.CronForm-Start:empty:not(:focus):before {
-  color: var(--PlaceholderColor);
-}
-.CronForm-Start {
-  margin: 2px;
-  border: var(--Border);
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  width: calc(100% - 10px);
-}
-
-.CronForm-Spoiler {
-  margin: 2px;
-  border: var(--Border);
-  border-style: solid;
-  border-top-color: #FFFFFF;
-  border-right-color: #444444;
-  border-bottom-color: #444444;
-  border-left-color: #FFFFFF;
-  width: calc(100% - 10px);
-}
-
-.CronForm-Spoiler-Header {
-  margin-bottom: 2px;
-}
-
-.CronForm-Spoiler-Header-ClearButton {
-  margin-left: auto;
-  box-shadow: none;
-  width: 20px;
-  color: red;
-}
-
-.CronForm-Spoiler-Header-ClearButton:not(:disabled):hover {
-  border-style: solid;
-  border-top-color: #FFFFFF;
-  border-right-color: #444444;
-  border-bottom-color: #444444;
-  border-left-color: #FFFFFF;
-  background: -moz-linear-gradient(left top, #CCCCCC, #888888);
-  background: -o-linear-gradient(left top, #CCCCCC, #888888);
-  background: -webkit-linear-gradient(at left top, #CCCCCC, #888888);
-  background: radial-gradient(ellipse at left top, #CCCCCC, #888888);
-  font-weight: bold;
-}
-
-.CronForm-Spoiler-Header-ClearButton[status=up] {
-  border-color: #888888;
-  background: transparent;
-}
-
-.CronForm-Spoiler-Header-ClearButton[status=down] {
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  background: -o-linear-gradient(top, #666666, #AAAAAA);
-  background: -moz-linear-gradient(top, #666666, #AAAAAA);
-  background: -webkit-linear-gradient(to bottom, #666666, #AAAAAA);
-  background: linear-gradient(to bottom, #666666, #AAAAAA);
-}
-
-.CronForm-Spoiler-Header-ClearButton::before {
-  content: "X";
-}
-
-.CronForm-Spoiler-Panel {
+#Tips ul {
   margin: 0px;
-  border-width: 1px;
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  padding: 3px;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: flex-start;
-  justify-content: center;
-  width: calc(100% - 8px);
+  padding: 0px;
 }
-
-.CronForm-Spoiler-Row {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-}
-
-.CronForm-Spoiler-Cell {
-  cursor: pointer;
-  flex: 1 0 auto;
-  margin: 1px;
-  border-width: 1px;
-  border-color: #888888;
-  border-radius: 5px;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  justify-content: center;
-}
-
-.CronForm-Spoiler-Cell[status=down] {
-  background-color: #75C8ff;
-}
-
-.CronForm-Spoiler-WeekDaysButton {
-  flex: 1 0 auto;
-  box-shadow: none;
-  border-radius: 5px;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-.CronForm-Spoiler-WeekDaysButton[status=up],
-.CronForm-Spoiler-WeekDaysButton[status=down],
-.CronForm-Spoiler-WeekDaysButton:active {
-  border-color: #888888;
-  background: transparent;
-}
-
-.CronForm-Spoiler-WeekDaysButton::before {
-  content: "▶";
-}
-
-.CronForm-Spoiler-WeekDaysButton[status=down]::before {
-  transform: rotate(90deg);
-}
-
-.CronForm-Spoiler-Cell-Weekday {
-  cursor: pointer;
-  flex: 0 1 13.5%;
-  margin: 0px 1px 0px 1px;
-  border-width: 1px;
-  border-color: #888888;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 2px;
-}
-
-.CronForm-Spoiler-Cell-Weekday {
-  font-weight: bold;
-}
-
-.CronForm-Spoiler-Cell-Weekend {
-  color: #ff0000;
-}
-
-.CronForm-Spoiler-PlayPanel {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-start;
-  width: calc(100% - 6px);
-  padding: 2px;
-}
-
-.PlayPanel-Media {
-  margin-left: 2px;
-  border-width: 1px;
-  border-color: var(--FlatBorderColor);
-  padding: 1px 3px 1px 3px;
-}
-
-.PlayPanel-PlayButton,
-.PlayPanel-ChoiseButton {
-  margin-left: 2px;
-  width: 20px;
+#Tips ul li {
+  margin: 0px 0px 0px 20px;
 }
 
 .Splitter {
@@ -500,10 +80,10 @@ body {
 .Splitter-Panel1, .Splitter-Panel2 {
   min-width: 10px;
   height: 100%;
-  background: -o-linear-gradient(left top, #888888, #CCCCCC);
-  background: -moz-linear-gradient(left top, #888888, #CCCCCC);
-  background: -webkit-linear-gradient(at left top, #888888, #CCCCCC);
-  background: radial-gradient(ellipse at left top, #888888, #CCCCCC);
+  background: -o-linear-gradient(left top, #888888, #B1C4FF);
+  background: -moz-linear-gradient(left top, #888888, #B1C4FF);
+  background: -webkit-linear-gradient(at left top, #888888, #B1C4FF);
+  background: radial-gradient(ellipse at left top, #888888, #B1C4FF);
   display: flex;
 }
 .Splitter-Panel1 {
@@ -524,10 +104,10 @@ body {
   border-right-color: #444444;
   border-bottom-color: #444444;
   border-left-color: #FFFFFF;
-  background: -o-linear-gradient(left top, #888888, #CCCCCC);
-  background: -moz-linear-gradient(left top, #888888, #CCCCCC);
-  background: -webkit-linear-gradient(at left top, #888888, #CCCCCC);
-  background: radial-gradient(ellipse at left top, #888888, #CCCCCC);
+  background: -o-linear-gradient(left top, #888888, #B1C4FF);
+  background: -moz-linear-gradient(left top, #888888, #B1C4FF);
+  background: -webkit-linear-gradient(at left top, #888888, #B1C4FF);
+  background: radial-gradient(ellipse at left top, #888888, #B1C4FF);
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='5' height='13'><path d='M2 0 v3 M2 5 v3 M2 10 v3' fill='none' stroke='black'/></svg>");
   background-repeat: no-repeat;
   background-position: center;
@@ -602,6 +182,7 @@ body {
   flex-flow: column nowrap;
   align-items: flex-start;
   justify-content: flex-start;
+  padding: 2px;
 }
 .Form-Fields {
   margin: 1px 0px 1px 0px;
@@ -622,6 +203,7 @@ body {
   margin: 1px 1px 1px 5px;
   display: flex;
   flex-flow: row nowrap;
+  border-width: 1px;
   border-width: 1px;
   border-style: solid;
   border-top-color: #444444;
@@ -720,10 +302,10 @@ body {
   border-right-color: #444444;
   border-bottom-color: #444444;
   border-left-color: #FFFFFF;
-  background: -moz-linear-gradient(left top, #CCCCCC, #888888);
-  background: -o-linear-gradient(left top, #CCCCCC, #888888);
-  background: -webkit-linear-gradient(at left top, #CCCCCC, #888888);
-  background: radial-gradient(ellipse at left top, #CCCCCC, #888888);
+  background: -moz-linear-gradient(left top, #B1C4FF, #888888);
+  background: -o-linear-gradient(left top, #B1C4FF, #888888);
+  background: -webkit-linear-gradient(at left top, #B1C4FF, #888888);
+  background: radial-gradient(ellipse at left top, #B1C4FF, #888888);
   font-weight: bold;
 }
 

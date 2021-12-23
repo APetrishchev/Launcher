@@ -1,7 +1,7 @@
-import { App } from "../../../import/scripts/App.js"
-import { Obj } from "../../../import/scripts/Obj.js"
+import { App } from "../../../lib/scripts/App.js"
+import { Obj } from "../../../lib/scripts/Obj.js"
 import { SmartHomeDB } from "./db.js"
-import { debug } from "../../../import/scripts/etc.js"
+import { debug } from "../../../lib/scripts/etc.js"
 
 const db = new SmartHomeDB()
 

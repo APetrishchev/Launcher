@@ -1,11 +1,11 @@
-import { Obj } from "../../../import/scripts/Obj.js"
-import { App } from "../../../import/scripts/App.js"
-import { api } from "../../../import/scripts/api.js"
-import { Button } from "../../../import/scripts/Button.js"
-import { debug, firstZero, capitalize } from "../../../import/scripts/etc.js"
+import { Obj } from "../../../lib/scripts/Obj.js"
+import { App } from "../../../lib/scripts/App.js"
+import { api } from "../../../lib/scripts/api.js"
+import { Button } from "../../../lib/scripts/Button.js"
+import { debug, firstZero, capitalize } from "../../../lib/scripts/etc.js"
 import { LauncherDB } from "./db.js"
-import { Menu, Item } from "../../../import/scripts/Menu.js"
-import { Calendar } from "../../../import/scripts/Calendar.js"
+import { Menu, Item } from "../../../lib/scripts/Menu.js"
+import { Calendar } from "../../../lib/scripts/Calendar.js"
 import { Cron } from "../../../AppChronos/1.0.0/scripts/cron.js"
 
 let instance

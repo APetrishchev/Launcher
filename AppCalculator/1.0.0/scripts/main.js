@@ -1,6 +1,6 @@
-import { App } from "../../../import/scripts/App.js"
-import { Obj } from "../../../import/scripts/Obj.js"
-import { Button } from "../../../import/scripts/Button.js"
+import { App } from "../../../lib/scripts/App.js"
+import { Obj } from "../../../lib/scripts/Obj.js"
+import { Button } from "../../../lib/scripts/Button.js"
 
 //******************************************************************************
 class Number_ extends Obj {
