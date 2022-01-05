@@ -1,11 +1,10 @@
 {
-  "id": "Launcher",
   "dir": "ltr",
+  "id": "/index.html",
   "lang": "Russian",
   "name": "Launcher",
-  "scope": "/",
-  "display": "fullscreen",
   "start_url": "/index.html",
+  "display": "fullscreen",
   "short_name": "Launcher",
   "description": "¯\\_(ツ)_/¯",
   "orientation": "any",

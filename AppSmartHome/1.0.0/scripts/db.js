@@ -1,4 +1,4 @@
-import { DB } from "../../../lib/scripts/db.js"
+import { DB } from "../../../lib/db.js"
 
 export class SmartHomeDB extends DB {
   constructor(version=1) {

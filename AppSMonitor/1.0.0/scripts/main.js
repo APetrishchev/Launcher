@@ -1,9 +1,9 @@
-import { Obj } from "../../../lib/scripts/Obj.js"
-import { App } from "../../../lib/scripts/App.js"
-import { Form } from "../../../lib/scripts/Form.js"
-import { ProgressBar } from "../../../lib/scripts/ProgressBar.js"
-import { Gauge } from "../../../lib/scripts/Gauge.js"
-import { wait, units } from "../../../lib/scripts/etc.js"
+import { Obj } from "../../../lib/Obj.js"
+import { App } from "../../../lib/App.js"
+import { wait, units } from "../../../lib/etc.js"
+import { Form } from "../../../lib/form/Form.js"
+import { ProgressBar } from "../../../lib/progressbar/ProgressBar.js"
+import { Gauge } from "../../../lib/gauge/Gauge.js"
 
 //******************************************************************************
 export class TopProcess extends Obj {

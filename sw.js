@@ -1,28 +1,29 @@
 const CACHE = "Launcher_V1.0.0"
 const CACHED_FILES = [
-  "https://unpkg.com/idb/build/iife/index-min.js",
+  "https://unpkg.com/idb@7.0.0/build/index.cjs",
+  // "https://unpkg.com/idb/build/iife/index-min.js",
   "/",
-  "/manifest.json",
+  "/launcher.webmanifest",
   "/index.html",
   "/favicon.ico",
 
-  "/lib/scripts/App.js",
-  "/lib/scripts/Button.js",
-  "/lib/scripts/Calendar.js",
-  "/lib/scripts/CheckBox.js",
-  "/lib/scripts/Clock.js",
-  "/lib/scripts/db.js",
-  "/lib/scripts/Dialog.js",
-  "/lib/scripts/etc.js",
-  "/lib/scripts/Form.js",
-  "/lib/scripts/Gauge.js",
-  "/lib/scripts/Label.js",
-  "/lib/scripts/ListBox.js",
-  "/lib/scripts/Obj.js",
-  "/lib/scripts/ProgressBar.js",
-  "/lib/scripts/Splitter.js",
-  "/lib/scripts/Tips.js",
-  "/lib/scripts/Tree.js",
+  "/lib/App.js",
+  "/lib/CheckBox.js",
+  "/lib/db.js",
+  "/lib/etc.js",
+  "/lib/Label.js",
+  "/lib/ListBox.js",
+  "/lib/Obj.js",
+  "/lib/Tips.js",
+  "/lib/button/Button.js",
+  "/lib/calendar/Calendar.js",
+  "/lib/clock/Clock.js",
+  "/lib/dialog/Dialog.js",
+  "/lib/form/Form.js",
+  "/lib/gauge/Gauge.js",
+  "/lib/progressbar/ProgressBar.js",
+  "/lib/splitter/Splitter.js",
+  "/lib/tree/Tree.js",
 
   "/public/audio/sounds/atention.mp3",
   "/public/audio/voice/clock/ru-RU/female/0.wav",
@@ -147,6 +148,6 @@ function fromCache(request) {
   console.log("fromCache", request.url)
   return caches.open(CACHE).then((cache) =>
     cache.match(request).then((matching) =>
-      matching || Promise.reject('no-match')
+      matching || Promise.reject("no-match")
     ))
 }

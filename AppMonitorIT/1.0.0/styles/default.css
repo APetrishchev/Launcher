@@ -57,59 +57,61 @@ body {
   padding: 3px;
   font-size: 12;
 }
+#Tips ul {
+  margin: 0px;
+  padding: 0px;
+}
+#Tips ul li {
+  margin: 0px 0px 0px 20px;
+}
 
-.Button {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-  cursor: pointer;
-  box-shadow: -5px -5px 10px 0 #FFFFFFB2, 5px 5px 10px 0 #00000080;
-  margin: 1px;
-  border-width: 1px;
-  border-radius: 5px;
+.Form {
   display: flex;
   flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 2px;
+}
+.Form-Fields {
+  margin: 1px 0px 1px 0px;
+  display: flex;
+  flex-flow: row nowrap;
   align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 20px;
-  padding: 1px 3px;
+  justify-content: flex-start;
+  width: 100%;
 }
-.Button:disabled {
-  color: #656565;
+.Form-Field-Label {
+  flex: 0 0 auto;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
 }
-.Button:not(:disabled):active {
+.Form-Field-Value {
+  margin: 1px 1px 1px 5px;
+  display: flex;
+  flex-flow: row nowrap;
+  border-width: 1px;
+  border-width: 1px;
   border-style: solid;
   border-top-color: #444444;
   border-right-color: #FFFFFF;
   border-bottom-color: #FFFFFF;
   border-left-color: #444444;
-  background: -o-linear-gradient(top, #666666, #AAAAAA);
-  background: -moz-linear-gradient(top, #666666, #AAAAAA);
-  background: -webkit-linear-gradient(to bottom, #666666, #AAAAAA);
-  background: linear-gradient(to bottom, #666666, #AAAAAA);
+  padding: 1px 3px 1px 3px;
+  width: 100%;
+  height: 16px;
 }
-.Button[status=up] {
-  border-style: solid;
-  border-top-color: #FFFFFF;
-  border-right-color: #444444;
-  border-bottom-color: #444444;
-  border-left-color: #FFFFFF;
-  background: -moz-linear-gradient(left top, #CCCCCC, #888888);
-  background: -o-linear-gradient(left top, #CCCCCC, #888888);
-  background: -webkit-linear-gradient(at left top, #CCCCCC, #888888);
-  background: radial-gradient(ellipse at left top, #CCCCCC, #888888);
+.Form-Buttons {
+  margin: 5px 2px 2px 2px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
 }
-.Button[status=down] {
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  background: -o-linear-gradient(left top, #888888, #CCCCCC);
-  background: -moz-linear-gradient(left top, #888888, #CCCCCC);
-  background: -webkit-linear-gradient(at left top, #888888, #CCCCCC);
-  background: radial-gradient(ellipse at left top, #888888, #CCCCCC);
+.Form-Button {
+  margin-right: 5px;
 }
 
 .ProgressBar {
@@ -248,11 +250,27 @@ body {
   font-size: 0.75em;
 }
 
+.MonitorIT {
+  width: 100%;
+  height: 100%;
+}
+.MonitorIT-Error {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: x-large;
+  color: red;
+}
+
 .Form {
   display: flex;
   flex-flow: column nowrap;
   align-items: flex-start;
   justify-content: flex-start;
+  padding: 2px;
 }
 .Form-Fields {
   margin: 1px 0px 1px 0px;
@@ -274,6 +292,7 @@ body {
   display: flex;
   flex-flow: row nowrap;
   border-width: 1px;
+  border-width: 1px;
   border-style: solid;
   border-top-color: #444444;
   border-right-color: #FFFFFF;
@@ -288,55 +307,11 @@ body {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   width: 100%;
 }
 .Form-Button {
   margin-right: 5px;
-}
-
-.SMonitor {
-  width: 100%;
-  height: 100%;
-}
-.SMonitor-Error {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  font-size: x-large;
-  color: red;
-}
-.SMonitor-TopProcess {
-  margin-left: 20px;
-  font-size: 0.65em;
-  color: #0000aa;
-}
-.SMonitor-TopProcess-Pid {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 20%;
-}
-.SMonitor-TopProcess-Cmd {
-  margin-left: 20px;
-  width: calc(60% - 50px);
-}
-.SMonitor-TopProcess-Perc {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 20%;
-}
-
-.ProgressBar {
-  height: 14px;
-  font-size: x-small;
-}
-.ProgressBar-Vertical {
-  height: 100%;
 }
 
 .ProgressBar {
@@ -475,58 +450,11 @@ body {
   font-size: 0.75em;
 }
 
-.Form {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-.Form-Fields {
-  margin: 1px 0px 1px 0px;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-}
-.Form-Field-Label {
-  flex: 0 0 auto;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-start;
-}
-.Form-Field-Value {
-  margin: 1px 1px 1px 5px;
-  display: flex;
-  flex-flow: row nowrap;
-  border-width: 1px;
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  padding: 1px 3px 1px 3px;
-  width: 100%;
-  height: 16px;
-}
-.Form-Buttons {
-  margin: 5px 2px 2px 2px;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-}
-.Form-Button {
-  margin-right: 5px;
-}
-
-.SMonitor {
+.MonitorIT {
   width: 100%;
   height: 100%;
 }
-.SMonitor-Error {
+.MonitorIT-Error {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -535,33 +463,4 @@ body {
   height: 100%;
   font-size: x-large;
   color: red;
-}
-.SMonitor-TopProcess {
-  margin-left: 20px;
-  font-size: 0.65em;
-  color: #0000aa;
-}
-.SMonitor-TopProcess-Pid {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 20%;
-}
-.SMonitor-TopProcess-Cmd {
-  margin-left: 20px;
-  width: calc(60% - 50px);
-}
-.SMonitor-TopProcess-Perc {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 20%;
-}
-
-.ProgressBar {
-  height: 14px;
-  font-size: x-small;
-}
-.ProgressBar-Vertical {
-  height: 100%;
 }

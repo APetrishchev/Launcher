@@ -1,4 +1,4 @@
-import { debug } from "../../../lib/scripts/etc.js"
+import { debug } from "../../../lib/etc.js"
 
 export class Alarm {
   constructor(kvargs) {

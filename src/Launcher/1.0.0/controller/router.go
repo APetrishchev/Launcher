@@ -64,15 +64,31 @@ func (self *HttpServerType) Handler(ctx *fasthttp.RequestCtx) {
 			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
 				fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.RootDirPath, "index.html"))
 			})(ctx)
-		} else if strings.HasPrefix(path, "/App") && strings.HasSuffix(path, "/index.html") {
+		} else if strings.HasPrefix(path, "/App") {
 			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
-				ctx.SetContentType("text/html")
-				fullPath := filepath.Join(Config.RootDirPath, "import", "templates", "index.tmpl")
-				// fullPath := filepath.Join(Config.RootDirPath, path)
-				data := struct{Style string; Application string} {
-					Style: "default", Application: strings.TrimPrefix(pathArray[0], "App")}
-				tmpl := template.Must(template.ParseFiles(fullPath))
-				tmpl.Execute(ctx, data)
+				var ver string
+				if len(pathArray) < 3 {
+					ver = "last"
+				} else {
+					ver = pathArray[1]
+				}
+				if strings.HasSuffix(path, ".js") {
+					fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.RootDirPath, pathArray[0], ver, "scripts", pathArray[len(pathArray)-1]))
+				} else if strings.HasSuffix(path, ".css") {
+					fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.RootDirPath, pathArray[0], ver, "styles", pathArray[len(pathArray)-1]))
+				} else if strings.HasSuffix(path, ".html") {
+					ctx.SetContentType("text/html")
+					fullPath := filepath.Join(Config.RootDirPath, "lib", "templates", "index.tmpl")
+					data := struct {
+						Style       string
+						Application string
+					}{
+						Style: "default",
+						Application: strings.TrimPrefix(pathArray[0], "App"),
+					}
+					tmpl := template.Must(template.ParseFiles(fullPath))
+					tmpl.Execute(ctx, data)
+				}
 			})(ctx)
 		} else if strings.HasSuffix(path, "/api") {
 			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
@@ -90,13 +106,13 @@ func (self *HttpServerType) Handler(ctx *fasthttp.RequestCtx) {
 			})(ctx)
 		} else if strings.HasPrefix(path, "/public") {
 			fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.DataDirPath, path))
-		// } else if strings.HasPrefix(path, "/public") {
-		// 	self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
-		// 		fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.DataDirPath, path))
-		// 	})(ctx)
+			// } else if strings.HasPrefix(path, "/public") {
+			// 	self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {
+			// 		fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.DataDirPath, path))
+			// 	})(ctx)
 		} else if strings.HasPrefix(path, "/webdav") {
 			self.sessionMiddleware(fasthttpadaptor.NewFastHTTPHandler(self.webdavHandler()))(ctx)
-		} else if strings.HasPrefix(path, "/import") {
+		} else if strings.HasPrefix(path, "/lib") {
 			fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.RootDirPath, path))
 		} else {
 			self.sessionMiddleware(func(ctx *fasthttp.RequestCtx) {

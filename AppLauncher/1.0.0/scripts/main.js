@@ -1,12 +1,12 @@
-import { Obj } from "../../../lib/scripts/Obj.js"
-import { App } from "../../../lib/scripts/App.js"
-import { api } from "../../../lib/scripts/api.js"
-import { Button } from "../../../lib/scripts/Button.js"
-import { debug, firstZero, capitalize } from "../../../lib/scripts/etc.js"
-import { LauncherDB } from "./db.js"
-import { Menu, Item } from "../../../lib/scripts/Menu.js"
-import { Calendar } from "../../../lib/scripts/Calendar.js"
+import { Obj } from "../../../lib/Obj.js"
+import { App } from "../../../lib/App.js"
+import { api } from "../../../lib/api.js"
+import { debug, firstZero, capitalize } from "../../../lib/etc.js"
+import { Menu, Item } from "../../../lib/Menu.js"
+import { Button } from "../../../lib/button/Button.js"
+import { Calendar } from "../../../lib/calendar/Calendar.js"
 import { Cron } from "../../../AppChronos/1.0.0/scripts/cron.js"
+import { LauncherDB } from "./db.js"
 
 let instance
 
@@ -259,7 +259,9 @@ class Application extends App {
       instance.data = await instance.getData()
     } catch(err) {
       console.error(err) }
-    if (!instance.data.applications.Launcher.lang) {
+instance.data.applications.Launcher = {lang: "ru-RU"}
+// instance.data.applications.Launcher = {lang: "en-US"}
+      if (!instance.data.applications.Launcher.lang) {
       instance.data.applications.Launcher.lang = instance.data.user.langs.filter(
         val => instance.data.applications.Launcher.langs.includes(val))
     }

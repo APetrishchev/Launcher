@@ -1,5 +1,5 @@
-import { debug } from "../../../lib/scripts/etc.js"
-import { api } from "../../../lib/scripts/api.js"
+import { debug } from "../../../lib/etc.js"
+import { api } from "../../../lib/api.js"
 import { CronDB } from "./db.js"
 import { TalkClock } from "./talkClock.js"
 import { Alarm } from "./alarmWin.js"

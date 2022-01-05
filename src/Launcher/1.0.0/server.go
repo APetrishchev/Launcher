@@ -95,7 +95,7 @@ func start(args []string) string {
 	fmt.Printf("Server start at %s ... OK\n", host)
 	fmt.Println("Press Ctrl+C for stop server")
 	stop := make(chan os.Signal, 1)
-	signal.Notify(stop, os.Interrupt, syscall.SIGTERM, syscall.SIGTERM)
+	signal.Notify(stop, os.Interrupt, syscall.SIGTERM, syscall.SIGQUIT)
 	if conf.Proto == "https" {
 		go httpServer.StartHTTPS()
 	} else {
@@ -142,7 +142,16 @@ func stop(args []string) string {
 	if pid, err = strconv.Atoi(string(pidStr)); err != nil {
 		return fmt.Sprintf("Fail to atoi pid: %v\n", err)
 	}
-	fmt.Println(pid)
+	if err = syscall.Kill(-pid, syscall.SIGTERM); err != nil {
+		if errno, ok := err.(syscall.Errno); ok && errno == syscall.ESRCH {
+			if err = os.Remove(conf.PidFilePath); err != nil {
+				return fmt.Sprintf("Fail to delete pid file '%s': %v\n", conf.PidFilePath, err)
+			}
+			return fmt.Sprintf("%d - no such process", pid)
+		}
+		return fmt.Sprintf("Fail to kill: ", err)
+	}
+	fmt.Println("Server stopping ... Ok")
 	return "Ok"
 }
 

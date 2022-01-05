@@ -1,4 +1,4 @@
-import { App } from "../../../lib/scripts/App.js"
+import { App } from "../../../lib/App.js"
 
 //******************************************************************************
 export class Application extends App {

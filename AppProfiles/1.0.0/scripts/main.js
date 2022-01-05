@@ -1,13 +1,13 @@
-import { debug } from "../../../lib/scripts/etc.js"
-import { DB } from "../../../lib/scripts/db.js"
-import { App } from "../../../lib/scripts/App.js"
-import { Obj } from "../../../lib/scripts/Obj.js"
-import { md5 } from "../../../lib/scripts/md5.js"
-import { api } from "../../../lib/scripts/api.js"
-import { Label } from "../../../lib/scripts/Label.js"
-import { Form } from "../../../lib/scripts/Form.js"
-import { Tabs } from "../../../lib/scripts/Tabs.js"
-import { Button } from "../../../lib/scripts/Button.js"
+import { debug } from "../../../lib/etc.js"
+import { DB } from "../../../lib/db.js"
+import { App } from "../../../lib/App.js"
+import { Obj } from "../../../lib/Obj.js"
+import { md5 } from "../../../lib/md5.js"
+import { api } from "../../../lib/api.js"
+import { Label } from "../../../lib/Label.js"
+import { Form } from "../../../lib/form/Form.js"
+import { Tabs } from "../../../lib/tabs/Tabs.js"
+import { Button } from "../../../lib/button/Button.js"
 
 const Password = {
   minLength: 8,

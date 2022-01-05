@@ -6,43 +6,43 @@ import (
 )
 
 type ProfileApplicationType struct {
-	Id          int64 `json:"id"`
-	Name        string `json:"name"`
-	Groups      []string `json:"groups"`
-	Lang        string `json:"lang"`
-	Langs       []string `json:"langs"`
-	Style       string `json:"style"`
-	Styles      []string `json:"styles"`
-	Picture     string `json:"picture"`
-	Description string `json:"desription"`
-	URL         string `json:"url"`
-	Windows     map[string]string  `json:"windows"`
-	BackendURLs []string `json:"backendURLs"`
+	Id          int64             `json:"id"`
+	Name        string            `json:"name"`
+	Groups      []string          `json:"groups"`
+	Lang        string            `json:"lang"`
+	Langs       []string          `json:"langs"`
+	Style       string            `json:"style"`
+	Styles      []string          `json:"styles"`
+	Picture     string            `json:"picture"`
+	Description string            `json:"desription"`
+	URL         string            `json:"url"`
+	Windows     map[string]string `json:"windows"`
+	BackendURLs []string          `json:"backendURLs"`
 }
 
 type ProfileApplicationsType struct {
-	AppGroups             map[string]*AppGroupsType `json:"appGroups"`
-	Applications          map[string]interface{} `json:"applications"`
-	RunningApplications   []string `json:"runningApplications"`
+	AppGroups           map[string]*AppGroupsType `json:"appGroups"`
+	Applications        map[string]interface{}    `json:"applications"`
+	RunningApplications []string                  `json:"runningApplications"`
 }
 
 type ProfileType struct {
-	Id                    int64 `json:"id"`
-	UserId                int64 `json:"userId"`
-	OwnerId               int64 `json:"ownerId"`
-	Name                  string `json:"name"`
-	FirstName             string `json:"firstName"`
-	LastName              string `json:"lastName"`
-	ShortDescr            string `json:"shortDescr"`
-	Description           string `json:"description"`
-	Gender                string `json:"gender"`
-	Birthday              string `json:"birthday"`
-	Picture               string `json:"picture"`
-	HomeFolder            string `json:"homeFolder"`
-	DocumentsFolder       string `json:"documentsFolder"`
-	PicturesFolder        string `json:"picturesFolder"`
-	AudioFolder           string `json:"audioFolder"`
-	VideoFolder           string `json:"videoFolder"`
+	Id                    int64    `json:"id"`
+	UserId                int64    `json:"userId"`
+	OwnerId               int64    `json:"ownerId"`
+	Name                  string   `json:"name"`
+	FirstName             string   `json:"firstName"`
+	LastName              string   `json:"lastName"`
+	ShortDescr            string   `json:"shortDescr"`
+	Description           string   `json:"description"`
+	Gender                string   `json:"gender"`
+	Birthday              string   `json:"birthday"`
+	Picture               string   `json:"picture"`
+	HomeFolder            string   `json:"homeFolder"`
+	DocumentsFolder       string   `json:"documentsFolder"`
+	PicturesFolder        string   `json:"picturesFolder"`
+	AudioFolder           string   `json:"audioFolder"`
+	VideoFolder           string   `json:"videoFolder"`
 	Countries             []string `json:"countries"`
 	Langs                 []string `json:"langs"`
 	PreferredApplications []string `json:"preferredApplications"`
