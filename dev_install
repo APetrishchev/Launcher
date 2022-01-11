@@ -2,6 +2,9 @@
 
 WORKDIR=/home/apetrishchev/Portable/Projects/github.com/APetrishchev/Launcher
 
+# cd $WORKDIR
+# npm install --save-dev jest babel-jest @babel/preset-env
+
 # export GO111MODULE=on
 # unset GOPATH
 # cd "$WORKDIR/src/Launcher/1.0.0"

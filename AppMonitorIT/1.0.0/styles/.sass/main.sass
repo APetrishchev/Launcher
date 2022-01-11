@@ -1,4 +1,6 @@
 @import "../../../../lib/form/Form.sass"
+@import "../../../../lib/tabs/Tabs.sass"
+@import "../../../../lib/table/Table.sass"
 @import "../../../../lib/progressbar/ProgressBar.sass"
 @import "../../../../lib/gauge/Gauge.sass"
 
@@ -15,3 +17,29 @@
 		height: 100%
 		font-size: x-large
 		color: red
+
+.TableMonitorIT
+	&-TabNetworks
+		&-ColumnName
+			width: 120px
+		&-ColumnNetwork
+			width: 120px
+		&-ColumnGateway
+			width: 120px
+		&-ColumnDisabled
+			width: 120px
+		&-ColumnDescription
+			width: 300px
+
+	&-TabNodes
+		&-ColumnName
+			width: 120px
+
+		&-ColumnOS
+			width: 100px
+
+		&-ColumnAuth
+			width: 100px
+
+		&-ColumnDescription
+			width: 300px

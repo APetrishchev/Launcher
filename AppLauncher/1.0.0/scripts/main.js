@@ -248,7 +248,7 @@ class CalendarRunButton extends RunButton {
 }
 
 //******************************************************************************
-class Application extends App {
+export class Application extends App {
   static async getInstance(kvargs) {
     App.registryServiceWorker()
 

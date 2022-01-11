@@ -1,0 +1,13 @@
+.Spoiler {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  cursor: pointer;
+}
+.Spoiler::before {
+  content: ">";
+}
+.Spoiler[expanded=true] {
+  transform: rotate(90deg);
+}

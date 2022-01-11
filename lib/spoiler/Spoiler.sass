@@ -1,27 +1,12 @@
-.spoiler
+.Spoiler
 	display: flex
 	flex-flow: row nowrap
 	justify-content: flex-start
 	align-items: flex-start
-	margin-bottom: 2px
-	width: 100%
 	cursor: pointer
-	background-color: var(--spoilerBg)
-	border: solid 1px
-	border-color: var(--borderUp)
-	font-weight: bold
 
-  &[expanded=true]
-    div
-			transform: rotate(90deg)
+	&::before
+		content: ">"
 
-.spoiler > div
-	padding: 0px 5px
-
-.spoiler + div
-	display: flex
-	flex-flow: column nowrap
-	justify-content: center
-	align-items: flex-start
-	overflow-x: hidden
-	overflow-y: auto
+	&[expanded=true]
+		transform: rotate(90deg)

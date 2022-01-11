@@ -79,8 +79,8 @@ body {
   border-right-color: #888888;
   background-color: #bbbbbb;
   padding: 3px;
-  width: calc(100% - 8px);
-  height: calc(100% - 8px);
+  width: 800px;
+  height: 700px;
 }
 
 .Home svg {
@@ -230,8 +230,8 @@ body {
   border-right-color: #888888;
   background-color: #bbbbbb;
   padding: 3px;
-  width: calc(100% - 8px);
-  height: calc(100% - 8px);
+  width: 800px;
+  height: 700px;
 }
 
 .Home svg {

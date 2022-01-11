@@ -1,23 +1,32 @@
 {
-  "name": "Launcher",
+  "name": "launcher",
   "version": "1.0.0",
   "description": "Launcher -",
-  "main": "________ini.js",
+  "main": "index.js",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/APetrishchev/Launcher.git"
   },
-  "keywords": [],
-  "author": "",
+  "author": "APetrishchev",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/APetrishchev/Launcher/issues"
   },
-  "homepage": "https://github.com/APetrishchev/Launcher#readme"
+  "homepage": "https://github.com/APetrishchev/Launcher#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.7",
+    "babel-jest": "^27.4.6",
+    "jest": "^27.4.7"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
+  }
 }

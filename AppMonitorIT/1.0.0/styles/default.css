@@ -1,3 +1,4 @@
+@charset "UTF-8";
 html {
   background-color: transparent;
   margin: 0px;
@@ -65,6 +66,155 @@ body {
   margin: 0px 0px 0px 20px;
 }
 
+.Button {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: -5px -5px 10px 0 #FFFFFFB2, 5px 5px 10px 0 #00000080;
+  margin: 1px;
+  border-radius: 5px;
+  border-width: 1px;
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: -moz-linear-gradient(left top, #B1C4FF, #888888);
+  background: -o-linear-gradient(left top, #B1C4FF, #888888);
+  background: -webkit-linear-gradient(at left top, #B1C4FF, #888888);
+  background: radial-gradient(ellipse at left top, #B1C4FF, #888888);
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 3px;
+}
+.Button:disabled {
+  color: #656565;
+}
+.Button:not(:disabled):active {
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background: -o-linear-gradient(top, #666666, #AAAAAA);
+  background: -moz-linear-gradient(top, #666666, #AAAAAA);
+  background: -webkit-linear-gradient(to bottom, #666666, #AAAAAA);
+  background: linear-gradient(to bottom, #666666, #AAAAAA);
+}
+.Button[status=up] {
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: -moz-linear-gradient(left top, #B1C4FF, #888888);
+  background: -o-linear-gradient(left top, #B1C4FF, #888888);
+  background: -webkit-linear-gradient(at left top, #B1C4FF, #888888);
+  background: radial-gradient(ellipse at left top, #B1C4FF, #888888);
+}
+.Button[status=down] {
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background: -o-linear-gradient(left top, #888888, #B1C4FF);
+  background: -moz-linear-gradient(left top, #888888, #B1C4FF);
+  background: -webkit-linear-gradient(at left top, #888888, #B1C4FF);
+  background: radial-gradient(ellipse at left top, #888888, #B1C4FF);
+}
+.Button-Left {
+  padding: 1px 3px 2px 1px;
+}
+.Button-Left:before {
+  content: "◂";
+}
+.Button-Right {
+  padding: 1px 1px 2px 3px;
+}
+.Button-Right:before {
+  content: "▸";
+}
+.Button-Up {
+  padding: 1px 1px 3px 1px;
+}
+.Button-Up:before {
+  content: "▴";
+}
+.Button-Down {
+  padding: 1px 1px 3px 1px;
+}
+.Button-Down:before {
+  content: "▾";
+}
+.Button-Ok:before {
+  content: "Ok";
+}
+.Button-Cancel:before {
+  content: "Cancel";
+}
+.Button-Save:before {
+  content: "Save";
+}
+.Button-Close:before {
+  color: red;
+  content: "✖";
+}
+
+.exitButton {
+  margin-left: 5px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px 16px, 100%;
+  background-image: url(pictures/exit.png), var(--buttonBg);
+  width: 35px;
+  height: 22px;
+}
+.exitButton:active {
+  background-image: url(pictures/exit.png), var(--buttonActiveBg);
+}
+
+.submitButton,
+.resetButton {
+  width: 80px;
+}
+
+.submitButton:not(:disabled):hover,
+.resetButton:not(:disabled):hover {
+  font-weight: bold;
+}
+
+.addButton:before {
+  content: "➕";
+}
+
+.deleteButton:before {
+  content: "✖";
+}
+
+.saveButton:before {
+  content: "✔";
+}
+
+.canselButton:before {
+  content: "✘";
+}
+
+.submitButton,
+.addButton,
+.saveButton {
+  color: green;
+}
+
+.resetButton,
+.deleteButton,
+.canselButton {
+  color: red;
+}
+
 .Form {
   display: flex;
   flex-flow: column nowrap;
@@ -102,16 +252,194 @@ body {
   width: 100%;
   height: 16px;
 }
+.Form-Headers {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+.Form-Title {
+  margin: 5px 2px 2px 2px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+}
 .Form-Buttons {
   margin: 5px 2px 2px 2px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: flex-start;
-  width: 100%;
 }
 .Form-Button {
   margin-right: 5px;
+}
+
+.Tabs {
+  margin: 6px 2px -2px 2px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 8px;
+}
+.Tabs-Button {
+  display: none;
+  margin: 1px 3px 4px 3px;
+  width: 15px;
+  height: 15px;
+}
+.Tabs-Scroll {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: auto;
+}
+.Tabs-Tab {
+  cursor: pointer;
+  margin-left: -2px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 15px 0px 0px 0px;
+  border-width: 2px;
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: -moz-linear-gradient(left top, #B1C4FF, #888888);
+  background: -o-linear-gradient(left top, #B1C4FF, #888888);
+  background: -webkit-linear-gradient(at left top, #B1C4FF, #888888);
+  background: radial-gradient(ellipse at left top, #B1C4FF, #888888);
+  padding: 2px 5px 2px 5px;
+  font-weight: bold;
+}
+.Tabs-Tab-Close {
+  margin-right: 2px;
+  color: #444444;
+  font-size: small;
+}
+.Tabs-Tab-Close:hover {
+  color: #FF0000;
+}
+.Tabs-Tab[state=on] {
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  border-bottom-color: #B1C4FF;
+  background: transparent;
+}
+.Tabs-Tab[ischanged=no] .Tabs-Tab-Close:before {
+  content: "✖";
+}
+.Tabs-Tab[ischanged=yes] .Tabs-Tab-Close:before {
+  color: #FF0000;
+  content: "●";
+}
+.Tabs-Tab:first-child {
+  margin-left: 0px;
+}
+.Tabs-Body {
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  border-width: 2px;
+  padding: 2px;
+}
+
+.Spoiler {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  cursor: pointer;
+}
+.Spoiler::before {
+  content: ">";
+}
+.Spoiler[expanded=true] {
+  transform: rotate(90deg);
+}
+
+.Table {
+  margin: 2px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border: solid 2px;
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background-color: #B1C4FF;
+  width: var(--rowWidth);
+  padding: 2px;
+}
+.Table-Columns {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 2px;
+  width: 100%;
+  font-weight: bold;
+}
+.Table-ColumnCheckBox {
+  width: 18px;
+}
+.Table-Column {
+  border: solid 1px;
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background-color: #cccccc;
+  display: flex;
+  padding: 1px 3px;
+}
+.Table-Body {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 600px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.Table-Body::-webkit-scrollbar {
+  background: transparent;
+  width: 9px;
+}
+.Table-Body::-webkit-scrollbar-thumb {
+  border-left: 2px var(--tableBg) solid;
+  border-right: 2px var(--tableBg) solid;
+  border-radius: 5px;
+  background: #888888;
+}
+.Table-Row, .Table-NewRow {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+.Table-Row:nth-child(2n+1) {
+  background-color: #dddddd;
+}
+.Table-Cell {
+  display: flex;
+  padding: 2px 4px;
 }
 
 .ProgressBar {
@@ -265,202 +593,30 @@ body {
   color: red;
 }
 
-.Form {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 2px;
+.TableMonitorIT-TabNetworks-ColumnName {
+  width: 120px;
 }
-.Form-Fields {
-  margin: 1px 0px 1px 0px;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
+.TableMonitorIT-TabNetworks-ColumnNetwork {
+  width: 120px;
 }
-.Form-Field-Label {
-  flex: 0 0 auto;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-start;
+.TableMonitorIT-TabNetworks-ColumnGateway {
+  width: 120px;
 }
-.Form-Field-Value {
-  margin: 1px 1px 1px 5px;
-  display: flex;
-  flex-flow: row nowrap;
-  border-width: 1px;
-  border-width: 1px;
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  padding: 1px 3px 1px 3px;
-  width: 100%;
-  height: 16px;
+.TableMonitorIT-TabNetworks-ColumnDisabled {
+  width: 120px;
 }
-.Form-Buttons {
-  margin: 5px 2px 2px 2px;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
+.TableMonitorIT-TabNetworks-ColumnDescription {
+  width: 300px;
 }
-.Form-Button {
-  margin-right: 5px;
+.TableMonitorIT-TabNodes-ColumnName {
+  width: 120px;
 }
-
-.ProgressBar {
-  margin: 4px;
-  border-width: 1px;
-  border-radius: 10px;
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: calc(100% - 15px);
-  height: 18px;
-  font-size: small;
-  font-weight: bold;
-  white-space: nowrap;
-  color: #0000aa;
-  overflow: hidden;
+.TableMonitorIT-TabNodes-ColumnOS {
+  width: 100px;
 }
-.ProgressBar-Vertical {
-  margin: 1px;
-  border-radius: 3px;
-  flex-flow: row nowrap;
-  align-items: flex-end;
-  height: calc(100% - 15px);
-  width: 100%;
-  /* width: 18px */
+.TableMonitorIT-TabNodes-ColumnAuth {
+  width: 100px;
 }
-.ProgressBar-Normal, .ProgressBar-Warning, .ProgressBar-Critical {
-  margin: 1px 1px 1px 1px;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: flex-start;
-  justify-content: center;
-  width: 100%;
-  height: calc(100% - 4px);
-  border-width: 1px;
-  border-radius: 10px;
-  border-style: solid;
-  border-top-color: #FFFFFF;
-  border-right-color: #444444;
-  border-bottom-color: #444444;
-  border-left-color: #FFFFFF;
-  height: calc(100% - 2px);
-  padding: 0px 3px 0px 3px;
-}
-.ProgressBar-Vertical-Normal, .ProgressBar-Vertical-Warning, .ProgressBar-Vertical-Critical {
-  border-radius: 3px;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 3px 0px 3px 0px;
-}
-.ProgressBar-Normal {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), lime;
-}
-.ProgressBar-Vertical-Normal {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), lime;
-}
-.ProgressBar-Warning {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), linear-gradient(to right, lime, yellow);
-}
-.ProgressBar-Vertical-Warning {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), linear-gradient(to top, lime, yellow);
-}
-.ProgressBar-Critical {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), linear-gradient(to right, lime, yellow, red);
-}
-.ProgressBar-Vertical-Critical {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), linear-gradient(to top, lime, yellow, red);
-}
-
-.shadow {
-  -webkit-filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.5));
-  filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.5));
-}
-
-@keyframes rotation {
-  100% {
-    transform: rotate(var(--val));
-    /* transform: rotate(270deg) */
-  }
-}
-.Gauge {
-  margin: 2px;
-  border-width: 1px;
-  border-radius: 5px;
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  width: 100%;
-  height: 80px;
-}
-.Gauge-Normal {
-  stroke: lime;
-  fill: lime;
-}
-.Gauge-Warning {
-  stroke: gold;
-  fill: gold;
-}
-.Gauge-Critical {
-  stroke: #ff0000;
-  fill: #ff0000;
-}
-.Gauge-Scale {
-  fill: transparent;
-}
-.Gauge-Needle {
-  stroke: #000000;
-  fill: #000000;
-  transform-origin: 50%;
-  transform: rotate(var(--val));
-  /* animation: rotation .5s linear */
-}
-.Gauge-Text {
-  color: #000000;
-  fill: #000000;
-  line-height: 1;
-  font-family: Arial, Helvetica, sans-serif;
-}
-.Gauge-Scale-Digits {
-  fill: #000000;
-  font-size: 0.65em;
-}
-.Gauge-Percents {
-  /* font-weight: bold */
-  font-size: 0.85em;
-}
-.Gauge-Text1, .Gauge-Text2, .Gauge-Text3 {
-  font-size: 0.75em;
-}
-
-.MonitorIT {
-  width: 100%;
-  height: 100%;
-}
-.MonitorIT-Error {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  font-size: x-large;
-  color: red;
+.TableMonitorIT-TabNodes-ColumnDescription {
+  width: 300px;
 }

@@ -1,16 +1,18 @@
-.Table
-  margin: 2px
-  display: flex
-  flex-flow: column nowrap
-  justify-content: flex-start
-  align-items: flex-start
-  border: solid 2px
-  border-color: var(--borderDown)
-  background-color: var(--tableBg)
-  width: var(--rowWidth)
-  padding: 2px
+@import "../spoiler/Spoiler.sass"
 
-  &-Headers
+.Table
+	margin: 2px
+	display: flex
+	flex-flow: column nowrap
+	justify-content: flex-start
+	align-items: flex-start
+	border: solid 2px
+	@include DownBorder
+	@include Flat
+	width: var(--rowWidth)
+	padding: 2px
+
+	&-Columns
 		display: flex
 		flex-flow: row nowrap
 		justify-content: flex-start
@@ -19,10 +21,13 @@
 		width: 100%
 		font-weight: bold
 
-	&-Header
+	&-ColumnCheckBox
+		width: 18px
+
+	&-Column
 		border: solid 1px
-		border-color: var(--borderUp)
-		background-color: var(--headerBg)
+		@include UpBorder
+		background-color: #cccccc
 		display: flex
 		padding: 1px 3px
 
@@ -47,12 +52,16 @@
 			border-radius: 5px
 			background: #888888
 
+	&-Row,
 	&-NewRow
 		display: flex
 		justify-content: flex-start
 		align-items: center
 		width: 100%
 
-	&-Field {
+	&-Row:nth-child(2n+1)
+		background-color: #dddddd
+
+	&-Cell
 		display: flex
-		padding: 1px 3px
+		padding: 2px 4px
