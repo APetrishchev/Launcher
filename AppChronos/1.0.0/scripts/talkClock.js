@@ -1,4 +1,3 @@
-//******************************************************************************
 export class TalkClock {
   constructor(kvargs = {}) {
     this.path = kvargs.path

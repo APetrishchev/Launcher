@@ -16,9 +16,10 @@ body {
   border-left-color: #444444;
   background-color: #B1C4FF;
   padding: 2px;
-  min-width: calc(100% - 8px);
-  min-height: calc(100% - 8px);
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
   color: black;
+  font-size: 12px;
 }
 
 #measuring {
@@ -45,27 +46,6 @@ body {
   width: 100%;
 }
 
-#Tips {
-  position: absolute;
-  box-shadow: -5px -5px 10px 0 rgba(255, 255, 255, 0.7), 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
-  border-width: 1px;
-  border-style: solid;
-  border-top-color: #FFFFFF;
-  border-right-color: #444444;
-  border-bottom-color: #444444;
-  border-left-color: #FFFFFF;
-  background: #FFFFAA;
-  padding: 3px;
-  font-size: 12;
-}
-#Tips ul {
-  margin: 0px;
-  padding: 0px;
-}
-#Tips ul li {
-  margin: 0px 0px 0px 20px;
-}
-
 .Button {
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -153,8 +133,15 @@ body {
 .Button-Ok:before {
   content: "Ok";
 }
-.Button-Cansel:before {
-  content: "Cansel";
+.Button-Cancel:before {
+  content: "Cancel";
+}
+.Button-Save:before {
+  content: "Save";
+}
+.Button-Close:before {
+  color: red;
+  content: "✖";
 }
 
 .exitButton {
@@ -278,106 +265,14 @@ body {
   margin-left: 0px;
 }
 .Tabs-Body {
-  border-top: solid;
+  border-style: solid;
   border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
   border-width: 2px;
   padding: 2px;
-}
-
-.Form {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 2px;
-}
-.Form-Fields {
-  margin: 1px 0px 1px 0px;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-}
-.Form-Field-Label {
-  flex: 0 0 auto;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-start;
-}
-.Form-Field-Value {
-  margin: 1px 1px 1px 5px;
-  display: flex;
-  flex-flow: row nowrap;
-  border-width: 1px;
-  border-width: 1px;
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  padding: 1px 3px 1px 3px;
-  width: 100%;
-  height: 16px;
-}
-.Form-Buttons {
-  margin: 5px 2px 2px 2px;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-}
-.Form-Button {
-  margin-right: 5px;
-}
-
-.Profile-HLayout {
-  margin: 2px;
-  border-width: 1px;
-  border-style: solid;
-  border-top-color: #FFFFFF;
-  border-right-color: #444444;
-  border-bottom-color: #444444;
-  border-left-color: #FFFFFF;
-  align-items: flex-start;
-}
-
-.Form {
-  margin: 2px;
-  border-width: 1px;
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-}
-.Form-Field-Label {
-  width: 150px;
-}
-.Form-Field-Value {
-  width: 100%;
-}
-
-.Avatar {
-  cursor: pointer;
-  margin: 2px;
-  border-width: 1px;
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  width: 120px;
-  height: 120px;
-}
-
-.Password:before {
-  content: "*";
-}
-.Password:invalid {
-  background: #FF000055;
+  width: calc(100% - 8px);
 }
 
 .Button {
@@ -467,8 +362,15 @@ body {
 .Button-Ok:before {
   content: "Ok";
 }
-.Button-Cansel:before {
-  content: "Cansel";
+.Button-Cancel:before {
+  content: "Cancel";
+}
+.Button-Save:before {
+  content: "Save";
+}
+.Button-Close:before {
+  color: red;
+  content: "✖";
 }
 
 .exitButton {
@@ -522,88 +424,13 @@ body {
   color: red;
 }
 
-.Tabs {
-  margin: 6px 2px -2px 2px;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: center;
-  padding-left: 8px;
-}
-.Tabs-Button {
-  display: none;
-  margin: 1px 3px 4px 3px;
-  width: 15px;
-  height: 15px;
-}
-.Tabs-Scroll {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: center;
-  overflow-x: auto;
-}
-.Tabs-Tab {
-  cursor: pointer;
-  margin-left: -2px;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: center;
-  border-radius: 15px 0px 0px 0px;
-  border-width: 2px;
-  border-style: solid;
-  border-top-color: #FFFFFF;
-  border-right-color: #444444;
-  border-bottom-color: #444444;
-  border-left-color: #FFFFFF;
-  background: -moz-linear-gradient(left top, #B1C4FF, #888888);
-  background: -o-linear-gradient(left top, #B1C4FF, #888888);
-  background: -webkit-linear-gradient(at left top, #B1C4FF, #888888);
-  background: radial-gradient(ellipse at left top, #B1C4FF, #888888);
-  padding: 2px 5px 2px 5px;
-  font-weight: bold;
-}
-.Tabs-Tab-Close {
-  margin-right: 2px;
-  color: #444444;
-  font-size: small;
-}
-.Tabs-Tab-Close:hover {
-  color: #FF0000;
-}
-.Tabs-Tab[state=on] {
-  border-style: solid;
-  border-top-color: #444444;
-  border-right-color: #FFFFFF;
-  border-bottom-color: #FFFFFF;
-  border-left-color: #444444;
-  border-bottom-color: #B1C4FF;
-  background: transparent;
-}
-.Tabs-Tab[ischanged=no] .Tabs-Tab-Close:before {
-  content: "✖";
-}
-.Tabs-Tab[ischanged=yes] .Tabs-Tab-Close:before {
-  color: #FF0000;
-  content: "●";
-}
-.Tabs-Tab:first-child {
-  margin-left: 0px;
-}
-.Tabs-Body {
-  border-top: solid;
-  border-top-color: #444444;
-  border-width: 2px;
-  padding: 2px;
-}
-
 .Form {
   display: flex;
   flex-flow: column nowrap;
   align-items: flex-start;
   justify-content: flex-start;
   padding: 2px;
+  width: calc(100% - 4px);
 }
 .Form-Fields {
   margin: 1px 0px 1px 0px;
@@ -635,13 +462,25 @@ body {
   width: 100%;
   height: 16px;
 }
+.Form-Headers {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+.Form-Title {
+  margin: 5px 2px 2px 2px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+}
 .Form-Buttons {
   margin: 5px 2px 2px 2px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  justify-content: flex-end;
-  width: 100%;
+  justify-content: flex-start;
 }
 .Form-Button {
   margin-right: 5px;

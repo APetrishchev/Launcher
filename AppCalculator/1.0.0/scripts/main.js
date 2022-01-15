@@ -1,8 +1,8 @@
-import { App } from "../../../lib/App.js"
-import { Obj } from "../../../lib/Obj.js"
-import { Button } from "../../../lib/button/Button.js"
+import { App } from "../../../lib/1.0.0/App.js"
+import { Obj } from "../../../lib/1.0.0/Obj.js"
+import { Button } from "../../../lib/1.0.0/button/Button.js"
 
-//******************************************************************************
+
 class Number_ extends Obj {
   static addSpace = (str, len) => {
     let res = str.slice(0, str.length % len) + " "
@@ -69,7 +69,7 @@ class Number_ extends Obj {
   }
 }
 
-//******************************************************************************
+
 class Display extends Obj {
   get value() {
     return this.editableElement?.innerHTML || ""
@@ -218,7 +218,7 @@ console.log(`${exp}=Error`)
   }
 }
 
-//******************************************************************************
+
 class KeyPad extends Obj {
   constructor(kvargs) {
     super(kvargs)
@@ -230,7 +230,7 @@ class KeyPad extends Obj {
   }
 }
 
-//******************************************************************************
+
 class ProgrammerCalculator extends KeyPad {
   constructor(kvargs) {
     super(kvargs)
@@ -388,7 +388,7 @@ class ProgrammerCalculator extends KeyPad {
   }
 }
 
-//******************************************************************************
+
 class NumberSystems extends Obj {
   get value() {
     return this.numBinElement.innerText
@@ -513,7 +513,7 @@ class NumberSystems extends Obj {
   }
 }
 
-//******************************************************************************
+
 export class Application extends App {
   constructor(kvargs = {}) {
     super(kvargs)
@@ -531,7 +531,7 @@ export class Application extends App {
   }
 }
 
-//******************************************************************************
+
 window.addEventListener("load", async () => {
   new Application({ parent: document.body, classList: ["Calculator"] })
 })

@@ -1,0 +1,36 @@
+.Splitter
+	border: solid 2px
+	@include DownBorder
+	width: calc(100% - 10px)
+	height: 100%
+	display: flex
+
+	&-Panel1,
+	&-Panel2
+		min-width: 10px
+		height: 100%
+		@include DownBackground
+		display: flex
+
+	&-Panel1
+		width: 50%
+		order: 1
+
+	&-Panel2
+		width: 50%
+		order: 3
+
+	&-Separator
+		cursor: col-resize
+		border-width: 1px
+		border-top-width: 0px
+		border-bottom-width: 0px
+		@include UpBorder
+		@include DownBackground
+		background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='5' height='13'><path d='M2 0 v3 M2 5 v3 M2 10 v3' fill='none' stroke='black'/></svg>")
+		background-repeat: no-repeat
+		background-position: center
+		width: 5px
+		height: 100%
+		@include UserSelect(none)
+		order: 2

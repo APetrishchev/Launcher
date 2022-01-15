@@ -1,0 +1,68 @@
+.ProgressBar
+	margin: 4px
+	border-width: 1px
+	border-radius: 10px
+	@include DownBorder
+	display: flex
+	flex-flow: column nowrap
+	align-items: flex-start
+	justify-content: flex-start
+	width: calc(100% - 15px)
+	height: 18px
+	font-size: small
+	font-weight: bold
+	white-space: nowrap
+	color: #0000aa
+	overflow: hidden
+
+	&-Vertical
+		margin: 1px
+		border-radius: 3px
+		flex-flow: row nowrap
+		align-items: flex-end
+		height: calc(100% - 15px)
+		width: 100%
+		/* width: 18px */
+
+	&-Normal,
+	&-Warning,
+	&-Critical
+		margin: 1px 1px 1px 1px
+		display: flex
+		flex-flow: column nowrap
+		align-items: flex-start
+		justify-content: center
+		width: 100%
+		height: calc(100% - 4px)
+		border-width: 1px
+		border-radius: 10px
+		@include UpBorder
+		height: calc(100% - 2px)
+		padding: 0px 3px 0px 3px
+
+	&-Vertical
+		&-Normal,
+		&-Warning,
+		&-Critical
+			border-radius: 3px
+			align-items: center
+			justify-content: flex-end
+			padding: 3px 0px 3px 0px
+
+	&-Normal
+		background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), lime
+
+	&-Vertical-Normal
+		background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), lime
+
+	&-Warning
+		background:	linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), linear-gradient(to right, lime, rgb(255, 255, 0))
+
+	&-Vertical-Warning
+		background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), linear-gradient(to top, lime, rgb(255, 255, 0))
+
+	&-Critical
+		background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), linear-gradient(to right, lime, rgb(255, 255, 0), rgb(255, 0, 0))
+
+	&-Vertical-Critical
+		background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)), linear-gradient(to top, lime, rgb(255, 255, 0), rgb(255, 0, 0))

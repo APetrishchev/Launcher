@@ -1,4 +1,5 @@
-import { DB } from "../../../lib/db.js"
+import { DB } from "../../../lib/1.0.0/db.js"
+
 
 export class LauncherDB extends DB {
   constructor(version=1) {

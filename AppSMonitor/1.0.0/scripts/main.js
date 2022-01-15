@@ -1,11 +1,11 @@
-import { Obj } from "../../../lib/Obj.js"
-import { App } from "../../../lib/App.js"
-import { wait, units } from "../../../lib/etc.js"
-import { Form } from "../../../lib/form/Form.js"
-import { ProgressBar } from "../../../lib/progressbar/ProgressBar.js"
-import { Gauge } from "../../../lib/gauge/Gauge.js"
+import { Obj } from "../../../lib/1.0.0/Obj.js"
+import { App } from "../../../lib/1.0.0/App.js"
+import { wait, units } from "../../../lib/1.0.0/etc/etc.js"
+import { Form } from "../../../lib/1.0.0/form/Form.js"
+import { ProgressBar } from "../../../lib/1.0.0/progressbar/ProgressBar.js"
+import { Gauge } from "../../../lib/1.0.0/gauge/Gauge.js"
 
-//******************************************************************************
+
 export class TopProcess extends Obj {
   constructor(kvargs = {}) {
     kvargs.classList = ["VLayout", "SMonitor-TopProcess"]
@@ -34,7 +34,7 @@ export class TopProcess extends Obj {
   }
 }
 
-//******************************************************************************
+
 export class Application extends App {
   static delay = 2000
 
@@ -175,7 +175,7 @@ export class Application extends App {
   }
 }
 
-//******************************************************************************
+
 window.addEventListener("load", async () => {
   await Application.getInstance({ parent: document.body })
 })

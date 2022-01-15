@@ -16,9 +16,10 @@ body {
   border-left-color: #444444;
   background-color: #B1C4FF;
   padding: 2px;
-  min-width: calc(100% - 8px);
-  min-height: calc(100% - 8px);
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
   color: black;
+  font-size: 12px;
 }
 
 #measuring {
@@ -43,27 +44,6 @@ body {
   align-items: flex-start;
   justify-content: center;
   width: 100%;
-}
-
-#Tips {
-  position: absolute;
-  box-shadow: -5px -5px 10px 0 rgba(255, 255, 255, 0.7), 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
-  border-width: 1px;
-  border-style: solid;
-  border-top-color: #FFFFFF;
-  border-right-color: #444444;
-  border-bottom-color: #444444;
-  border-left-color: #FFFFFF;
-  background: #FFFFAA;
-  padding: 3px;
-  font-size: 12;
-}
-#Tips ul {
-  margin: 0px;
-  padding: 0px;
-}
-#Tips ul li {
-  margin: 0px 0px 0px 20px;
 }
 
 .Button {
@@ -221,6 +201,7 @@ body {
   align-items: flex-start;
   justify-content: flex-start;
   padding: 2px;
+  width: calc(100% - 4px);
 }
 .Form-Fields {
   margin: 1px 0px 1px 0px;
@@ -353,6 +334,7 @@ body {
   border-left-color: #444444;
   border-width: 2px;
   padding: 2px;
+  width: calc(100% - 8px);
 }
 
 .Spoiler {
@@ -363,10 +345,40 @@ body {
   cursor: pointer;
 }
 .Spoiler::before {
-  content: ">";
+  content: "▶";
 }
 .Spoiler[expanded=true] {
   transform: rotate(90deg);
+}
+
+.ToolBar {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 2px;
+  width: 100%;
+}
+
+#Tips {
+  position: absolute;
+  box-shadow: -5px -5px 10px 0 rgba(255, 255, 255, 0.7), 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
+  border-width: 1px;
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: #FFFFAA;
+  padding: 3px;
+  font-size: 12;
+}
+#Tips ul {
+  margin: 0px;
+  padding: 0px;
+}
+#Tips ul li {
+  margin: 0px 0px 0px 20px;
 }
 
 .Table {
@@ -382,31 +394,69 @@ body {
   border-bottom-color: #FFFFFF;
   border-left-color: #444444;
   background-color: #B1C4FF;
-  width: var(--rowWidth);
+  width: 100%;
   padding: 2px;
 }
 .Table-Columns {
+  cursor: default;
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: flex-start;
   margin-bottom: 2px;
   width: 100%;
-  font-weight: bold;
 }
 .Table-ColumnCheckBox {
   width: 18px;
 }
+.Table-Column[status] {
+  box-shadow: none;
+  border-radius: 0;
+  background: #cccccc;
+}
 .Table-Column {
-  border: solid 1px;
+  margin: 0;
+  border-width: 1px;
   border-style: solid;
   border-top-color: #FFFFFF;
   border-right-color: #444444;
   border-bottom-color: #444444;
   border-left-color: #FFFFFF;
-  background-color: #cccccc;
   display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: left;
   padding: 1px 3px;
+  background: #cccccc;
+  font-weight: bold;
+  font-size: 14px;
+}
+.Table-Column-Name {
+  justify-self: flex-start;
+}
+.Table-Column-Order {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-self: flex-end;
+  align-items: center;
+  justify-items: center;
+  width: 10px;
+  font-size: 8px;
+}
+.Table-Column-Order-Asc, .Table-Column-Order-Desc {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  height: 6px;
+}
+.Table-Column-Order-Asc[disabled=disabled], .Table-Column-Order-Desc[disabled=disabled] {
+  color: #656565;
+}
+.Table-Column-Order-Asc::before {
+  content: "▴";
+}
+.Table-Column-Order-Desc::before {
+  content: "▾";
 }
 .Table-Body {
   display: flex;
@@ -433,13 +483,22 @@ body {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  font-size: 14px;
 }
 .Table-Row:nth-child(2n+1) {
   background-color: #dddddd;
 }
 .Table-Cell {
+  overflow: hidden;
   display: flex;
+  flex-flow: row nowrap;
   padding: 2px 4px;
+}
+.Table-RowSpoiler {
+  font-size: 10px;
+}
+.Table-SpoilerBody {
+  margin: 0px 0px 0px 20px;
 }
 
 .ProgressBar {
@@ -594,19 +653,19 @@ body {
 }
 
 .TableMonitorIT-TabNetworks-ColumnName {
-  width: 120px;
+  flex: 1 1 auto;
 }
 .TableMonitorIT-TabNetworks-ColumnNetwork {
-  width: 120px;
+  flex: 1 1 auto;
 }
 .TableMonitorIT-TabNetworks-ColumnGateway {
-  width: 120px;
+  flex: 1 1 auto;
 }
 .TableMonitorIT-TabNetworks-ColumnDisabled {
-  width: 120px;
+  flex: 1 1 auto;
 }
 .TableMonitorIT-TabNetworks-ColumnDescription {
-  width: 300px;
+  flex: 2 1 auto;
 }
 .TableMonitorIT-TabNodes-ColumnName {
   width: 120px;
@@ -619,4 +678,29 @@ body {
 }
 .TableMonitorIT-TabNodes-ColumnDescription {
   width: 300px;
+}
+
+.TableAddresses-TabAddresses-ColumnIp {
+  flex: 1 1 auto;
+}
+.TableAddresses-TabAddresses-ColumnName {
+  flex: 1 1 auto;
+}
+.TableAddresses-TabAddresses-ColumnAvail {
+  flex: 1 1 auto;
+}
+.TableAddresses-TabAddresses-ColumnConnected {
+  flex: 1 1 auto;
+}
+.TableAddresses-TabAddresses-ColumnAuthorized {
+  flex: 1 1 auto;
+}
+.TableAddresses-TabAddresses-ColumnLastChange {
+  flex: 1 1 auto;
+}
+.TableAddresses-TabAddresses-ColumnDisabled {
+  flex: 1 1 auto;
+}
+.TableAddresses-TabAddresses-ColumnDescription {
+  flex: 2 1 auto;
 }

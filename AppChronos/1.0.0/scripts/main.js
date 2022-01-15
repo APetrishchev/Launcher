@@ -1,18 +1,18 @@
-import { Obj } from "../../../lib/Obj.js"
-import { Splitter } from "../../../lib/splitter/Splitter.js"
-import { Tree, Item } from "../../../lib/tree/Tree.js"
-import { Form } from "../../../lib/form/Form.js"
-import { ListBox } from "../../../lib/ListBox.js"
-import { Label } from "../../../lib/Label.js"
-import { Button } from "../../../lib/button/Button.js"
-import { CheckBox } from "../../../lib/CheckBox.js"
-import { Dialog } from "../../../lib/dialog/Dialog.js"
-import { firstZero } from "../../../lib/etc.js"
+import { Obj } from "../../../lib/1.0.0/Obj.js"
+import { Splitter } from "../../../lib/1.0.0/splitter/Splitter.js"
+import { Tree, Item } from "../../../lib/1.0.0/tree/Tree.js"
+import { Form } from "../../../lib/1.0.0/form/Form.js"
+import { ListBox } from "../../../lib/1.0.0/listbox/ListBox.js"
+import { Label } from "../../../lib/1.0.0/label/Label.js"
+import { Button } from "../../../lib/1.0.0/button/Button.js"
+import { CheckBox } from "../../../lib/1.0.0/checkbox/CheckBox.js"
+import { Dialog } from "../../../lib/1.0.0/dialog/Dialog.js"
+import { firstZero } from "../../../lib/1.0.0/etc/etc.js"
 import { BinPosCode } from "./cron.js"
-import { Calendar } from "../../../lib/calendar/Calendar.js"
+import { Calendar } from "../../../lib/1.0.0/calendar/Calendar.js"
 import { CronDB } from "../../../Launcher/1.0.0/front/scripts/launcher_db.js"
 
-//******************************************************************************
+
 class CronList extends Tree {
   constructor(kvargs = []) {
     kvargs.classList = Obj.classList("CronList", kvargs.classList)
@@ -34,7 +34,7 @@ class CronList extends Tree {
   }
 }
 
-//******************************************************************************
+
 class CronPanel extends Tree {
   get value() { return this._value }
   set value(val) {
@@ -116,7 +116,7 @@ class CronPanel extends Tree {
   }
 }
 
-//******************************************************************************
+
 class DateTimePanel extends CronPanel {
   get value() { return this._value }
   set value(val) {
@@ -141,7 +141,7 @@ class DateTimePanel extends CronPanel {
   }
 }
 
-//******************************************************************************
+
 class ActionPanel extends CronPanel {
   constructor(kvargs) {
     super(kvargs)
@@ -161,7 +161,7 @@ class ActionPanel extends CronPanel {
   }
 }
 
-//******************************************************************************
+
 class MonthsPanel extends CronPanel {
   expand() {
     super.expand()
@@ -169,7 +169,7 @@ class MonthsPanel extends CronPanel {
   }
 }
 
-//******************************************************************************
+
 class MonthDaysPanel extends CronPanel {
   expand() {
     super.expand()
@@ -177,7 +177,7 @@ class MonthDaysPanel extends CronPanel {
   }
 }
 
-//******************************************************************************
+
 class WeekDaysPanel extends CronPanel {
   expand() {
     super.expand()
@@ -225,7 +225,7 @@ console.dir(elm)
   }
 }
 
-//******************************************************************************
+
 class HoursPanel extends CronPanel {
   expand() {
     super.expand()
@@ -233,7 +233,7 @@ class HoursPanel extends CronPanel {
   }
 }
 
-//******************************************************************************
+
 class MinutesPanel extends CronPanel {
   expand() {
     super.expand()
@@ -241,7 +241,7 @@ class MinutesPanel extends CronPanel {
   }
 }
 
-//******************************************************************************
+
 class CronForm extends Form {
   get isChanged() {
 console.log(`  disabled "${this.fields[1][1].checked}" = "${this.data.disabled}" ? ${!this.fields[1][1].checked === !this.data.disabled}`)
@@ -355,8 +355,8 @@ console.log(`  action "${this.fields[11][1].value}" = "${this.data.action}" ? ${
   }
 }
 
+
 let instance
-//******************************************************************************
 export class Application extends Splitter {
   static async getInstance() {
     instance = new Application({ parent: document.body, panels: [new CronList(), new CronForm()] })
@@ -383,7 +383,7 @@ export class Application extends Splitter {
   }
 }
 
-//******************************************************************************
+
 window.addEventListener("load", async () => {
   await Application.getInstance()
 })

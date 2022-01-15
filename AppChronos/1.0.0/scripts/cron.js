@@ -1,12 +1,12 @@
-import { debug } from "../../../lib/etc.js"
-import { api } from "../../../lib/api.js"
+import { debug } from "../../../lib/1.0.0/etc/etc.js"
+import { api } from "../../../lib/1.0.0/api.js"
 import { CronDB } from "./db.js"
 import { TalkClock } from "./talkClock.js"
 import { Alarm } from "./alarmWin.js"
 
 const db = new CronDB()
 
-//******************************************************************************
+
 export class BinPosCode {
   static doc = `
 new BinPosCode(date1:Date, date2:Date = null) - создает объект со свойствами
@@ -236,7 +236,7 @@ days = 31 - date1.getDate() + date2.getDate()
   }
 }
 
-//******************************************************************************
+
 export class Cron {
   static async getInstance(kvargs) {
     // new Alarm({ media: "/public/audio/music/Other/greensleeves.mp3", vol: .75, msg: "Test", timeout: 30 })

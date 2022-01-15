@@ -78,7 +78,7 @@ func (self *HttpServerType) Handler(ctx *fasthttp.RequestCtx) {
 					fasthttp.ServeFileUncompressed(ctx, filepath.Join(Config.RootDirPath, pathArray[0], ver, "styles", pathArray[len(pathArray)-1]))
 				} else if strings.HasSuffix(path, ".html") {
 					ctx.SetContentType("text/html")
-					fullPath := filepath.Join(Config.RootDirPath, "lib", "templates", "index.tmpl")
+					fullPath := filepath.Join(Config.RootDirPath, "templates", "index.tmpl")
 					data := struct {
 						Style       string
 						Application string

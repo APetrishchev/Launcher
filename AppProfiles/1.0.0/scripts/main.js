@@ -1,13 +1,13 @@
-import { debug } from "../../../lib/etc.js"
-import { DB } from "../../../lib/db.js"
-import { App } from "../../../lib/App.js"
-import { Obj } from "../../../lib/Obj.js"
-import { md5 } from "../../../lib/md5.js"
-import { api } from "../../../lib/api.js"
-import { Label } from "../../../lib/Label.js"
-import { Form } from "../../../lib/form/Form.js"
-import { Tabs } from "../../../lib/tabs/Tabs.js"
-import { Button } from "../../../lib/button/Button.js"
+import { debug } from "../../../lib/1.0.0/etc/etc.js"
+import { DB } from "../../../lib/1.0.0/db.js"
+import { App } from "../../../lib/1.0.0/App.js"
+import { Obj } from "../../../lib/1.0.0/Obj.js"
+import { md5 } from "../../../lib/1.0.0/md5.js"
+import { api } from "../../../lib/1.0.0/api.js"
+import { Label } from "../../../lib/1.0.0/label/Label.js"
+import { Form } from "../../../lib/1.0.0/form/Form.js"
+import { Tabs } from "../../../lib/1.0.0/tabs/Tabs.js"
+import { Button } from "../../../lib/1.0.0/button/Button.js"
 
 const Password = {
   minLength: 8,
@@ -20,7 +20,7 @@ const Password = {
   validation: new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})")
 }
 
-//******************************************************************************
+
 class Application extends App {
   static async getInstance(kvargs) {
     const instance = new Application(kvargs)
@@ -116,7 +116,7 @@ console.log(field)
   }
 }
 
-//******************************************************************************
+
 window.addEventListener("load", async () => {
   Application.getInstance({ parent: document.body, classList: ["Profiles"] })
 })

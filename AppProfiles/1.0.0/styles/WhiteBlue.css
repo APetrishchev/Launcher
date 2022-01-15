@@ -16,9 +16,10 @@ body {
   border-left-color: #444444;
   background-color: #B1C4FF;
   padding: 2px;
-  min-width: calc(100% - 8px);
-  min-height: calc(100% - 8px);
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
   color: black;
+  font-size: 12px;
 }
 
 #measuring {
@@ -43,27 +44,6 @@ body {
   align-items: flex-start;
   justify-content: center;
   width: 100%;
-}
-
-#Tips {
-  position: absolute;
-  box-shadow: -5px -5px 10px 0 rgba(255, 255, 255, 0.7), 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
-  border-width: 1px;
-  border-style: solid;
-  border-top-color: #FFFFFF;
-  border-right-color: #444444;
-  border-bottom-color: #444444;
-  border-left-color: #FFFFFF;
-  background: #FFFFAA;
-  padding: 3px;
-  font-size: 12;
-}
-#Tips ul {
-  margin: 0px;
-  padding: 0px;
-}
-#Tips ul li {
-  margin: 0px 0px 0px 20px;
 }
 
 .Button {
@@ -153,8 +133,11 @@ body {
 .Button-Ok:before {
   content: "Ok";
 }
-.Button-Cansel:before {
-  content: "Cansel";
+.Button-Cancel:before {
+  content: "Cancel";
+}
+.Button-Save:before {
+  content: "Save";
 }
 .Button-Close:before {
   color: red;
@@ -282,10 +265,163 @@ body {
   margin-left: 0px;
 }
 .Tabs-Body {
-  border-top: solid;
+  border-style: solid;
   border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
   border-width: 2px;
   padding: 2px;
+  width: calc(100% - 8px);
+}
+
+.Button {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: -5px -5px 10px 0 #FFFFFFB2, 5px 5px 10px 0 #00000080;
+  margin: 1px;
+  border-radius: 5px;
+  border-width: 1px;
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: -moz-linear-gradient(left top, #B1C4FF, #888888);
+  background: -o-linear-gradient(left top, #B1C4FF, #888888);
+  background: -webkit-linear-gradient(at left top, #B1C4FF, #888888);
+  background: radial-gradient(ellipse at left top, #B1C4FF, #888888);
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 3px;
+}
+.Button:disabled {
+  color: #656565;
+}
+.Button:not(:disabled):active {
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background: -o-linear-gradient(top, #666666, #AAAAAA);
+  background: -moz-linear-gradient(top, #666666, #AAAAAA);
+  background: -webkit-linear-gradient(to bottom, #666666, #AAAAAA);
+  background: linear-gradient(to bottom, #666666, #AAAAAA);
+}
+.Button[status=up] {
+  border-style: solid;
+  border-top-color: #FFFFFF;
+  border-right-color: #444444;
+  border-bottom-color: #444444;
+  border-left-color: #FFFFFF;
+  background: -moz-linear-gradient(left top, #B1C4FF, #888888);
+  background: -o-linear-gradient(left top, #B1C4FF, #888888);
+  background: -webkit-linear-gradient(at left top, #B1C4FF, #888888);
+  background: radial-gradient(ellipse at left top, #B1C4FF, #888888);
+}
+.Button[status=down] {
+  border-style: solid;
+  border-top-color: #444444;
+  border-right-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+  border-left-color: #444444;
+  background: -o-linear-gradient(left top, #888888, #B1C4FF);
+  background: -moz-linear-gradient(left top, #888888, #B1C4FF);
+  background: -webkit-linear-gradient(at left top, #888888, #B1C4FF);
+  background: radial-gradient(ellipse at left top, #888888, #B1C4FF);
+}
+.Button-Left {
+  padding: 1px 3px 2px 1px;
+}
+.Button-Left:before {
+  content: "◂";
+}
+.Button-Right {
+  padding: 1px 1px 2px 3px;
+}
+.Button-Right:before {
+  content: "▸";
+}
+.Button-Up {
+  padding: 1px 1px 3px 1px;
+}
+.Button-Up:before {
+  content: "▴";
+}
+.Button-Down {
+  padding: 1px 1px 3px 1px;
+}
+.Button-Down:before {
+  content: "▾";
+}
+.Button-Ok:before {
+  content: "Ok";
+}
+.Button-Cancel:before {
+  content: "Cancel";
+}
+.Button-Save:before {
+  content: "Save";
+}
+.Button-Close:before {
+  color: red;
+  content: "✖";
+}
+
+.exitButton {
+  margin-left: 5px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px 16px, 100%;
+  background-image: url(pictures/exit.png), var(--buttonBg);
+  width: 35px;
+  height: 22px;
+}
+.exitButton:active {
+  background-image: url(pictures/exit.png), var(--buttonActiveBg);
+}
+
+.submitButton,
+.resetButton {
+  width: 80px;
+}
+
+.submitButton:not(:disabled):hover,
+.resetButton:not(:disabled):hover {
+  font-weight: bold;
+}
+
+.addButton:before {
+  content: "➕";
+}
+
+.deleteButton:before {
+  content: "✖";
+}
+
+.saveButton:before {
+  content: "✔";
+}
+
+.canselButton:before {
+  content: "✘";
+}
+
+.submitButton,
+.addButton,
+.saveButton {
+  color: green;
+}
+
+.resetButton,
+.deleteButton,
+.canselButton {
+  color: red;
 }
 
 .Form {
@@ -294,6 +430,7 @@ body {
   align-items: flex-start;
   justify-content: flex-start;
   padding: 2px;
+  width: calc(100% - 4px);
 }
 .Form-Fields {
   margin: 1px 0px 1px 0px;
@@ -325,13 +462,25 @@ body {
   width: 100%;
   height: 16px;
 }
+.Form-Headers {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+.Form-Title {
+  margin: 5px 2px 2px 2px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+}
 .Form-Buttons {
   margin: 5px 2px 2px 2px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  justify-content: flex-end;
-  width: 100%;
+  justify-content: flex-start;
 }
 .Form-Button {
   margin-right: 5px;

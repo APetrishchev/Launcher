@@ -15,9 +15,10 @@ body {
   border-left-color: #444444;
   background-color: #B1C4FF;
   padding: 2px;
-  min-width: calc(100% - 8px);
-  min-height: calc(100% - 8px);
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
   color: black;
+  font-size: 12px;
 }
 
 #measuring {
@@ -42,27 +43,6 @@ body {
   align-items: flex-start;
   justify-content: center;
   width: 100%;
-}
-
-#Tips {
-  position: absolute;
-  box-shadow: -5px -5px 10px 0 rgba(255, 255, 255, 0.7), 5px 5px 10px 0 rgba(0, 0, 0, 0.5);
-  border-width: 1px;
-  border-style: solid;
-  border-top-color: #FFFFFF;
-  border-right-color: #444444;
-  border-bottom-color: #444444;
-  border-left-color: #FFFFFF;
-  background: #FFFFAA;
-  padding: 3px;
-  font-size: 12;
-}
-#Tips ul {
-  margin: 0px;
-  padding: 0px;
-}
-#Tips ul li {
-  margin: 0px 0px 0px 20px;
 }
 
 .Calendar {

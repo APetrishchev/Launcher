@@ -1,0 +1,12 @@
+.Spoiler
+	display: flex
+	flex-flow: row nowrap
+	justify-content: flex-start
+	align-items: flex-start
+	cursor: pointer
+
+	&::before
+		content: "\25B6"
+
+	&[expanded=true]
+		transform: rotate(90deg)

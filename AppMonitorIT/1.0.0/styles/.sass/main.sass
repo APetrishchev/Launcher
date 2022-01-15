@@ -1,8 +1,8 @@
-@import "../../../../lib/form/Form.sass"
-@import "../../../../lib/tabs/Tabs.sass"
-@import "../../../../lib/table/Table.sass"
-@import "../../../../lib/progressbar/ProgressBar.sass"
-@import "../../../../lib/gauge/Gauge.sass"
+@import "../../../../lib/1.0.0/form/Form.sass"
+@import "../../../../lib/1.0.0/tabs/Tabs.sass"
+@import "../../../../lib/1.0.0/table/Table.sass"
+@import "../../../../lib/1.0.0/progressbar/ProgressBar.sass"
+@import "../../../../lib/1.0.0/gauge/Gauge.sass"
 
 .MonitorIT
 	width: 100%
@@ -21,15 +21,20 @@
 .TableMonitorIT
 	&-TabNetworks
 		&-ColumnName
-			width: 120px
+			flex: 1 1 auto
+			// width: 120px
 		&-ColumnNetwork
-			width: 120px
+			flex: 1 1 auto
+			// width: 120px
 		&-ColumnGateway
-			width: 120px
+			flex: 1 1 auto
+			// width: 120px
 		&-ColumnDisabled
-			width: 120px
+			flex: 1 1 auto
+			// width: 120px
 		&-ColumnDescription
-			width: 300px
+			flex: 2 1 auto
+			// width: 300px
 
 	&-TabNodes
 		&-ColumnName
@@ -43,3 +48,30 @@
 
 		&-ColumnDescription
 			width: 300px
+
+.TableAddresses
+	&-TabAddresses
+		&-ColumnIp
+			flex: 1 1 auto
+			// width: 120px
+		&-ColumnName
+			flex: 1 1 auto
+			// width: 120px
+		&-ColumnAvail
+			flex: 1 1 auto
+			// width: 120px
+		&-ColumnConnected
+			flex: 1 1 auto
+			// width: 120px
+		&-ColumnAuthorized
+			flex: 1 1 auto
+			// width: 120px
+		&-ColumnLastChange
+			flex: 1 1 auto
+			// width: 120px
+		&-ColumnDisabled
+			flex: 1 1 auto
+			// width: 120px
+		&-ColumnDescription
+			flex: 2 1 auto
+			// width: 120px

@@ -1,11 +1,11 @@
-import { App } from "../../../lib/App.js"
-import { Obj } from "../../../lib/Obj.js"
-import { debug } from "../../../lib/etc.js"
+import { App } from "../../../lib/1.0.0/App.js"
+import { Obj } from "../../../lib/1.0.0/Obj.js"
+import { debug } from "../../../lib/1.0.0/etc/etc.js"
 import { SmartHomeDB } from "./db.js"
 
 const db = new SmartHomeDB()
 
-//******************************************************************************
+
 class Remote {
   static websocket = null
   static waiting = {}
@@ -50,8 +50,8 @@ class Remote {
   }
 }
 
+
 var instance, svg = {}
-//******************************************************************************
 export class Application extends App {
   static zones = {}
   static objects = {}
@@ -136,7 +136,7 @@ alert(`Ошибка подключения к "HomeServer".\nСервер не �
   }
 }
 
-//******************************************************************************
+
 class Zone {
   constructor(zoneId, kvargs) {
     Application.zones[zoneId] = this
@@ -164,7 +164,7 @@ class Zone {
   }
 }
 
-//******************************************************************************
+
 class __Object {
   constructor(objId, kvargs) {
     this.id = objId
@@ -199,7 +199,7 @@ class __Object {
   }
 }
 
-//******************************************************************************
+
 Application.ModeButton = class ModeButton extends __Object {
   show() {
     super.show()
@@ -217,7 +217,7 @@ Application.ModeButton = class ModeButton extends __Object {
   }
 }
 
-//******************************************************************************
+
 Application.Sensor = class Sensor extends __Object {
   show() {
     super.show()
@@ -225,7 +225,7 @@ Application.Sensor = class Sensor extends __Object {
   }
 }
 
-//******************************************************************************
+
 Application.TemperatureSensor = class TemperatureSensor extends Application.Sensor {
   constructor(objId, obj) {
     super(objId, obj)
@@ -238,7 +238,7 @@ Application.TemperatureSensor = class TemperatureSensor extends Application.Sens
   }
 }
 
-//******************************************************************************
+
 Application.Relay = class Relay extends __Object {
   show() {
     super.show()
@@ -246,7 +246,7 @@ Application.Relay = class Relay extends __Object {
   }
 }
 
-//******************************************************************************
+
 Application.LightModeButton = class LightModeButton extends Application.ModeButton {
   async update() {
     super.update()
@@ -254,14 +254,14 @@ Application.LightModeButton = class LightModeButton extends Application.ModeButt
   }
 }
 
-//******************************************************************************
+
 Application.LightSensor = class LightSensor extends Application.Sensor {
   async update() {
     this.element.className = `Sensor ${this.value === "on" ? "LightSensorOn" : "LightSensorOff"}`
   }
 }
 
-//******************************************************************************
+
 Application.LightRelay = class LightRelay extends Application.Relay {
   show() {
     super.show()
@@ -278,7 +278,7 @@ Application.LightRelay = class LightRelay extends Application.Relay {
   }
 }
 
-//******************************************************************************
+
 Application.DoorBellModeButton = class DoorBellModeButton extends Application.ModeButton {
   update() {
     super.update()
@@ -286,21 +286,21 @@ Application.DoorBellModeButton = class DoorBellModeButton extends Application.Mo
   }
 }
 
-//******************************************************************************
+
 Application.DoorBellRelay = class DoorBellRelay extends Application.Relay {
   update() {
     this.element.className = `Relay ${this.value === "on" ? "DoorBellRelayOn" : "DoorBellRelayOff"}`
   }
 }
 
-//******************************************************************************
+
 Application.MotionDetector = class MotionDetector extends Application.Sensor {
   update() {
     this.element.className =  `Sensor ${this.value === "on" ? "MotionDetectorOn" : "MotionDetectorOff"}`
   }
 }
 
-//******************************************************************************
+
 window.addEventListener("load", async () => {
   await Application.getInstance({ parent: document.body, className: "Home" })
 })

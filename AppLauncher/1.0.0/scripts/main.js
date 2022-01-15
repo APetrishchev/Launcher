@@ -1,16 +1,14 @@
-import { Obj } from "../../../lib/Obj.js"
-import { App } from "../../../lib/App.js"
-import { api } from "../../../lib/api.js"
-import { debug, firstZero, capitalize } from "../../../lib/etc.js"
-import { Menu, Item } from "../../../lib/Menu.js"
-import { Button } from "../../../lib/button/Button.js"
-import { Calendar } from "../../../lib/calendar/Calendar.js"
+import { Obj } from "../../../lib/1.0.0/Obj.js"
+import { App } from "../../../lib/1.0.0/App.js"
+import { api } from "../../../lib/1.0.0/api.js"
+import { debug, firstZero, capitalize } from "../../../lib/1.0.0/etc/etc.js"
+import { Menu, Item } from "../../../lib/1.0.0/menu/Menu.js"
+import { Button } from "../../../lib/1.0.0/button/Button.js"
+import { Calendar } from "../../../lib/1.0.0/calendar/Calendar.js"
 import { Cron } from "../../../AppChronos/1.0.0/scripts/cron.js"
 import { LauncherDB } from "./db.js"
 
 let instance
-
-//******************************************************************************
 class RunningApplications {
   static #instance = null
 
@@ -132,7 +130,7 @@ class RunningApplications {
   }
 }
 
-//******************************************************************************
+
 export class Item_ extends Item {
   constructor(menu, kvargs) {
     super(menu, kvargs)
@@ -165,7 +163,7 @@ export class Item_ extends Item {
   }
 }
 
-//******************************************************************************
+
 class RunButton extends Item_ {
   constructor(menu, kvargs) {
     super(menu, kvargs)
@@ -173,7 +171,7 @@ class RunButton extends Item_ {
   }
 }
 
-//******************************************************************************
+
 class AppRunButton extends RunButton {
   constructor(menu, kvargs) {
     super(menu, kvargs)
@@ -205,7 +203,7 @@ class AppRunButton extends RunButton {
   }
 }
 
-//******************************************************************************
+
 class ChronosRunButton extends RunButton {
   constructor(menu, kvargs) {
     super(menu, { parent: kvargs.parent, classList: ["ChronosRunButton"],
@@ -219,7 +217,7 @@ class ChronosRunButton extends RunButton {
   }
 }
 
-//******************************************************************************
+
 class CalendarRunButton extends RunButton {
   constructor(menu, kvargs) {
     super(menu, { parent: kvargs.parent, classList: ["CalendarRunButton"],
@@ -247,7 +245,7 @@ class CalendarRunButton extends RunButton {
   }
 }
 
-//******************************************************************************
+
 export class Application extends App {
   static async getInstance(kvargs) {
     App.registryServiceWorker()
@@ -363,7 +361,7 @@ instance.data.applications.Launcher = {lang: "ru-RU"}
   }
 }
 
-//******************************************************************************
+
 window.addEventListener("load", async () => {
   // window.addEventListener("unhandledrejection", evn => {
   //   console.error(`Error: ${evn.reason.message}`)

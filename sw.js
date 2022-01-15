@@ -1,29 +1,30 @@
-const CACHE = "Launcher_V1.0.0"
-const CACHED_FILES = [
+const CACHE_NAME = "Launcher_V1.0.0"
+const DCACHE_NAME = "Launcher(d)_V1.0.0"
+const TIMEOUT = 400
+const CACHED_STATIC_FILES = [
   "https://unpkg.com/idb@7.0.0/build/index.cjs",
-  // "https://unpkg.com/idb/build/iife/index-min.js",
-  "/",
   "/launcher.webmanifest",
   "/index.html",
+	"/offline.html",
   "/favicon.ico",
 
-  "/lib/App.js",
-  "/lib/CheckBox.js",
-  "/lib/db.js",
-  "/lib/etc.js",
-  "/lib/Label.js",
-  "/lib/ListBox.js",
-  "/lib/Obj.js",
-  "/lib/Tips.js",
-  "/lib/button/Button.js",
-  "/lib/calendar/Calendar.js",
-  "/lib/clock/Clock.js",
-  "/lib/dialog/Dialog.js",
-  "/lib/form/Form.js",
-  "/lib/gauge/Gauge.js",
-  "/lib/progressbar/ProgressBar.js",
-  "/lib/splitter/Splitter.js",
-  "/lib/tree/Tree.js",
+  "/lib/1.0.0/App.js",
+  "/lib/1.0.0/db.js",
+  "/lib/1.0.0/Obj.js",
+  "/lib/1.0.0/Tips.js",
+  "/lib/1.0.0/button/Button.js",
+  "/lib/1.0.0/calendar/Calendar.js",
+  "/lib/1.0.0/checkbox/CheckBox.js",
+  "/lib/1.0.0/clock/Clock.js",
+  "/lib/1.0.0/dialog/Dialog.js",
+  "/lib/1.0.0/etc/etc.js",
+  "/lib/1.0.0/form/Form.js",
+  "/lib/1.0.0/gauge/Gauge.js",
+  "/lib/1.0.0/label/Label.js",
+  "/lib/1.0.0/listbox/ListBox.js",
+  "/lib/1.0.0/progressbar/ProgressBar.js",
+  "/lib/1.0.0/splitter/Splitter.js",
+  "/lib/1.0.0/tree/Tree.js",
 
   "/public/audio/sounds/atention.mp3",
   "/public/audio/voice/clock/ru-RU/female/0.wav",
@@ -107,47 +108,81 @@ const CACHED_FILES = [
   "/AppWelcome/1.0.0/scripts/main.js",
   // "/AppWelcome/1.0.0/styles/default.css",
 ]
-const TIMEOUT = 400
 
-self.addEventListener("install", evn => {
-  evn.waitUntil(
-    caches.open(CACHE)
-    .then(cache => cache.addAll(CACHED_FILES))
-    .then(() => self.skipWaiting())
-  )
+self.addEventListener("install", async evn => {
+  const cache = await caches.open(CACHE_NAME)
+  await cache.addAll(CACHED_STATIC_FILES)
 })
 
-self.addEventListener("activate", evn => {
-  evn.waitUntil(self.clients.claim())
+self.addEventListener("activate", async evn => {
+	const cacheNames = await caches.keys()
+	await Promise.all(
+		cacheNames
+		.filter(name => name !== CACHE_NAME)
+		.filter(name => name !== DCACHE_NAME)
+		.map(name => caches.delete(name))
+	)
 })
 
 self.addEventListener("fetch", evn => {
-  // if(evn.request.url.indexOf("/api") != -1) {}
-  evn.respondWith(fromNetwork(evn.request)
-  .catch((err) => {
-    console.log(`Error: ${err}`)
-    return fromCache(evn.request)
-  }))
+	const {request} = evn
+	const url = new URL(request.url)
+	// if (url.origin === location.origin) {
+	// 	evn.respondWith(cacheFirst(evn.request))
+	// } else {
+		evn.respondWith(networkFirst(evn.request))
+	// }
 })
 
-function fromNetwork(request) {
-  // return fetch(request)
-  //   .then((response) => response.ok ? response : fromCache(request))
-  //   .catch(() => fromCache(request))
-  return new Promise((resolve, reject) => {
-    var tmr = setTimeout(reject, TIMEOUT)
-    fetch(request).then((response) => {
-      clearTimeout(tmr)
-      console.log("fromNetwork", request.url)
-      resolve(response)
-    }, reject)
-  })
+async function cacheFirst(request) {
+	console.log(`Fetch ${request.url} from CacheFirst`)
+  return await caches.match(request) ?? await fetch(request)
 }
 
-function fromCache(request) {
-  console.log("fromCache", request.url)
-  return caches.open(CACHE).then((cache) =>
-    cache.match(request).then((matching) =>
-      matching || Promise.reject("no-match")
-    ))
+async function networkFirst(request) {
+	const cache = await caches.open(DCACHE_NAME)
+	try {
+		const response = await fetch(request)
+		await cache.put(request, response.clone())
+		console.log(`Fetch ${request.url} from Network`)
+		return response
+	} catch (err) {
+		console.log(`Fetch ${request.url} from Cache`)
+		return await cache.match(request) ?? await caches.match("/offline.html")
+	}
 }
+
+// self.addEventListener("activate", evn => {
+//   evn.waitUntil(self.clients.claim())
+// })
+
+// self.addEventListener("fetch", evn => {
+//   // if(evn.request.url.indexOf("/api") != -1) {}
+//   evn.respondWith(fromNetwork(evn.request)
+//   .catch((err) => {
+//     console.log(`Error: ${err}`)
+//     return fromCache(evn.request)
+//   }))
+// })
+
+// function fromNetwork(request) {
+//   // return fetch(request)
+//   //   .then((response) => response.ok ? response : fromCache(request))
+//   //   .catch(() => fromCache(request))
+//   return new Promise((resolve, reject) => {
+//     var tmr = setTimeout(reject, TIMEOUT)
+//     fetch(request).then((response) => {
+//       clearTimeout(tmr)
+//       console.log("fromNetwork", request.url)
+//       resolve(response)
+//     }, reject)
+//   })
+// }
+
+// function fromCache(request) {
+//   console.log("fromCache", request.url)
+//   return caches.open(CACHE).then((cache) =>
+//     cache.match(request).then((matching) =>
+//       matching || Promise.reject("no-match")
+//     ))
+// }

@@ -1,7 +1,7 @@
-import { App } from "../../../lib/App.js"
-import { Calendar } from "../../../lib/calendar/Calendar.js"
+import { App } from "../../../lib/1.0.0/App.js"
+import { Calendar } from "../../../lib/1.0.0/calendar/Calendar.js"
 
-//******************************************************************************
+
 class Application extends App {
   constructor(kvargs = {}) {
     super(kvargs)
@@ -22,7 +22,7 @@ class Application extends App {
   }
 }
 
-//******************************************************************************
+
 window.addEventListener("load", async () => {
   new Application({ parent: document.body })
 })

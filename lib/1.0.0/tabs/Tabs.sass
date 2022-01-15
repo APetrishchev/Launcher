@@ -1,0 +1,67 @@
+.Tabs
+	margin: 6px 2px -2px 2px
+	display: flex
+	flex-flow: row nowrap
+	justify-content: flex-start
+	align-items: center
+	padding-left: 8px
+
+	&-Button
+		display: none
+		margin: 1px 3px 4px 3px
+		// border-radius: 50%
+		width: 15px
+		height: 15px
+
+	&-Scroll
+		display: flex
+		flex-flow: row nowrap
+		justify-content: flex-start
+		align-items: center
+		overflow-x: auto
+
+	&-Tab
+		cursor: pointer
+		margin-left: -2px
+		display: flex
+		flex-flow: row nowrap
+		justify-content: flex-start
+		align-items: center
+		border-radius: 15px 0px 0px 0px
+		border-width: 2px
+		@include FlatUp
+		padding: 2px 5px 2px 5px
+		// min-width: 20px
+		// overflow: hidden
+		font-weight: bold
+
+		&-Close
+			margin-right: 2px
+			color: #444444
+			font-size: small
+
+			&:hover
+				color: #FF0000
+
+		&[state="on"]
+			@include DownBorder
+			border-bottom-color: $BodyBackgroundColor
+			background: transparent
+
+		&[ischanged="no"]	&-Close:before
+			content: "✖"
+
+		&[ischanged="yes"] &-Close:before
+			color: #FF0000
+			content: "●"
+
+		&:first-child
+			margin-left: 0px
+
+	&-Body
+		@include DownBorder
+		// border-top: solid
+		// border-top-color: $LowBorderColor
+		border-width: 2px
+		padding: 2px
+		width: calc(100% - 8px)
