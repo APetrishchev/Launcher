@@ -387,12 +387,3 @@ export class Application extends Splitter {
 window.addEventListener("load", async () => {
   await Application.getInstance()
 })
-
-// const toggle = new Button({
-//   type: Button.Toggle, parent: this.element,
-//   children: "Toggle", status: Button.Down
-// })
-// toggle.show()
-// new Button({ type: Button.Radio, group: "Group1", parent: this.element, text: "Radio1" }).show()
-// new Button({ type: Button.Radio, group: "Group1", parent: this.element, text: "Radio2" }).show()
-// toggle.disabled = false

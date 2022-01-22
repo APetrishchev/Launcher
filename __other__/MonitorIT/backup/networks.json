@@ -1,0 +1,26 @@
+{
+	"172.28.138.128/25": {
+		"network": "172.28.138.128/25",
+		"gateway": "172.28.138.249",
+		"description": "",
+		"disabled": 0
+	},
+	"172.28.147.0/24": {
+		"network": "172.28.147.0/24",
+		"gateway": "172.28.147.249",
+		"description": "",
+		"disabled": 1
+	},
+	"10.16.197.64/26": {
+		"network": "10.16.197.64/26",
+		"gateway": "",
+		"description": "",
+		"disabled": 0
+	},
+	"10.16.198.0/24": {
+		"network": "10.16.198.0/24",
+		"gateway": "",
+		"description": "",
+		"disabled": 1
+	}
+}

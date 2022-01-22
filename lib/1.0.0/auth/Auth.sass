@@ -1,0 +1,84 @@
+// .FormAuth
+// 	z-index: 10
+// 	position: absolute
+// 	left: 20px
+// 	top: 20px
+// 	@include UpBorder
+// 	@include Flat
+// 	display: flex
+// 	flex-flow: column nowrap
+// 	align-items: center
+// 	justify-content: center
+// 	max-width: 700px
+// 	max-height: 500px
+
+
+.Auth
+	// &-ButtonOk
+	// 	margin-left: 10px
+
+// .HLayout
+// 	margin: 10px
+// 	justify-content: center
+
+
+
+.Auth
+	// z-index: 10
+	margin: auto
+	margin-top: 100px
+	display: flex
+	flex-flow: column nowrap
+	justify-content: center
+	border-radius: 8px
+	border: solid 1px
+	border-color: #ffffff #888888 #888888 #ffffff
+	overflow: hidden
+	background: #eeeeee
+	width: 170px
+
+	&-Title
+		display: flex
+		border-bottom: solid 1px #888888
+		background: #ccccff
+		justify-content: center
+		font-weight: bold
+		height: 20px
+
+	&-Form
+		padding: 10px
+		display: flex
+		flex-flow: column nowrap
+		justify-content: space-between
+		align-items: center
+		height: 80px
+
+	&-Input
+		margin: 2px
+		outline: none
+		border: solid 1px #888888
+		border-radius: 3px
+		display: flex
+		width: 150px
+
+	&-Input::placeholder
+		color: #888888
+
+	&-Error
+		border-color: #ff0000
+
+	&-Button
+		margin: 2px
+		display: flex
+
+	&-Backends
+		display: flex
+		flex-flow: row wrap
+		align-items: center
+		justify-content: center
+
+
+	&-Backend
+		margin: 10px
+		min-width: 150px
+		min-height: 100px

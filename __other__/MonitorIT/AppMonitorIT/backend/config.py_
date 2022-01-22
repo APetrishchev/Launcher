@@ -1,0 +1,122 @@
+
+#*******************************************************************************
+class Agent(object):
+  HOSTLIST = os.path.join(workDir, "host.list")
+  INSTALL_LOG = "/usr/lib/zabbix/externalscripts/MonitorIT3/log/install_agent.log"
+  LOC_AGENTS_PATH = os.path.join(workDir, "agents")
+  LOC_TMP_PATH = os.path.join(workDir, "tmp")
+  FTP_SERVER = "172.28.138.148"
+  AGENT_NAME = "zabbix"
+  DEFAULT_DAEMON_NAME = "zabbix_agentd"
+  AGENT_PORT_ENA = "10050"
+
+#*******************************************************************************
+class NixAgent(Agent):
+  USERGROUP = "zabbix"
+  USER_HOME_PATH = "/opt/zabbix"
+  DEFAULT_SERVICE_NAME = "zabbix-agentd"
+  HOME_PATH = "/opt/zabbix/agents"
+  TMP_PATH = "/tmp"
+  DAEMON_NAME = f"{Agent.DEFAULT_DAEMON_NAME}_{{}}"
+  SERVICE_NAME = f"{DEFAULT_SERVICE_NAME}-{{}}"
+  VER_PATH = f"{HOME_PATH}/{{}}"
+
+#*******************************************************************************
+class WinAgent(Agent):
+  SERVICE_NAME = "Zabbix Agent"
+  HOME_PATH = "C:\zabbix"
+  SERVICE_NAME = f"{SERVICE_NAME} {{}}"
+  VER_PATH = f"{HOME_PATH}\{{}}"
+
+#*******************************************************************************
+class NixAgent_5_4(NixAgent):
+  SERVER_IP = "172.28.138.148"
+  AGENT_VER = "v5.4"
+  DAEMON_NAME = NixAgent.DAEMON_NAME.format(AGENT_VER)
+  SERVICE_NAME = NixAgent.SERVICE_NAME.format(AGENT_VER)
+  VER_PATH = NixAgent.VER_PATH.format(AGENT_VER)
+
+#*******************************************************************************
+class WinAgent_5_4(WinAgent):
+  SERVER_IP = "172.28.138.148"
+  AGENT_VER = "v5.4"
+  SERVICE_NAME = WinAgent.SERVICE_NAME.format(AGENT_VER)
+  VER_PATH = WinAgent.VER_PATH.format(AGENT_VER)
+
+AGENT = {"NIX": {}, "WIN": {} }
+AGENT["NIX"]["5.4"] = NixAgent_5_4
+AGENT["WIN"]["5.4"] = WinAgent_5_4
+
+
+
+#*******************************************************************************
+class Common(object):
+  HOSTLIST = os.path.join(workDir, "host.list")
+  #INSTALL_LOG = os.path.join(workDir, "agent.log")
+  INSTALL_LOG = "/usr/lib/zabbix/externalscripts/MonitorIT3/log/install_agent.log"
+  LOC_AGENTS_PATH = os.path.join(workDir, "agents")
+  LOC_TMP_PATH = os.path.join(workDir, "tmp")
+  FTP_SERVER = "172.28.138.148"
+  AGENT_NAME = "zabbix"
+  DEFAULT_DAEMON_NAME = "zabbix_agentd"
+  AGENT_PORT_ENA = "10050"
+
+  # Nix
+  NIX_AGENT_USERGROUP = "zabbix"
+  NIX_AGENT_USER_HOME_PATH = "/opt/zabbix"
+  NIX_DEFAULT_SERVICE_NAME = "zabbix-agentd"
+  NIX_AGENT_HOME_PATH = "/opt/zabbix/agents"
+  NIX_TMP_PATH = "/tmp"
+  NIX_DAEMON_NAME = f"{DEFAULT_DAEMON_NAME}_{{}}"
+  NIX_SERVICE_NAME = f"{NIX_DEFAULT_SERVICE_NAME}-{{}}"
+  NIX_AGENT_VER_PATH = f"{NIX_AGENT_HOME_PATH}/{{}}"
+
+  # Win
+  WIN_SERVICE_NAME = "Zabbix Agent"
+  WIN_AGENT_HOME_PATH = "C:\zabbix"
+  WIN_SERVICE_NAME = f"{WIN_SERVICE_NAME} {{}}"
+  WIN_AGENT_VER_PATH = f"{WIN_AGENT_HOME_PATH}\{{}}"
+
+#*******************************************************************************
+class v4_2(Common):
+  SERVER_IP = "172.28.138.148"
+  AGENT_VER = "v4.2"
+
+  # Nix
+  NIX_DAEMON_NAME = Common.NIX_DAEMON_NAME.format(AGENT_VER)
+  NIX_SERVICE_NAME = Common.NIX_SERVICE_NAME.format(AGENT_VER)
+  NIX_AGENT_VER_PATH = Common.NIX_AGENT_VER_PATH.format(AGENT_VER)
+
+  # Win
+  WIN_SERVICE_NAME = Common.WIN_SERVICE_NAME.format(AGENT_VER)
+  WIN_AGENT_VER_PATH = Common.WIN_AGENT_VER_PATH.format(AGENT_VER)
+
+#*******************************************************************************
+# class v3_4(Common):
+#  SERVER_IP = "172.28.138.148"
+#  AGENT_VER = "v3.4"
+
+#  # Nix
+#  NIX_DAEMON_NAME = Common.NIX_DAEMON_NAME.format(AGENT_VER)
+#  NIX_SERVICE_NAME = Common.NIX_SERVICE_NAME.format(AGENT_VER)
+#  NIX_AGENT_VER_PATH = Common.NIX_AGENT_VER_PATH.format(AGENT_VER)
+
+#  # Win
+#  WIN_SERVICE_NAME = Common.WIN_SERVICE_NAME.format(AGENT_VER)
+#  WIN_AGENT_VER_PATH = Common.WIN_AGENT_VER_PATH.format(AGENT_VER)
+
+#*******************************************************************************
+# class v1_8(Common):
+#   SERVER_IP = "172.28.142.87"
+#   AGENT_VER = "v1.8"
+#   AGENT_NAME = f"{Common.AGENT_NAME}_{AGENT_VER}"
+#   AGENT_PORT_ENA = "10040"
+
+#   # Nix
+#   NIX_DAEMON_NAME = Common.NIX_DAEMON_NAME.format(AGENT_VER)
+#   NIX_SERVICE_NAME = Common.NIX_SERVICE_NAME.format(AGENT_VER)
+#   NIX_AGENT_VER_PATH = Common.NIX_AGENT_VER_PATH.format(AGENT_VER)
+
+#   # Win
+#   WIN_SERVICE_NAME = Common.WIN_SERVICE_NAME.format(AGENT_VER)
+#   WIN_AGENT_VER_PATH = Common.WIN_AGENT_VER_PATH.format(AGENT_VER)

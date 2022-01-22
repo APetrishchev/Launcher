@@ -1,0 +1,58 @@
+.Auth {
+  margin: auto;
+  margin-top: 100px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  border-radius: 8px;
+  border: solid 1px;
+  border-color: #ffffff #888888 #888888 #ffffff;
+  overflow: hidden;
+  background: #eeeeee;
+  width: 170px;
+}
+.Auth-Title {
+  display: flex;
+  border-bottom: solid 1px #888888;
+  background: #ccccff;
+  justify-content: center;
+  font-weight: bold;
+  height: 20px;
+}
+.Auth-Form {
+  padding: 10px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+}
+.Auth-Input {
+  margin: 2px;
+  outline: none;
+  border: solid 1px #888888;
+  border-radius: 3px;
+  display: flex;
+  width: 150px;
+}
+.Auth-Input::placeholder {
+  color: #888888;
+}
+.Auth-Error {
+  border-color: #ff0000;
+}
+.Auth-Button {
+  margin: 2px;
+  display: flex;
+}
+.Auth-Backends {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+}
+.Auth-Backend {
+  margin: 10px;
+  min-width: 150px;
+  min-height: 100px;
+}

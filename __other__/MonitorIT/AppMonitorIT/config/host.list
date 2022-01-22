@@ -1,0 +1,287 @@
+#***********************************************************
+# Здесь должны быть рамещены IP-адресса или DNS имена хостов
+# Символ '#' или ';' в первой позиции - начало комментария
+# Хосты для которых операция была успешно завершена
+# будут закоментированны символом ';'.
+#***********************************************************
+
+#***********************************************************
+# OS/Windows
+#-----------------------------------------------------------
+#bi-w120417-01.bee.skymobile.local
+
+#-----------------------------------------------------------
+# Exchange
+# bi-exg001.bee.skymobile.local
+# bi-exg004.bee.skymobile.local
+# bi-web010.bee.skymobile.local # 172.28.129.204
+# bi-web011.bee.skymobile.local # 172.28.129.206
+# bi-web012.bee.skymobile.local # 172.28.129.210
+
+#-----------------------------------------------------------
+# FileSrv
+# bi-str001.bee.skymobile.local
+
+#-----------------------------------------------------------
+# PrintSrv
+# bi-prn001.bee.skymobile.local
+
+#-----------------------------------------------------------
+# Regional
+# ba-srv001.bee.skymobile.local
+# kk-srv001.bee.skymobile.local
+# na-srv001.bee.skymobile.local
+# os-dcs001.bee.skymobile.local
+# os-srv001.bee.skymobile.local
+# os-srv002.bee.skymobile.local
+
+#-----------------------------------------------------------
+# Skype4Business
+# bi-lnc001.bee.skymobile.local
+# bi-lnc002.bee.skymobile.local - no ping
+
+#-----------------------------------------------------------
+# LotusNotes
+# bi-lna001.bee.skymobile.local
+# bi-lna002.bee.skymobile.local
+# bi-lnh001.bee.skymobile.local
+# bi-lnh002.bee.skymobile.local
+# bi-lni001.bee.skymobile.local
+# bi-lnm001.bee.skymobile.local
+# bi-lnm002.bee.skymobile.local
+# bi-lnm003.bee.skymobile.local
+# bi-lnx001.bee.skymobile.local
+# bi-lnx002.bee.skymobile.local
+
+#-----------------------------------------------------------
+# Citrix
+# bi-ctx005.bee.skymobile.local
+# bi-ctx006.bee.skymobile.local
+# bi-ctx007.bee.skymobile.local
+# bi-ctxdb001.bee.skymobile.local
+
+#-----------------------------------------------------------
+# 1C
+# bi-1c-db001.bee.skymobile.local
+# bi-1c-db002.bee.skymobile.local
+# bi-1c-db003.bee.skymobile.local
+# bi-1c-db004.bee.skymobile.local
+
+#-----------------------------------------------------------
+# DCS
+# bi-dcs001.skymobile.local
+# bi-dcs002.skymobile.local
+# bi-dcs011.bee.skymobile.local
+# bi-dcs012.bee.skymobile.local
+
+#-----------------------------------------------------------
+# DNS
+# bi-dns001.skymobile.local
+# bi-dns002.skymobile.local
+# bi-interdns001.bee.skymobile.local
+# bi-interdns002.bee.skymobile.local
+
+#-----------------------------------------------------------
+# Fraud
+# bi-frd001.bee.skymobile.local
+# bi-frd002.bee.skymobile.local
+# bi-frd003.bee.skymobile.local
+
+#-----------------------------------------------------------
+# StealthLine
+# bi-stl001.bee.skymobile.local
+
+#-----------------------------------------------------------
+# Teleopti
+# bi-wfmdb001.bee.skymobile.local
+# bi-wfmweb001.bee.skymobile.local
+
+#-----------------------------------------------------------
+# VMware
+# bi-vcs002.bee.skymobile.local
+
+#-----------------------------------------------------------
+# Microstategi
+# bi-mst001.bee.skymobile.local
+# bi-mst002.bee.skymobile.local
+
+#-----------------------------------------------------------
+# Project
+# bi-prj001.bee.skymobile.local
+
+#-----------------------------------------------------------
+# InfoSecurity
+# bi-dlp001.bee.skymobile.local
+# bi-dlp002.bee.skymobile.local
+# bi-slt002.bee.skymobile.local
+# bi-slt003.bee.skymobile.local
+
+#-----------------------------------------------------------
+# Other
+# bi-sch001.bee.skymobile.local
+# bi-sch002.bee.skymobile.local
+# bi-sec001.bee.skymobile.local
+# bi-sec002.bee.skymobile.local
+# bi-smc001.bee.skymobile.local
+# bi-smp001.bee.skymobile.local
+# bi-sms001.bee.skymobile.local
+# bi-sms002.bee.skymobile.local
+# bi-sta001.bee.skymobile.local
+# bi-sts001.bee.skymobile.local
+# bi-nri001.bee.skymobile.local
+# bi-inc001.bee.skymobile.local
+# bi-dwh001.bee.skymobile.local
+# bi-dwh002.bee.skymobile.local
+# bi-ivr001.bee.skymobile.local
+# bi-ivr002.bee.skymobile.local
+# bi-ivr003.bee.skymobile.local
+# bi-etl001.bee.skymobile.local
+# bi-flg001.bee.skymobile.local
+# bi-web001.bee.skymobile.local
+# bi-web002.bee.skymobile.local
+# bi-web003.bee.skymobile.local
+# bi-web004.bee.skymobile.local
+# bi-web005.bee.skymobile.local
+# bi-ca.bee.skymobile.local
+# bi-ocp001.bee.skymobile.local
+# bi-aaa001.bee.skymobile.local
+# bi-apl001.bee.skymobile.local
+# bi-app001.bee.skymobile.local
+# bi-app002.bee.skymobile.local
+# bi-app003.bee.skymobile.local
+# bi-avs001.bee.skymobile.local
+# bi-avs002.bee.skymobile.local
+# bi-bts001.bee.skymobile.local
+# bi-cms003.bee.skymobile.local
+# bi-cpa003.bee.skymobile.local
+# bi-cpa004.bee.skymobile.local
+# bi-cpa005.bee.skymobile.local
+# bi-ntf002.bee.skymobile.local
+
+# bi-css001.bee.skymobile.local
+
+# bi-cmd002.bee.skymobile.local
+# bi-cmd004.bee.skymobile.local
+# bi-vc001.bee.skymobile.local
+
+#-----------------------------------------------------------
+# NoDomain
+# bi-odp001 # 172.28.129.194
+# a-sr-ss # 172.28.141.94
+# media # 172.28.138.37
+# media1 # 172.28.138.38
+# vimpelco-b4d9e0 # 172.28.136.70
+
+# bi-rbtsmpp01 # 172.28.164.68
+# bi-rbtsmpp02 # 172.28.164.69
+# bi-rbtweb01 # 172.28.164.67
+# bi-rbtweb02 # 172.28.136.78
+# bi-slr001 # 172.28.138.5
+# bi-slr002 # 172.28.138.6
+# bi-slr004 # 172.28.138.9
+# bi-slr03 # 172.28.138.7
+# bi-slr05 # 172.28.138.3
+# bi-slrsmpp.int.skymobile.kg # 172.28.128.210
+# bi-slrsms02 # 172.28.164.85
+# bi-slrweb # 172.28.136.85
+# bi-slrweb01 # 172.28.164.87
+# bi-smpp001 # 172.28.128.198
+# bi-webslr001 # 172.28.136.73
+
+# bi-wfmweb003.bee.skymobile.local
+
+#-----------------------------------------------------------
+# ContextualMarketingSolution
+# bi-cms001.bee.skymobile.local
+# bi-cms002.bee.skymobile.local
+# bi-cms003.bee.skymobile.local
+# bi-cms004.bee.skymobile.local
+
+
+
+#***********************************************************
+# OS/Solaris
+#-----------------------------------------------------------
+# 172.28.137.27   # bi-icr002
+# 172.28.137.28   # bi-icr003
+# 172.28.138.156  # bi-lime001
+
+
+
+#***********************************************************
+# OS/Linux
+#-----------------------------------------------------------
+# CMDB
+172.28.141.199  # bi-itop001.nix.skynet
+
+#-----------------------------------------------------------
+# DMP
+# 10.16.197.66    # bi-imdg1.nix.skynet
+# 10.16.197.67    # bi-imdg2.nix.skynet
+# 10.16.197.68    # bi-imdg3.nix.skynet
+# 10.16.197.69    # bi-imdg4.nix.skynet
+# 10.16.197.70    # bi-imdg5.nix.skynet
+# 10.16.197.71    # bi-imdg6.nix.skynet
+# 10.16.197.72    # bi-imdg7.nix.skynet
+# 10.16.197.73    # bi-imdg8.nix.skynet
+# 10.16.197.74    # bi-imdg9.nix.skynet
+# 10.16.197.75    # bi-imdg10.nix.skynet
+# 10.16.197.76    # bi-imdg11.nix.skynet
+# 10.16.197.77    # bi-imdg12.nix.skynet
+# 10.16.197.78    # bi-imdg13.nix.skynet
+# 10.16.197.79    # bi-imdg14.nix.skynet
+# 10.16.197.83    # bi-dmp-api1.nix.skynet
+# 10.16.197.84    # bi-dmp-api2.nix.skynet
+# 10.16.197.85    # bi-dmp-api3.nix.skynet
+# 10.16.197.86    # bi-dev-env1.nix.skynet
+# 10.16.197.87    # bi-hdp-datanode2.nix.skynet
+# 10.16.197.88    # bi-hdp-datanode1.nix.skynet
+# 10.16.197.89    # bi-hdp-datanode4.nix.skynet
+# 10.16.197.90    # bi-hdp-datanode3.nix.skynet
+# 10.16.197.91    # bi-hdp-datanode6.nix.skynet
+# 10.16.197.92    # bi-hdp-datanode5.nix.skynet
+# 10.16.197.93    # bi-hdp-datanode7.nix.skynet
+# 10.16.197.94    # bi-hdp-namenode1.nix.skynet
+# 10.16.197.95    # bi-hdp-namenode2.nix.skynet
+# 10.16.197.96    # bi-hdp-kafka1.nix.skynet
+# 10.16.197.97    # bi-hdp-kafka2.nix.skynet
+# 10.16.197.98    # bi-hdp-kafka3.nix.skynet
+# 172.28.138.227  # bi-psgr1.nix.skynet
+
+#-----------------------------------------------------------
+# SmartrZero
+# 172.28.141.153  #
+# 172.28.141.154  #
+
+#-----------------------------------------------------------
+# BalanceKg
+# 10.16.198.27    # bi-mfs001
+# 10.16.198.28    # bi-mfs002
+# 10.16.198.30    # bi-mfs003
+# 10.16.198.31    # bi-mfs004
+# 172.28.141.226  # bi-smssend001
+# 10.16.198.49    # bi-redis001
+
+#-----------------------------------------------------------
+# BeelineKg
+# 172.28.129.219  # bi-veongateway01.nix.skynet beeline.kg
+# 172.28.129.196  # bi-lweb003.nix.skynet
+
+#-----------------------------------------------------------
+# Backup
+# 172.28.128.55   # bi-backup002
+
+#-----------------------------------------------------------
+# DOK
+# 172.28.140.21   # beeinfo.doc
+# 10.16.198.16    # OS.bi-ocp003.nix.skynet
+
+#-----------------------------------------------------------
+# Fraud
+# 172.28.147.151  # bi-fms001
+# 172.28.147.152  # bi-fms002
+# 172.28.141.176  # bi-fms003.nix.skynet
+
+#-----------------------------------------------------------
+# TD Speed
+# 10.16.198.47    # bi-extftp

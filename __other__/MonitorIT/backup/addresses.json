@@ -1,0 +1,31 @@
+{
+	"172.28.138.128/25": {
+		"172.28.138.148": {
+			"available": 0,
+			"hostId": "",
+			"hostName": "bi-zbx001",
+			"description": "Zabbix Server",
+			"lastChangeTime": "",
+			"lastCheckTime": "",
+			"disabled": 0
+		},
+		"172.28.138.149": {
+			"available": 0,
+			"hostId": "",
+			"hostName": "bi-zbx002",
+			"description": "Zabbix Server",
+			"lastChangeTime": "",
+			"lastCheckTime": "",
+			"disabled": 0
+		},
+		"172.28.138.180": {
+			"available": 0,
+			"hostId": "",
+			"hostName": "bi-zbx003",
+			"description": "Zabbix Server",
+			"lastChangeTime": "",
+			"lastCheckTime": "",
+			"disabled": 0
+		}
+	}
+}

@@ -1,0 +1,8 @@
+#!/usr/lib/zabbix/externalscripts/env/bin/python
+from AppLauncher.backend.launcher import launcher
+import sys
+
+if __name__ == "__main__":
+	msg, retCode = launcher(*sys.argv[1:])
+	print(f"{msg}\n")
+	sys.exit(retCode)

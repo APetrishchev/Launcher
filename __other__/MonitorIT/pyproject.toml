@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "Launcher"
+version = "0.1.0"
+description = ""
+authors = ["Andrey Petrishchev <PetriAndPetro@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.70.0"
+pydantic = "^1.8.2"
+uvicorn = {extras = ["standard"], version = "^0.15.0"}
+Jinja2 = "^3.0.2"
+ipaddress = "^1.0.23"
+SQLAlchemy = "^1.4.26"
+databases = {extras = ["sqlite"], version = "^0.5.3"}
+pycryptodome = "^3.11.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
