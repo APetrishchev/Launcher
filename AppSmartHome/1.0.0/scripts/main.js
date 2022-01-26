@@ -1,5 +1,5 @@
-import { App } from "../../../lib/1.0.0/App.js"
-import { Obj } from "../../../lib/1.0.0/Obj.js"
+import { App } from "../../../lib/1.0.0/app.js"
+import { Obj } from "../../../lib/1.0.0/obj.js"
 import { debug } from "../../../lib/1.0.0/etc/etc.js"
 import { SmartHomeDB } from "./db.js"
 

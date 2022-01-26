@@ -1,13 +1,13 @@
 import { debug } from "../../../lib/1.0.0/etc/etc.js"
 import { DB } from "../../../lib/1.0.0/db.js"
-import { App } from "../../../lib/1.0.0/App.js"
-import { Obj } from "../../../lib/1.0.0/Obj.js"
+import { App } from "../../../lib/1.0.0/app.js"
+import { Obj } from "../../../lib/1.0.0/obj.js"
 import { md5 } from "../../../lib/1.0.0/md5.js"
 import { api } from "../../../lib/1.0.0/api.js"
-import { Label } from "../../../lib/1.0.0/label/Label.js"
-import { Form } from "../../../lib/1.0.0/form/Form.js"
-import { Tabs } from "../../../lib/1.0.0/tabs/Tabs.js"
-import { Button } from "../../../lib/1.0.0/button/Button.js"
+import { Label } from "../../../lib/1.0.0/label/label.js"
+import { Form } from "../../../lib/1.0.0/form/form.js"
+import { Tabs } from "../../../lib/1.0.0/tabs/tabs.js"
+import { Button } from "../../../lib/1.0.0/button/button.js"
 
 const Password = {
   minLength: 8,

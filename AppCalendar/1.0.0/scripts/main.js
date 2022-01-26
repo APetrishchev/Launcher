@@ -1,5 +1,5 @@
-import { App } from "../../../lib/1.0.0/App.js"
-import { Calendar } from "../../../lib/1.0.0/calendar/Calendar.js"
+import { App } from "../../../lib/1.0.0/app.js"
+import { Calendar } from "../../../lib/1.0.0/calendar/calendar.js"
 
 
 class Application extends App {
